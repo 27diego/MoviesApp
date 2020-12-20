@@ -1,5 +1,5 @@
 //
-//  MovieDetails.swift
+//  MovieDetailsView.swift
 //  TMDB
 //
 //  Created by Developer on 12/17/20.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct MovieDetailsView: View {
+struct MovieDetView: View {
     @ObservedObject var movie: MovieDetailsVM
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
@@ -18,8 +18,9 @@ struct MovieDetailsView: View {
     var body: some View {
         ScrollView {
             Color.clear.overlay(
-                RemoteImage(url: movie.details?.posterImage ?? "")
-                    .aspectRatio(contentMode: .fill)
+//                RemoteImage(url: movie.details?.posterImage ?? "")
+//                    .aspectRatio(contentMode: .fill)
+                Text(movie.details?.posterImage ?? "")
             )
             .clipped()
             .overlay(
@@ -80,9 +81,11 @@ struct MovieDetailsView: View {
                     }
                 }
                 
-                VStack(alignment: .leading) {
-                    Text("Director")
-                    PersonCircleView(image: movie.director.first?.profileImage ?? "", name: movie.director.first?.name ?? "")
+                if movie.director.first?.profileImage != nil{
+                    VStack(alignment: .leading) {
+                        Text("Director")
+                        PersonCircleView(image: movie.director.first?.profileImage ?? "", name: movie.director.first?.name ?? "")
+                    }
                 }
                 
                 if movie.recommendations.count > 0 {
@@ -104,8 +107,9 @@ struct PersonCircleView: View {
     var body: some View {
         VStack {
             Color.clear.overlay(
-                RemoteImage(url: image)
-                    .aspectRatio(contentMode: .fill)
+//                RemoteImage(url: image)
+//                    .aspectRatio(contentMode: .fill)
+                Text(image)
             )
             .clipShape(Circle())
             .frame(width: 90, height: 90)

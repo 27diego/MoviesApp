@@ -1,46 +1,25 @@
 //
-//  MovieDescription.swift
+//  MovieDetails.swift
 //  TMDB
 //
-//  Created by Developer on 12/17/20.
+//  Created by Developer on 12/20/20.
 //
 
 import Foundation
 
-struct MovieDetails: Codable, Identifiable {
-    var id: Int
-    var title: String
-    var tagline: String
-    var overview: String
-    var status: String
-    var genres: [Genre]
-    var homepage: String
-    var budget: Int
-    private var poster_path: String?
-    var posterImage: String? {
-        if let posterImg = poster_path {
-            var components = Utils.imageURL
-            components.path = "/t/p/w500\(posterImg)"
-            return components.string!
-        }
-        return nil
-    }
-    private var backdrop_path: String?
-    var backDropImage: String? {
-        if let backdropImg = backdrop_path {
-            var components = Utils.imageURL
-            components.path = "/t/p/w500\(backdropImg)"
-            return components.string!
-        }
-        return nil
-    }
+struct MovieDetails: Codable {
+    let id: Int
+    let title: String
+    let genres: [Genre]
+    let runtime: Int?
+    let overview: String
+    let popularity: Double
+    var posterPath: String?
+    var backdropPath: String?
+    
 }
 
-struct Genre: Codable, Identifiable, Equatable {
-    var id: Int
-    var name: String
-}
-
-struct RecommendedMovies: Codable {
-    let results: [Movie]
+struct Genre: Codable, Identifiable {
+    let id: Int
+    let name: String
 }
