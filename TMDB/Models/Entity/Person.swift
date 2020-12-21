@@ -7,7 +7,8 @@
 
 import Foundation
 
-protocol Person {
+// MARK: - maybe should be a struct?
+protocol Person: Codable {
     var id: Int { get }
     var name: String { get }
     var profilePath: String? { get  }
@@ -38,4 +39,15 @@ struct PersonDetails: Codable {
     let popularity: Double
     let placeOfBirth: String
     let profilePath: String?
+}
+
+enum PersonType {
+    case popular
+    
+    var description: String {
+        switch self {
+        case .popular:
+            return "person/popular"
+        }
+    }
 }
