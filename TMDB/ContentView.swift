@@ -37,6 +37,8 @@ struct ContentView: View {
                                         Text(movie.title)
                                             .foregroundColor(Color.gray)
                                     }
+                                    .frame(width: UIScreen.screenWidth * 0.45)
+                                    .clipped()
                                 }
                                 Spacer()
                                     .frame(width: 10)
