@@ -8,12 +8,13 @@
 import SwiftUI
 
 struct SpotlightCardView: View {
-    var movie: Movie
+    var imageUrl: String?
+    var title: String
     var body: some View {
         Color.clear.overlay(
             Group {
-                if movie.backdropPath != nil{
-                    RemoteImage(url: ImageEndpoint(path: movie.backdropPath ?? "").url)
+                if imageUrl != nil{
+                    RemoteImage(url: ImageEndpoint(path: imageUrl ?? "").url)
                         .overlay(
                             ZStack {
                                 LinearGradient(gradient: Gradient(colors: [Color.clear, Color.clear, Color.clear, Color.black]), startPoint: .top, endPoint: .bottom)
@@ -21,7 +22,7 @@ struct SpotlightCardView: View {
                                 VStack(){
                                     Spacer()
                                     HStack {
-                                        Text(movie.title)
+                                        Text(title)
                                             .font(.title2)
                                             .bold()
                                         Spacer()

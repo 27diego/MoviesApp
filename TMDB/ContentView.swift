@@ -78,7 +78,7 @@ struct UpcomingSectionView: View {
                     Spacer()
                         .frame(width: 1)
                     ForEach(movies){ movie in
-                        SpotlightCardView(movie: movie)
+                        SpotlightCardView(imageUrl: movie.backdropPath ?? "", title: movie.title)
                     }
                     Spacer()
                         .frame(width: 1)
