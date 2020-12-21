@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SpotlightMovieCardView: View {
+struct SpotlightCardView: View {
     var movie: Movie
     var body: some View {
         Color.clear.overlay(
@@ -42,6 +42,31 @@ struct SpotlightMovieCardView: View {
             }
         )
         .frame(width: UIScreen.screenWidth * 0.9, height: 200)
+        .clipped()
+        .cornerRadius(10)
+    }
+}
+
+
+struct PosterCardView: View {
+    var imageUrl: String?
+    var body: some View {
+        Color.clear.overlay(
+            Group {
+                if imageUrl != nil{
+                    RemoteImage(url: ImageEndpoint(path: imageUrl ?? "").url)
+                        .aspectRatio(contentMode: .fill)
+                } else {
+                    Rectangle()
+                        .foregroundColor(Color(.systemGray5))
+                        .overlay(
+                            ProgressView()
+                        )
+                }
+            }
+        )
+        .frame(width: UIScreen.screenWidth * 0.45, height: 280)
+        .clipped()
         .cornerRadius(10)
     }
 }
