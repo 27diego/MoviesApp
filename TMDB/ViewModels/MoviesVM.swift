@@ -10,13 +10,16 @@ import Combine
 
 class Movies: ObservableObject {
     @Published var movies: [MovieType:[Movie]] = [:]
-    var cancellable: AnyCancellable?
+    @Published var people: [PersonItem] = []
+    
+    var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
+    
     init(){
         initialSetup()
     }
     
     private func initialSetup(){
-        cancellable = Publishers.Zip4(
+        Publishers.Zip4(
             URLSession.shared.publisher(for: ItemEndpoint.getMovies(from: .popular).url, responseType: NetworkResponse<Movie>.self),
             URLSession.shared.publisher(for: ItemEndpoint.getMovies(from: .nowPlaying).url, responseType: NetworkResponse<Movie>.self),
             URLSession.shared.publisher(for: ItemEndpoint.getMovies(from: .topRated).url, responseType: NetworkResponse<Movie>.self),
@@ -29,5 +32,13 @@ class Movies: ObservableObject {
             self.movies[.topRated] = topRated.results
             self.movies[.upcoming] = upcoming.results
         })
+        .store(in: &cancellables)
+        
+        URLSession.shared.publisher(for: ItemEndpoint.getPeople(from: .popular).url, responseType: NetworkResponse<PersonItem>.self)
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { _ in }, receiveValue: { data in
+                self.people = data.results.sorted { $0.popularity < $1.popularity }
+            })
+            .store(in: &cancellables)            
     }
 }

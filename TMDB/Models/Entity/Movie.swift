@@ -14,6 +14,23 @@ struct Movie: Codable, Identifiable {
     let releaseDate: String
     var backdropPath: String?
     var posterPath: String?
+    
+    var formattedReleaseDate: String {
+        let dateFormatterGet = DateFormatter()
+        dateFormatterGet.dateFormat = "yyyy-MM-dd"
+
+        let dateFormatterPrint = DateFormatter()
+        dateFormatterPrint.dateFormat = "MMMM d, yyyy"
+
+        let date: Date? = dateFormatterGet.date(from: releaseDate)
+        return dateFormatterPrint.string(from: date!)
+    }
+}
+
+struct MovieCreditResults: Codable {
+    let id: Int
+    let cast: [Actor]
+    let crew: [CrewMember]
 }
 
 

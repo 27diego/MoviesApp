@@ -8,10 +8,17 @@
 import Foundation
 
 // MARK: - maybe should be a struct?
-protocol Person: Codable {
+protocol Person {
     var id: Int { get }
     var name: String { get }
     var profilePath: String? { get  }
+}
+
+struct PersonItem: Codable, Identifiable, Person {
+    var id: Int
+    var name: String
+    var profilePath: String?
+    var popularity: Double
 }
 
 struct Actor: Codable, Identifiable, Person {

@@ -2,120 +2,20 @@
 //  MovieDetailsView.swift
 //  TMDB
 //
-//  Created by Developer on 12/17/20.
+//  Created by Developer on 12/21/20.
 //
 
 import SwiftUI
 
-struct MovieDetView: View {
-    @ObservedObject var movie: MovieDetailsVM
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    
-    init(for id: Int) {
-        movie = MovieDetailsVM(for: id)
-    }
-    
+struct MovieDetailsView: View {
+    var movieDetails: MovieDetails = MovieDetails(id: 464052, title: "Wonder Woman 1984", genres: [Genre(id: 1, name: "Action"), Genre(id: 2, name: "Adventure"), Genre(id: 3, name: "Fantasy")], runtime: 151, overview: "Wonder Woman comes into conflict with the Soviet Union during the Cold War in the 1980s and finds a formidable foe by the name of the Cheetah.", popularity: 1108.499, posterPath: "/di1bCAfGoJ0BzNEavLsPyxQ2AaB.jpg", backdropPath: "/8AQRfTuTHeFTddZN4IUAqprN8Od.jpg")
     var body: some View {
-        ScrollView {
-            Color.clear.overlay(
-//                RemoteImage(url: movie.details?.posterImage ?? "")
-//                    .aspectRatio(contentMode: .fill)
-                Text(movie.details?.posterImage ?? "")
-            )
-            .clipped()
-            .overlay(
-                ZStack {
-                    LinearGradient(gradient: Gradient(colors: [Color.clear, Color.clear, Color.black]), startPoint: .top, endPoint: .bottom)
-                    VStack(){
-                        Spacer().frame(height: 20)
-                        HStack {
-                            Button(action: {
-                                presentationMode.wrappedValue.dismiss()
-                            }, label: {
-                                Image(systemName: "arrow.backward.circle.fill")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fill)
-                                    .frame(width: 30, height: 30)
-                            })
-                            
-                            
-                            Spacer()
-                        }
-                        Spacer()
-                    }
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .foregroundColor(.white)
-                    .zIndex(10)
-                }
-            )
-            .frame(height: 500)
-            
-            VStack(alignment: .leading, spacing: 20){
-                Text(movie.details?.title ?? "No Movie Found :(")
-                    .font(.title2)
-                    .bold()
-                HStack(alignment: .center){
-                    ForEach(movie.details?.genres ?? [Genre]()) { genre in
-                        Text(genre.name)
-                        if movie.details?.genres.last != genre {
-                            Circle()
-                                .foregroundColor(.white)
-                                .frame(width: 5)
-                        }
-                    }
-                    .font(.subheadline)
-                }
-                
-                Text(movie.details?.overview ?? "")
-                    .fixedSize(horizontal: false, vertical: true)
-                
-                VStack(alignment: .leading){
-                    Text("Cast")
-                    ScrollView(.horizontal) {
-                        HStack{
-                            ForEach(movie.actors){ actor in
-                                PersonCircleView(image: actor.profileImage ?? "", name: actor.name)
-                            }
-                        }
-                    }
-                }
-                
-                if movie.director.first?.profileImage != nil{
-                    VStack(alignment: .leading) {
-                        Text("Director")
-                        PersonCircleView(image: movie.director.first?.profileImage ?? "", name: movie.director.first?.name ?? "")
-                    }
-                }
-                
-                if movie.recommendations.count > 0 {
-                    MoviePosterRow(movies: movie.recommendations, title: "Recomended Movies")
-                }
-            }
-            .padding()
-        }
-        .background(Color.black)
-        .foregroundColor(.white)
-        .ignoresSafeArea()
-        .navigationBarHidden(true)
+        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
     }
 }
 
-struct PersonCircleView: View {
-    var image: String
-    var name: String
-    var body: some View {
-        VStack {
-            Color.clear.overlay(
-//                RemoteImage(url: image)
-//                    .aspectRatio(contentMode: .fill)
-                Text(image)
-            )
-            .clipShape(Circle())
-            .frame(width: 90, height: 90)
-            
-            Text(name)
-                .font(.subheadline)
-        }
+struct MovieDetailsView_Previews: PreviewProvider {
+    static var previews: some View {
+        MovieDetailsView()
     }
 }

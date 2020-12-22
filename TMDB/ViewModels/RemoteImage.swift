@@ -20,7 +20,7 @@ struct RemoteImage: View {
 
         init(url: String){
             guard let parsedURL = URL(string: url) else {
-                print("This is the invalid URL!!!!: \(url)")
+                print("This is the invalid URL!!!!: \(url) --------")
                 fatalError("Invalid URL: \(url)")
             }
 
