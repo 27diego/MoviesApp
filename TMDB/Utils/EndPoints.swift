@@ -19,7 +19,10 @@ extension ItemEndpoint {
         components.scheme = "https"
         components.host = "api.themoviedb.org"
         components.path = "/3/" + path.description
-        components.queryItems = queryItems + [URLQueryItem(name: "api_key", value: "d7f7cbc08852011505702709f919057b")]
+        components.queryItems = queryItems + [
+            URLQueryItem(name: "api_key", value: "d7f7cbc08852011505702709f919057b"),
+            URLQueryItem(name: "language", value: "en-US")
+        ]
         
         guard let url = components.url else {
             preconditionFailure("Invalid URL components: \(components)")

@@ -8,14 +8,60 @@
 import SwiftUI
 
 struct MovieDetailsView: View {
-    var movieDetails: MovieDetails = MovieDetails(id: 464052, title: "Wonder Woman 1984", genres: [Genre(id: 1, name: "Action"), Genre(id: 2, name: "Adventure"), Genre(id: 3, name: "Fantasy")], runtime: 151, overview: "Wonder Woman comes into conflict with the Soviet Union during the Cold War in the 1980s and finds a formidable foe by the name of the Cheetah.", popularity: 1108.499, posterPath: "/di1bCAfGoJ0BzNEavLsPyxQ2AaB.jpg", backdropPath: "/8AQRfTuTHeFTddZN4IUAqprN8Od.jpg")
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+    @ObservedObject var movieDetails: MovieDetailsVM
+    init(for id: Int){
+        movieDetails = MovieDetailsVM(for: id)
     }
-}
-
-struct MovieDetailsView_Previews: PreviewProvider {
-    static var previews: some View {
-        MovieDetailsView()
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading) {
+                Color.clear.overlay(
+                    Group{
+                        if movieDetails.backdropPath != nil {
+                            RemoteImage(url: ImageEndpoint(path: movieDetails.posterPath ?? "").url)
+                                .aspectRatio(contentMode: .fill)
+                                .frame(height: 400 ,alignment: .top)
+                        }
+                        else{
+                            ProgressView()
+                        }
+                    }
+                )
+                .frame(height: 400)
+                .clipped()
+                
+                VStack(alignment: .leading, spacing: 10) {
+                    Text(movieDetails.title)
+                        .font(.title)
+                        .bold()
+                    
+                    ScrollView(.horizontal) {
+                        HStack {
+                            ForEach(movieDetails.genres) { genre in
+                                Text(genre.name)
+                                    .foregroundColor(Color(#colorLiteral(red: 0.5137254902, green: 0.5098039216, blue: 0.5254901961, alpha: 1)))
+                                    .padding(.horizontal, 16)
+                                    .padding(.vertical, 5)
+                                    .background(Color(#colorLiteral(red: 0.9490196078, green: 0.9490196078, blue: 0.9647058824, alpha: 1)))
+                                    .clipShape(Capsule())
+                            }
+                        }
+                    }
+                    
+                    HStack{
+                        Text(movieDetails.releaseDate)
+                        Spacer()
+                        Text(movieDetails.runtime ?? "")
+                    }
+                    .foregroundColor(Color(.systemGray))
+                    
+                    Text(movieDetails.overview)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                .padding(.horizontal, 10)
+            }
+        }
+        .ignoresSafeArea()
+        .navigationBarBackButtonHidden(true)
     }
 }

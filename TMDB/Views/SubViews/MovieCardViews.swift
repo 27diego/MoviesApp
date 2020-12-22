@@ -85,6 +85,7 @@ struct SmallMoviePillView: View {
                 .frame(width: UIScreen.screenWidth * 0.45, height: 80)
             VStack(alignment: .leading) {
                 Text(movie.title)
+                    .foregroundColor(.black)
                     .font(.title3)
                     .bold()
                 Spacer()

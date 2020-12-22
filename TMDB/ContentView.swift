@@ -33,6 +33,7 @@ struct ContentView_Previews: PreviewProvider {
 
 struct UpcomingSectionView: View {
     var movies: [Movie]
+    @State var showSheet: Bool = false
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
@@ -42,16 +43,22 @@ struct UpcomingSectionView: View {
                     .font(.title3)
                     .bold()
                 Spacer()
-                Button("See all") {}
+                Button("See all") { showSheet.toggle() }
                 Spacer()
                     .frame(width: 10)
             }
+            .sheet(isPresented: $showSheet, content:{ SeeMoviesSheetView(movies: movies)
+            })
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(alignment: .center, spacing: 10) {
                     Spacer()
                         .frame(width: 1)
                     ForEach(movies){ movie in
-                        SpotlightCardView(imageUrl: movie.backdropPath ?? "", title: movie.title)
+                        NavigationLink(
+                            destination: NavigationLazyView(MovieDetailsView(for: movie.id)),
+                            label: {
+                                SpotlightCardView(imageUrl: movie.backdropPath ?? "", title: movie.title)
+                            })
                             .frame(width: UIScreen.screenWidth * 0.9, height: 200)
                     }
                     Spacer()
@@ -64,6 +71,7 @@ struct UpcomingSectionView: View {
 
 struct PopularSectionView: View {
     var movies: [Movie]
+    @State var showSheet: Bool = false
     var body: some View {
         VStack {
             HStack {
@@ -73,17 +81,24 @@ struct PopularSectionView: View {
                     .font(.title3)
                     .bold()
                 Spacer()
-                Button("See all") {}
+                Button("See all") { showSheet.toggle() }
                 Spacer()
                     .frame(width: 10)
             }
+            .sheet(isPresented: $showSheet, content:{ SeeMoviesSheetView(movies: movies)
+            })
             ScrollView(.horizontal, showsIndicators: false){
                 HStack(alignment: .center, spacing: 10) {
                     Spacer()
                         .frame(width: 1)
                     ForEach(movies){ movie in
                         VStack(alignment: .leading) {
-                            PosterCardView(imageUrl: movie.posterPath ?? "")
+                            
+                            NavigationLink(
+                                destination: NavigationLazyView(MovieDetailsView(for: movie.id)),
+                                label: {
+                                    PosterCardView(imageUrl: movie.posterPath ?? "")
+                                })
                                 .frame(width: UIScreen.screenWidth * 0.45, height: 280)
                             
                             Text(movie.title)
@@ -102,6 +117,7 @@ struct PopularSectionView: View {
 
 struct MovieGridSectionView: View {
     var movies: [Movie]
+    @State var showSheet: Bool = false
     var layout: [GridItem] = [
         GridItem(.fixed(80)),
         GridItem(.fixed(80))
@@ -115,14 +131,20 @@ struct MovieGridSectionView: View {
                     .font(.title3)
                     .bold()
                 Spacer()
-                Button("See all") {}
+                Button("See all") { showSheet.toggle() }
                 Spacer()
                     .frame(width: 10)
             }
+            .sheet(isPresented: $showSheet, content:{ SeeMoviesSheetView(movies: movies)
+            })
             ScrollView(.horizontal, showsIndicators: false) {
                 LazyHGrid(rows: layout){
                     ForEach(movies) { movie in
-                        SmallMoviePillView(movie: movie)
+                        NavigationLink(
+                            destination: NavigationLazyView(MovieDetailsView(for: movie.id)),
+                            label: {
+                                SmallMoviePillView(movie: movie)
+                            })
                     }
                 }
             }
@@ -141,9 +163,6 @@ struct PopularPeopleSection: View {
                     .font(.title3)
                     .bold()
                 Spacer()
-                Button("See all") {}
-                Spacer()
-                    .frame(width: 10)
             }
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack{
@@ -153,10 +172,9 @@ struct PopularPeopleSection: View {
                         if person.profilePath != nil {
                             VStack(alignment: .leading) {
                                 PosterCardView(imageUrl: person.profilePath ?? "")
-                                    .frame(width: UIScreen.screenWidth * 0.45, height: 250)
+                                    .frame(width: UIScreen.screenWidth * 0.35, height: 200)
                                 Text(person.name)
                                     .foregroundColor(Color.gray)
-                                Text("\(person.popularity)")
                             }
                         }
                     }

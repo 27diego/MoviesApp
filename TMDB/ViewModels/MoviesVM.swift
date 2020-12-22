@@ -18,6 +18,10 @@ class Movies: ObservableObject {
         initialSetup()
     }
     
+    init(for type: MovieType){
+        singleMoviesSetup(for: type)
+    }
+    
     private func initialSetup(){
         Publishers.Zip4(
             URLSession.shared.publisher(for: ItemEndpoint.getMovies(from: .popular).url, responseType: NetworkResponse<Movie>.self),
@@ -36,9 +40,14 @@ class Movies: ObservableObject {
         
         URLSession.shared.publisher(for: ItemEndpoint.getPeople(from: .popular).url, responseType: NetworkResponse<PersonItem>.self)
             .receive(on: DispatchQueue.main)
-            .sink(receiveCompletion: { _ in }, receiveValue: { data in
-                self.people = data.results.sorted { $0.popularity < $1.popularity }
-            })
+            .sink(receiveCompletion: { _ in }, receiveValue: { self.people = $0.results })
             .store(in: &cancellables)            
+    }
+    
+    private func singleMoviesSetup(for type: MovieType){
+        URLSession.shared.publisher(for: ItemEndpoint.getMovies(from: type).url, responseType: NetworkResponse<Movie>.self)
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { _ in }, receiveValue: { self.movies[type] = $0.results })
+            .store(in: &cancellables)
     }
 }
