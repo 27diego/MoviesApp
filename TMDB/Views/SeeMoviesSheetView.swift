@@ -9,17 +9,30 @@ import SwiftUI
 
 struct SeeMoviesSheetView: View {
     var movies: [Movie]
+    @Namespace var nspace
+    @State var present: Bool = false
+    @State var id: Int = 0
     var body: some View {
-        ScrollView {
-            VStack(spacing: 30) {
-                ForEach(movies){ movie in
-                    PresentationMovieCardView(posterPath: movie.posterPath ?? "", title: movie.title, overview: movie.overview)
+        NavigationView {
+            ScrollView {
+                VStack(spacing: 30) {
+                    ForEach(movies){ movie in
+                        // TODO: - Hero Animation
+                        NavigationLink(
+                            destination: NavigationLazyView(MovieDetailsView(for: movie.id)),
+                            label: {
+                                PresentationMovieCardView(posterPath: movie.posterPath ?? "", title: movie.title, overview: movie.overview)
+                                    .foregroundColor(.black)
+                            })
+                    }
                 }
+                .padding()
             }
-            .padding()
+            .navigationTitle("Upcoming Movies")
         }
     }
 }
+
 
 struct PresentationMovieCardView: View {
     var posterPath: String

@@ -48,6 +48,12 @@ struct PersonDetails: Codable {
     let profilePath: String?
 }
 
+struct PersonCreditResults: Codable {
+    let id: Int
+    let cast: [Movie]
+    let crew: [Movie]
+}
+
 enum PersonType {
     case popular
     
