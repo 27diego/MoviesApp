@@ -170,12 +170,19 @@ struct PopularPeopleSection: View {
                         .frame(width: 10)
                     ForEach(people) { person in
                         if person.profilePath != nil {
-                            VStack(alignment: .leading) {
-                                PosterCardView(imageUrl: person.profilePath ?? "")
-                                    .frame(width: UIScreen.screenWidth * 0.35, height: 200)
-                                Text(person.name)
-                                    .foregroundColor(Color.gray)
-                            }
+                            
+                            NavigationLink(
+                                destination: NavigationLazyView(PersonDetailsView(for: person.id)),
+                                label: {
+                                    VStack(alignment: .leading) {
+                                        PosterCardView(imageUrl: person.profilePath ?? "")
+                                            .frame(width: UIScreen.screenWidth * 0.35, height: 200)
+                                        Text(person.name)
+                                            .foregroundColor(Color.gray)
+                                    }
+                                    .clipped()
+                                })
+                            
                         }
                     }
                     Spacer()

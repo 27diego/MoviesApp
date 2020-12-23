@@ -54,6 +54,15 @@ struct PersonCreditResults: Codable {
     let crew: [Movie]
 }
 
+struct PersonImages: Codable, Hashable {
+    let filePath: String?
+}
+
+struct PersonImagesResults: Codable {
+    let id: Int
+    let profiles: [PersonImages]
+}
+
 enum PersonType {
     case popular
     

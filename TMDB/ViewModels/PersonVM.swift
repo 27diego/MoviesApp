@@ -17,6 +17,7 @@ class PersonDetailsVM: ObservableObject {
     @Published var placeOfBirth: String = ""
     @Published var profilePath: String?
     @Published var movies: [Movie] = []
+    @Published var images: [PersonImages] = []
     
     var topMovies: [Movie] {
         Array(movies.prefix(3))
@@ -29,9 +30,10 @@ class PersonDetailsVM: ObservableObject {
     }
     
     private func setUpData(for id: Int){
-        Publishers.Zip(
+        Publishers.Zip3(
             URLSession.shared.publisher(for: ItemEndpoint.getPerson(for: id).url, responseType: PersonDetails.self),
-            URLSession.shared.publisher(for: ItemEndpoint.getMoviesForPerson(for: id).url, responseType: PersonCreditResults.self)
+            URLSession.shared.publisher(for: ItemEndpoint.getMoviesForPerson(for: id).url, responseType: PersonCreditResults.self),
+            URLSession.shared.publisher(for: ItemEndpoint.getImagesForPerson(for: id).url, responseType: PersonImagesResults.self)
             )
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { value in
@@ -45,6 +47,8 @@ class PersonDetailsVM: ObservableObject {
                 self.placeOfBirth = $0.placeOfBirth
                 self.profilePath = $0.profilePath
                 self.movies = $1.cast.sorted { $0.popularity > $1.popularity }
+                self.images = $2.profiles
+                
             })
         .store(in: &cancellables)
     }
