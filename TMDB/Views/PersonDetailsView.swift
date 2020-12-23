@@ -30,15 +30,17 @@ struct PersonDetailsView: View {
                 
                 Text("Known for")
                 
-                ScrollView(.horizontal){
-                    HStack {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 20) {
                         ForEach(person.topMovies) { movie in
                             PosterCardView(imageUrl: movie.posterPath)
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: 50, height: 200)
+                                .frame(width: 110, height: 200)
                         }
                     }
+                    .padding()
                 }
+                Text(person.biography)
+                    .padding()
             }
         }
     }
