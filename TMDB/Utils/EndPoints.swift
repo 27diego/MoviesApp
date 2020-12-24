@@ -10,6 +10,7 @@ import Foundation
 struct ItemEndpoint {
     var path: String
     var queryItems: [URLQueryItem] = []
+    var page: Int?
 }
 
 // MARK: - Adding Endpoint url
@@ -54,6 +55,18 @@ extension ItemEndpoint {
     }
     static func getImagesForPerson(for id: Int) -> Self {
         ItemEndpoint(path: "person/\(id)/images")
+    }
+    static func personSearch(for query: String, page: Int = 1) -> Self {
+        let queryItems: [URLQueryItem] = [URLQueryItem(name: "query", value: query), URLQueryItem(name: "page", value: String(page))]
+        return ItemEndpoint(path: "search/person", queryItems: queryItems)
+    }
+    static func movieSearch(for query: String, page: Int = 1) -> Self {
+        let queryItems: [URLQueryItem] = [URLQueryItem(name: "query", value: query), URLQueryItem(name: "page", value: String(page))]
+        return ItemEndpoint(path: "search/movie", queryItems: queryItems)
+    }
+    static func multiSearch(for query: String, page: Int = 1) -> Self {
+        let queryItems: [URLQueryItem] = [URLQueryItem(name: "query", value: query), URLQueryItem(name: "page", value: String(page))]
+        return ItemEndpoint(path: "search/multi", queryItems: queryItems)
     }
 }
 

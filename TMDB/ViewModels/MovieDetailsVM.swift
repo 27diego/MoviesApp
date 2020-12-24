@@ -18,6 +18,8 @@ class MovieDetailsVM: ObservableObject {
     @Published var posterPath: String?
     @Published var backdropPath: String?
     @Published var releaseDate: String = ""
+    @Published var actors: [Actor] = []
+    @Published var crew: [CrewMember] = []
     
     var cancellable: AnyCancellable?
     
@@ -26,7 +28,10 @@ class MovieDetailsVM: ObservableObject {
     }
     
     private func setupData(for id: Int){
-        cancellable = URLSession.shared.publisher(for: ItemEndpoint.getMovieDetails(for: id).url, responseType: MovieDetails.self)
+        cancellable = Publishers.Zip(
+            URLSession.shared.publisher(for: ItemEndpoint.getMovieDetails(for: id).url, responseType: MovieDetails.self),
+            URLSession.shared.publisher(for: ItemEndpoint.getMovieCredits(for: id).url, responseType: MovieCreditResults.self)
+        )
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { _ in }, receiveValue: {
                 self.id = $0.id
@@ -38,6 +43,8 @@ class MovieDetailsVM: ObservableObject {
                 self.posterPath = $0.posterPath
                 self.backdropPath = $0.backdropPath
                 self.releaseDate = $0.formattedReleaseDate
+                self.actors = $1.cast
+                self.crew = $1.crew
             })
     }
 }

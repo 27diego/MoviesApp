@@ -9,9 +9,9 @@ import Foundation
 
 // MARK: - maybe should be a struct?
 protocol Person {
-    var id: Int { get }
-    var name: String { get }
-    var profilePath: String? { get  }
+    var id: Int { set get }
+    var name: String { set get }
+    var profilePath: String? { set get  }
 }
 
 struct PersonItem: Codable, Identifiable, Person {

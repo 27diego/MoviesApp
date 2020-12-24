@@ -20,7 +20,7 @@ struct HomeView: View {
             }
             .navigationTitle("Movie Hub")
         }
-        .ignoresSafeArea()
+        .edgesIgnoringSafeArea(.top)
     }
 }
 

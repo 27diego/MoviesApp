@@ -30,6 +30,7 @@ struct MovieDetailsView: View {
                         Spacer()
                     }
                     .padding(30)
+                    .padding(.top, 20)
                     Spacer()
                 }
                 .zIndex(2)
@@ -80,17 +81,44 @@ struct MovieDetailsView: View {
                     }
                     .padding(.horizontal, 10)
                     
+                    VStack(alignment: .leading) {
+                        Text("Actors")
+                            .padding(.horizontal)
+                        ScrollView(.horizontal, showsIndicators: false){
+                            HStack{
+                                Spacer()
+                                    .frame(width: 10)
+                                ForEach(movieDetails.actors) { actor in
+                                    NavigationLink(
+                                        destination: NavigationLazyView(PersonDetailsView(for: actor.id)),
+                                        label: {
+                                            VStack(alignment: .leading){
+                                                PosterCardView(imageUrl: actor.profilePath)
+                                                    .frame(width: UIScreen.screenWidth * 0.35, height: 200)
+                                                    .aspectRatio(contentMode: .fill)
+                                                
+                                                Text(actor.name)
+                                            }
+                                            .foregroundColor(.black)
+                                        })
+                                }
+                                Spacer()
+                                    .frame(width: 10)
+                            }
+                        }
+                    }
+                    
                     NavigationLink(
                         destination: NavigationLazyView(TheaterView(selectedSeats: .constant([]))),
                         label: {
-                            Button("Reserve Seats"){}
-                                .buttonStyle(CustomButtonStyle(color: Color(#colorLiteral(red: 0.5490196078, green: 0.3098039216, blue: 0.9529411765, alpha: 1))))
-                                .frame(width: UIScreen.screenWidth * 0.9)
+                          Text("Reserve Seats")
                         })
+                        .buttonStyle(CustomButtonStyle(color: Color(#colorLiteral(red: 0.5490196078, green: 0.3098039216, blue: 0.9529411765, alpha: 1))))
+                        .frame(width: UIScreen.screenWidth * 0.9)
                 }
             }
         }
-        .ignoresSafeArea()
+        .edgesIgnoringSafeArea(.top)
         .navigationBarBackButtonHidden(true)
         .navigationBarTitle("")
         .navigationBarHidden(true)
