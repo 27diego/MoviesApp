@@ -28,6 +28,12 @@ extension UIScreen {
     }
 }
 
+extension UIApplication {
+    func endEditing(){
+        sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+}
+
 
 // MARK: - Review
 extension Date{
