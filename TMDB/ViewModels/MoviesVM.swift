@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 class Movies: ObservableObject {
-    @Published var movies: [MovieType:[Movie]] = [:]
+    @Published var movies: [MovieType:[MovieModel]] = [:]
     @Published var people: [PersonItem] = []
     
     var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
@@ -24,10 +24,10 @@ class Movies: ObservableObject {
     
     private func initialSetup(){
         Publishers.Zip4(
-            URLSession.shared.publisher(for: ItemEndpoint.getMovies(from: .popular).url, responseType: NetworkResponse<Movie>.self),
-            URLSession.shared.publisher(for: ItemEndpoint.getMovies(from: .nowPlaying).url, responseType: NetworkResponse<Movie>.self),
-            URLSession.shared.publisher(for: ItemEndpoint.getMovies(from: .topRated).url, responseType: NetworkResponse<Movie>.self),
-            URLSession.shared.publisher(for: ItemEndpoint.getMovies(from: .upcoming).url, responseType: NetworkResponse<Movie>.self)
+            URLSession.shared.publisher(for: ItemEndpoint.getMovies(from: .popular).url, responseType: NetworkResponse<MovieModel>.self),
+            URLSession.shared.publisher(for: ItemEndpoint.getMovies(from: .nowPlaying).url, responseType: NetworkResponse<MovieModel>.self),
+            URLSession.shared.publisher(for: ItemEndpoint.getMovies(from: .topRated).url, responseType: NetworkResponse<MovieModel>.self),
+            URLSession.shared.publisher(for: ItemEndpoint.getMovies(from: .upcoming).url, responseType: NetworkResponse<MovieModel>.self)
         )
             .receive(on: DispatchQueue.main)
         .sink(receiveCompletion: { _ in}, receiveValue: { (popular, nowPlaying, topRated, upcoming) in
@@ -45,7 +45,7 @@ class Movies: ObservableObject {
     }
     
     private func singleMoviesSetup(for type: MovieType){
-        URLSession.shared.publisher(for: ItemEndpoint.getMovies(from: type).url, responseType: NetworkResponse<Movie>.self)
+        URLSession.shared.publisher(for: ItemEndpoint.getMovies(from: type).url, responseType: NetworkResponse<MovieModel>.self)
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { _ in }, receiveValue: { self.movies[type] = $0.results })
             .store(in: &cancellables)

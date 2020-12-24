@@ -78,7 +78,7 @@ struct PosterCardView: View {
 
 
 struct SmallMoviePillView: View {
-    var movie: Movie
+    var movie: MovieModel
     var body: some View {
         HStack(alignment: .top) {
             SpotlightCardView(imageUrl: movie.backdropPath)

@@ -7,7 +7,17 @@
 
 import Foundation
 
-struct Movie: Codable, Identifiable {
+protocol Movie {
+    var id: Int { get }
+    var title: String { get }
+    var popularity: Double { get }
+    var releaseDate: String? { get }
+    var backdropPath: String? { get set }
+    var posterPath: String? { get set }
+    var overview: String { get set }
+}
+
+struct MovieModel: Codable, Identifiable, Movie {
     let id: Int
     let title: String
     let popularity: Double

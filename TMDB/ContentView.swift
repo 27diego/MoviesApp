@@ -32,7 +32,7 @@ struct ContentView_Previews: PreviewProvider {
 }
 
 struct UpcomingSectionView: View {
-    var movies: [Movie]
+    var movies: [MovieModel]
     @State var showSheet: Bool = false
     var body: some View {
         VStack(alignment: .leading) {
@@ -70,7 +70,7 @@ struct UpcomingSectionView: View {
 }
 
 struct PopularSectionView: View {
-    var movies: [Movie]
+    var movies: [MovieModel]
     @State var showSheet: Bool = false
     var body: some View {
         VStack {
@@ -116,7 +116,7 @@ struct PopularSectionView: View {
 }
 
 struct MovieGridSectionView: View {
-    var movies: [Movie]
+    var movies: [MovieModel]
     @State var showSheet: Bool = false
     var layout: [GridItem] = [
         GridItem(.fixed(80)),

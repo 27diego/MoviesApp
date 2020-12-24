@@ -50,8 +50,8 @@ struct PersonDetails: Codable {
 
 struct PersonCreditResults: Codable {
     let id: Int
-    let cast: [Movie]
-    let crew: [Movie]
+    let cast: [MovieModel]
+    let crew: [MovieModel]
 }
 
 struct PersonImages: Codable, Hashable {

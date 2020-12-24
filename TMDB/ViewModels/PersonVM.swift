@@ -16,10 +16,10 @@ class PersonDetailsVM: ObservableObject {
     @Published var popularity: Double = 0.0
     @Published var placeOfBirth: String = ""
     @Published var profilePath: String?
-    @Published var movies: [Movie] = []
+    @Published var movies: [MovieModel] = []
     @Published var images: [PersonImages] = []
     
-    var topMovies: [Movie] {
+    var topMovies: [MovieModel] {
         Array(movies.prefix(3))
     }
     

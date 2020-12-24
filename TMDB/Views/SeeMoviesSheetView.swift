@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SeeMoviesSheetView: View {
-    var movies: [Movie]
+    var movies: [MovieModel]
     @Namespace var nspace
     @State var present: Bool = false
     @State var id: Int = 0

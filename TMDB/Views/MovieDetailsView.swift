@@ -80,9 +80,13 @@ struct MovieDetailsView: View {
                     }
                     .padding(.horizontal, 10)
                     
-                    Button("Reserve Seats"){}
-                        .buttonStyle(CustomButtonStyle(color: Color(#colorLiteral(red: 0.5490196078, green: 0.3098039216, blue: 0.9529411765, alpha: 1))))
-                        .frame(width: UIScreen.screenWidth * 0.9)
+                    NavigationLink(
+                        destination: NavigationLazyView(TheaterView(selectedSeats: .constant([]))),
+                        label: {
+                            Button("Reserve Seats"){}
+                                .buttonStyle(CustomButtonStyle(color: Color(#colorLiteral(red: 0.5490196078, green: 0.3098039216, blue: 0.9529411765, alpha: 1))))
+                                .frame(width: UIScreen.screenWidth * 0.9)
+                        })
                 }
             }
         }
