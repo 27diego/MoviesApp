@@ -14,7 +14,7 @@ protocol Person {
     var profilePath: String? { set get  }
 }
 
-struct PersonItem: Codable, Identifiable, Person {
+struct PersonModel: Codable, Identifiable, Person {
     var id: Int
     var name: String
     var profilePath: String?

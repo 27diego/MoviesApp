@@ -10,7 +10,7 @@ import Combine
 
 class Movies: ObservableObject {
     @Published var movies: [MovieType:[MovieModel]] = [:]
-    @Published var people: [PersonItem] = []
+    @Published var people: [PersonModel] = []
     
     var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
     
@@ -38,7 +38,7 @@ class Movies: ObservableObject {
         })
         .store(in: &cancellables)
         
-        URLSession.shared.publisher(for: ItemEndpoint.getPeople(from: .popular).url, responseType: NetworkResponse<PersonItem>.self)
+        URLSession.shared.publisher(for: ItemEndpoint.getPeople(from: .popular).url, responseType: NetworkResponse<PersonModel>.self)
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { _ in }, receiveValue: { self.people = $0.results })
             .store(in: &cancellables)            

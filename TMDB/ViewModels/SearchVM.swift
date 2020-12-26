@@ -9,32 +9,58 @@ import Foundation
 import Combine
 
 class SearchVM: ObservableObject {
-    @Published var searchQuery: String = ""
-    @Published var searchPlaceholders: [String] = [
-        "Search \"Popular Movies\"",
-        "Search \"Upcoming Movies\"",
-        "Search \"Actors\"",
+    @Published var searchQuery: String = "" {
+        didSet {
+            search()
+            if searchQuery == "" {
+                movieResults = []
+            }
+        }
+    }
+    @Published var movieResults: [MovieModel] = []
+    @Published var personResults: [PersonModel] = []
+    @Published var placeholder: String = "Search"
+    @Published var queryType: searchType = .movie
+    @Published var page: Int = 1 {
+        didSet {
+            //search()
+        }
+    }
+    
+    @Published var totalPages: Int = 1
+    
+    var searchPlaceholders: [String] = [
+        "Search for Popular Movies",
+        "Search for Upcoming Movies",
+        "Search for Actors",
         "Search \"Leonardo DiCaprio\"",
         "Search \"Gal Gadot\""
     ]
-    @Published var suggested: [MovieModel] = []
-    @Published var upcomming: [MovieModel] = []
-    
     var cancellables: Set<AnyCancellable> = .init()
     
     init(){
-        setUp()
+        startPlaceholders()
     }
     
-    private func setUp(){
-        Publishers.Zip(
-            URLSession.shared.publisher(for: ItemEndpoint.getMovies(from: .popular).url, responseType: NetworkResponse<MovieModel>.self),
-            URLSession.shared.publisher(for: ItemEndpoint.getMovies(from: .upcoming).url, responseType: NetworkResponse<MovieModel>.self)
-        )
+    private func startPlaceholders(){
+        Timer.publish(every: 2, on: .main, in: .common)
+            .autoconnect()
+            .receive(on: DispatchQueue.main)
+            .sink { timer in
+                self.placeholder = self.searchPlaceholders.randomElement() ?? "Search"
+            }
+            .store(in: &cancellables)
+    }
+    
+    //how to make this generic
+    func search(){
+        URLSession.shared.publisher(for: ItemEndpoint.movieSearch(for: searchQuery, page: page).url, responseType: Search<MovieModel>.self)
         .receive(on: DispatchQueue.main)
-        .sink(receiveCompletion: { _ in }, receiveValue: {
-            self.suggested = $0.results
-            self.upcomming = $1.results
+        .sink(receiveCompletion: { res in
+            print("Results: \(res)")
+        }, receiveValue: {
+        self.movieResults = $0.results
+        self.totalPages = $0.totalPages
         })
         .store(in: &cancellables)
     }
@@ -43,5 +69,5 @@ class SearchVM: ObservableObject {
 
 
 enum searchType {
-    
+    case movie, actor
 }

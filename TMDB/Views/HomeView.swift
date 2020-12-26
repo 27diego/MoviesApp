@@ -153,7 +153,7 @@ struct MovieGridSectionView: View {
 }
 
 struct PopularPeopleSection: View {
-    var people: [PersonItem]
+    var people: [PersonModel]
     var body: some View {
         VStack {
             HStack {

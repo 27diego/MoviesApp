@@ -9,11 +9,51 @@ import SwiftUI
 
 struct SearchView: View {
     @ObservedObject var search = SearchVM()
+    @State var isEditing: Bool = false
     
     var body: some View {
-        VStack {
-            CustomSearch(text: $search.searchQuery, placeholders: search.searchPlaceholders)
-            
+        NavigationView {
+            VStack(alignment: .leading) {
+                CustomSearch(isEditing: $isEditing, placeholder: search.placeholder, searchQuery: $search.searchQuery)
+                
+                Picker(selection: .constant(1), label: Text("Picker")){
+                    Text("Movies").tag(1)
+                    Text("Actors").tag(2)
+                }
+                .pickerStyle(SegmentedPickerStyle())
+                
+                Spacer()
+                    .frame(height: 20)
+                
+                Text("Movies")
+                    .foregroundColor(Color(.systemGray))
+                Divider()
+                ScrollView{
+                    VStack(alignment: .leading, spacing: 15) {
+                        ForEach(search.movieResults) { movie in
+                           NavigationLink(
+                            destination: NavigationLazyView(MovieDetailsView(for: movie.id)),
+                            label: {
+                                HStack {
+                                    Text(movie.title)
+                                        .foregroundColor(.black)
+                                    
+                                    Spacer()
+                                }
+                            })
+                        }
+                        .animation(.none)
+                    }
+                }
+                .padding(10)
+                .background(Color.white)
+                .cornerRadius(12)
+                
+            }
+            .padding(.horizontal)
+            .animation(.spring())
+            .navigationBarTitle("")
+            .navigationBarHidden(true)
         }
     }
 }
@@ -25,57 +65,40 @@ struct SearchView_Previews: PreviewProvider {
 }
 
 struct CustomSearch: View {
-    @State var editingTextField: Bool = false {
-        didSet {
-            if editingTextField == false {
-                UIApplication.shared.endEditing()
-            }
-        }
-    }
-    @State var placeHolder: String = "Search"
-    @Binding var text: String
-    let timer = Timer.publish(every: 5, tolerance: 2.5, on: .main, in: .common)
-        .autoconnect()
-    
-    var placeholders: [String]
-    
+    @Binding var isEditing: Bool
+    var placeholder: String
+    @Binding var searchQuery: String
     var body: some View {
-        VStack {
+        
+        HStack {
             HStack {
-                HStack {
-                    Image(systemName: "magnifyingglass")
-                    TextField(placeHolder, text: $text){ change in
-                        withAnimation(.spring()) {
-                            editingTextField = change
-                        }
+                Image(systemName: "magnifyingglass")
+                TextField(isEditing ? placeholder : "Search", text: $searchQuery)
+                    .onTapGesture {
+                        isEditing = true
                     }
-                    .onReceive(timer, perform: { _ in
-                        placeHolder = placeholders.randomElement() ?? "Search"
-                    })
-                }
-                .foregroundColor(Color(.systemGray2))
-                .padding()
-                .background(Color(.systemGray6))
-                .cornerRadius(12)
-                .zIndex(1)
-                
-                if editingTextField {
-                    Button(action: {
-                        withAnimation(.linear){
-                            editingTextField.toggle()
+                if searchQuery != "" {
+                    Image(systemName: "xmark.circle")
+                        .onTapGesture {
+                            searchQuery = ""
                         }
-                    }, label: {
-                        Text("Cancel")
-                    })
-                    .foregroundColor(Color(.systemGray))
                 }
             }
-            .padding(.horizontal)
-            .padding(.top, 12)
-            Text("Hello")
-                .foregroundColor(.white)
+            .foregroundColor(Color(.systemGray))
+            .padding()
+            .background(Color(.systemGray6))
+            .cornerRadius(12)
+            .zIndex(2)
+            
+            if isEditing {
+                Button(action: {
+                    isEditing = false
+                    UIApplication.shared.endEditing()
+                }, label: {
+                    Text("Cancel")
+                        .foregroundColor(Color(.systemGray))
+                })
+            }
         }
-        .background(editingTextField ? Color.black : Color.clear)
-        .cornerRadius(12)
     }
 }
