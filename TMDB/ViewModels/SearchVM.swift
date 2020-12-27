@@ -14,12 +14,6 @@ class SearchVM: ObservableObject {
             if searchQuery == "" {
                 movieResults = []
             }
-            if queryType == .movie {
-                searchMovies()
-            }
-            else {
-                searchPeople()
-            }
         }
     }
     @Published var movieResults: [MovieModel] = []
@@ -41,6 +35,7 @@ class SearchVM: ObservableObject {
     
     init(){
         startPlaceholders()
+        queryListener()
     }
     
     private func startPlaceholders(){
@@ -53,10 +48,35 @@ class SearchVM: ObservableObject {
             .store(in: &cancellables)
     }
     
+    private func queryListener() {
+        $searchQuery
+            .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
+            .removeDuplicates()
+            .map({ string -> String? in
+                if string.count < 1 {
+                    self.movieResults = []
+                    self.personResults = []
+                    return nil
+                }
+                
+                return string
+            })
+            .compactMap{ $0 }
+            .sink { query in
+                if self.queryType == .movie {
+                    self.searchMovies(query: query)
+                }
+                else {
+                    self.searchPeople(query: query)
+                }
+            }
+            .store(in: &cancellables)
+    }
+    
+    
     //how to make this generic
-    func searchMovies(){
-        URLSession.shared.publisher(for: ItemEndpoint.movieSearch(for: searchQuery).url, responseType: Search<MovieModel>.self)
-//            .debounce(for: .milliseconds(100), scheduler: RunLoop.main)
+    func searchMovies(query: String){
+        URLSession.shared.publisher(for: ItemEndpoint.movieSearch(for: query).url, responseType: Search<MovieModel>.self)
         .receive(on: DispatchQueue.main)
         .sink(receiveCompletion: { _ in }, receiveValue: {
         self.movieResults = $0.results
@@ -65,8 +85,8 @@ class SearchVM: ObservableObject {
         .store(in: &cancellables)
     }
     
-    func searchPeople(){
-        URLSession.shared.publisher(for: ItemEndpoint.personSearch(for: searchQuery).url, responseType: Search<PersonModel>.self)
+    func searchPeople(query: String){
+        URLSession.shared.publisher(for: ItemEndpoint.personSearch(for: query).url, responseType: Search<PersonModel>.self)
         .receive(on: DispatchQueue.main)
         .sink(receiveCompletion: { res in
             print("Results: \(res)")

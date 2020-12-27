@@ -51,7 +51,7 @@ struct SearchView: View {
                         else {
                             ForEach(search.personResults) { person in
                                 NavigationLink(
-                                    destination: NavigationLazyView(PersonDetailsView(for: person.id)),
+                                    destination: PersonDetailsView(for: person.id),
                                     label: {
                                         HStack {
                                             Text(person.name)
