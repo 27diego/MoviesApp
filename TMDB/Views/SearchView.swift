@@ -12,49 +12,63 @@ struct SearchView: View {
     @State var isEditing: Bool = false
     
     var body: some View {
-        NavigationView {
-            VStack(alignment: .leading) {
-                CustomSearch(isEditing: $isEditing, placeholder: search.placeholder, searchQuery: $search.searchQuery)
-                
-                Picker(selection: .constant(1), label: Text("Picker")){
-                    Text("Movies").tag(1)
-                    Text("Actors").tag(2)
-                }
-                .pickerStyle(SegmentedPickerStyle())
-                
-                Spacer()
-                    .frame(height: 20)
-                
-                Text("Movies")
-                    .foregroundColor(Color(.systemGray))
-                Divider()
+        VStack(alignment: .leading) {
+            CustomSearch(isEditing: $isEditing, placeholder: search.placeholder, searchQuery: $search.searchQuery)
+            
+            Picker(selection: $search.queryType, label: Text("Picker")){
+                Text("Movies").tag(searchType.movie)
+                Text("Actors").tag(searchType.actor)
+            }
+            .pickerStyle(SegmentedPickerStyle())
+            
+            Spacer()
+                .frame(height: 20)
+            
+            Text(search.queryType.description)
+                .foregroundColor(Color(.systemGray))
+            Divider()
+            
+            NavigationView {
                 ScrollView{
                     VStack(alignment: .leading, spacing: 15) {
-                        ForEach(search.movieResults) { movie in
-                           NavigationLink(
-                            destination: NavigationLazyView(MovieDetailsView(for: movie.id)),
-                            label: {
-                                HStack {
-                                    Text(movie.title)
-                                        .foregroundColor(.black)
-                                    
-                                    Spacer()
-                                }
-                            })
+                        if search.queryType == .movie {
+                            ForEach(search.movieResults) { movie in
+                                NavigationLink(
+                                    destination: NavigationLazyView(MovieDetailsView(for: movie.id)),
+                                    label: {
+                                        HStack {
+                                            Text(movie.title)
+                                                .foregroundColor(.black)
+                                            
+                                            Spacer()
+                                        }
+                                    })
+                            }
                         }
-                        .animation(.none)
+                        else {
+                            ForEach(search.personResults) { person in
+                                NavigationLink(
+                                    destination: NavigationLazyView(PersonDetailsView(for: person.id)),
+                                    label: {
+                                        HStack {
+                                            Text(person.name)
+                                                .foregroundColor(.black)
+                                            
+                                            Spacer()
+                                        }
+                                    })
+                            }
+                        }
                     }
+                    .animation(.none)
                 }
-                .padding(10)
-                .background(Color.white)
-                .cornerRadius(12)
-                
             }
-            .padding(.horizontal)
-            .animation(.spring())
-            .navigationBarTitle("")
-            .navigationBarHidden(true)
         }
+        .padding(.horizontal)
+        .animation(.spring())
+        .navigationBarTitle("")
+        .navigationBarHidden(true)
+        .background(Color.white)
     }
 }
 

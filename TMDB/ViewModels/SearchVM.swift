@@ -11,9 +11,14 @@ import Combine
 class SearchVM: ObservableObject {
     @Published var searchQuery: String = "" {
         didSet {
-            search()
             if searchQuery == "" {
                 movieResults = []
+            }
+            if queryType == .movie {
+                searchMovies()
+            }
+            else {
+                searchPeople()
             }
         }
     }
@@ -21,11 +26,7 @@ class SearchVM: ObservableObject {
     @Published var personResults: [PersonModel] = []
     @Published var placeholder: String = "Search"
     @Published var queryType: searchType = .movie
-    @Published var page: Int = 1 {
-        didSet {
-            //search()
-        }
-    }
+  
     
     @Published var totalPages: Int = 1
     
@@ -53,13 +54,23 @@ class SearchVM: ObservableObject {
     }
     
     //how to make this generic
-    func search(){
-        URLSession.shared.publisher(for: ItemEndpoint.movieSearch(for: searchQuery, page: page).url, responseType: Search<MovieModel>.self)
+    func searchMovies(){
+        URLSession.shared.publisher(for: ItemEndpoint.movieSearch(for: searchQuery).url, responseType: Search<MovieModel>.self)
+        .receive(on: DispatchQueue.main)
+        .sink(receiveCompletion: { _ in }, receiveValue: {
+        self.movieResults = $0.results
+        self.totalPages = $0.totalPages
+        })
+        .store(in: &cancellables)
+    }
+    
+    func searchPeople(){
+        URLSession.shared.publisher(for: ItemEndpoint.personSearch(for: searchQuery).url, responseType: Search<PersonModel>.self)
         .receive(on: DispatchQueue.main)
         .sink(receiveCompletion: { res in
             print("Results: \(res)")
         }, receiveValue: {
-        self.movieResults = $0.results
+        self.personResults = $0.results
         self.totalPages = $0.totalPages
         })
         .store(in: &cancellables)
@@ -67,7 +78,15 @@ class SearchVM: ObservableObject {
     
 }
 
-
-enum searchType {
+enum searchType: String {
     case movie, actor
+    
+    var description: String {
+        switch self {
+        case .movie:
+            return "Movies"
+        case .actor:
+            return "People"
+        }
+    }
 }
