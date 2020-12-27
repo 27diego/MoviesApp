@@ -12,23 +12,26 @@ struct SearchView: View {
     @State var isEditing: Bool = false
     
     var body: some View {
-        VStack(alignment: .leading) {
-            CustomSearch(isEditing: $isEditing, placeholder: search.placeholder, searchQuery: $search.searchQuery)
-            
-            Picker(selection: $search.queryType, label: Text("Picker")){
-                Text("Movies").tag(searchType.movie)
-                Text("Actors").tag(searchType.actor)
-            }
-            .pickerStyle(SegmentedPickerStyle())
-            
-            Spacer()
-                .frame(height: 20)
-            
-            Text(search.queryType.description)
-                .foregroundColor(Color(.systemGray))
-            Divider()
-            
-            NavigationView {
+        NavigationView {
+            VStack(alignment: .leading) {
+                // MARK: - Fix boucing!!!!
+                ZStack {
+                    CustomSearch(isEditing: $isEditing, placeholder: search.placeholder, searchQuery: $search.searchQuery)
+                }
+                
+                Picker(selection: $search.queryType, label: Text("Picker")){
+                    Text("Movies").tag(searchType.movie)
+                    Text("Actors").tag(searchType.actor)
+                }
+                .pickerStyle(SegmentedPickerStyle())
+                
+                Spacer()
+                    .frame(height: 20)
+                
+                Text(search.queryType.description)
+                    .foregroundColor(Color(.systemGray))
+                Divider()
+                
                 ScrollView{
                     VStack(alignment: .leading, spacing: 15) {
                         if search.queryType == .movie {
@@ -60,15 +63,15 @@ struct SearchView: View {
                             }
                         }
                     }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .animation(.none)
                 }
             }
+            .padding(.horizontal)
+            .navigationBarTitle("")
+            .navigationBarHidden(true)
+            .background(Color.white)
         }
-        .padding(.horizontal)
-        .animation(.spring())
-        .navigationBarTitle("")
-        .navigationBarHidden(true)
-        .background(Color.white)
     }
 }
 
@@ -89,7 +92,9 @@ struct CustomSearch: View {
                 Image(systemName: "magnifyingglass")
                 TextField(isEditing ? placeholder : "Search", text: $searchQuery)
                     .onTapGesture {
-                        isEditing = true
+                        withAnimation(.spring()) {
+                            isEditing = true
+                        }
                     }
                 if searchQuery != "" {
                     Image(systemName: "xmark.circle")
@@ -102,11 +107,13 @@ struct CustomSearch: View {
             .padding()
             .background(Color(.systemGray6))
             .cornerRadius(12)
-            .zIndex(2)
+            .zIndex(3)
             
             if isEditing {
                 Button(action: {
-                    isEditing = false
+                    withAnimation(.spring()) {
+                        isEditing = false
+                    }
                     UIApplication.shared.endEditing()
                 }, label: {
                     Text("Cancel")

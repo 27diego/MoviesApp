@@ -56,6 +56,7 @@ class SearchVM: ObservableObject {
     //how to make this generic
     func searchMovies(){
         URLSession.shared.publisher(for: ItemEndpoint.movieSearch(for: searchQuery).url, responseType: Search<MovieModel>.self)
+//            .debounce(for: .milliseconds(100), scheduler: RunLoop.main)
         .receive(on: DispatchQueue.main)
         .sink(receiveCompletion: { _ in }, receiveValue: {
         self.movieResults = $0.results
