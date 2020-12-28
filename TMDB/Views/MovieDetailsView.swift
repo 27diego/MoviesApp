@@ -56,7 +56,7 @@ struct MovieDetailsView: View {
                             .font(.title)
                             .bold()
                         
-                        ScrollView(.horizontal) {
+                        ScrollView(.horizontal, showsIndicators: false) {
                             HStack {
                                 ForEach(movieDetails.genres) { genre in
                                     Text(genre.name)
@@ -94,11 +94,10 @@ struct MovieDetailsView: View {
                                         label: {
                                             VStack(alignment: .leading){
                                                 PosterCardView(imageUrl: actor.profilePath)
-                                                    .frame(width: UIScreen.screenWidth * 0.35, height: 200)
-                                                    .aspectRatio(contentMode: .fill)
-                                                
                                                 Text(actor.name)
                                             }
+                                            .frame(width: UIScreen.screenWidth * 0.35, height: 200)
+                                            .aspectRatio(contentMode: .fill)
                                             .foregroundColor(.black)
                                         })
                                 }

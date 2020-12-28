@@ -180,6 +180,7 @@ struct PopularPeopleSection: View {
                                         Text(person.name)
                                             .foregroundColor(Color.gray)
                                     }
+                                    .frame(width: UIScreen.screenWidth * 0.35)
                                     .clipped()
                                 })
                             

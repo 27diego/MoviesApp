@@ -113,6 +113,7 @@ struct CustomSearch: View {
                 Button(action: {
                     withAnimation(.spring()) {
                         isEditing = false
+                        searchQuery = ""
                     }
                     UIApplication.shared.endEditing()
                 }, label: {
