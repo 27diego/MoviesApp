@@ -76,6 +76,10 @@ struct MovieDetailsView: View {
                         }
                         .foregroundColor(Color(.systemGray))
                         
+                        Text("Storyline")
+                            .font(.title3)
+                            .bold()
+                        
                         Text(movieDetails.overview)
                             .fixedSize(horizontal: false, vertical: true)
                     }
@@ -84,33 +88,19 @@ struct MovieDetailsView: View {
                     VStack(alignment: .leading) {
                         Text("Actors")
                             .padding(.horizontal)
-                        ScrollView(.horizontal, showsIndicators: false){
-                            HStack{
-                                Spacer()
-                                    .frame(width: 10)
-                                ForEach(movieDetails.actors) { actor in
-                                    NavigationLink(
-                                        destination: NavigationLazyView(PersonDetailsView(for: actor.id)),
-                                        label: {
-                                            VStack(alignment: .leading){
-                                                PosterCardView(imageUrl: actor.profilePath)
-                                                Text(actor.name)
-                                            }
-                                            .frame(width: UIScreen.screenWidth * 0.35, height: 200)
-                                            .aspectRatio(contentMode: .fill)
-                                            .foregroundColor(.black)
-                                        })
-                                }
-                                Spacer()
-                                    .frame(width: 10)
-                            }
-                        }
+                        CirclePeopleSectionView(people: movieDetails.actors)
+                    }
+                    
+                    VStack(alignment: .leading) {
+                        Text("Crew")
+                            .padding(.horizontal)
+                        CirclePeopleSectionView(people: movieDetails.crew)
                     }
                     
                     NavigationLink(
                         destination: NavigationLazyView(TheaterView(selectedSeats: .constant([]))),
                         label: {
-                          Text("Reserve Seats")
+                            Text("Reserve Seats")
                         })
                         .buttonStyle(CustomButtonStyle(color: Color(#colorLiteral(red: 0.5490196078, green: 0.3098039216, blue: 0.9529411765, alpha: 1))))
                         .frame(width: UIScreen.screenWidth * 0.9)
@@ -121,5 +111,45 @@ struct MovieDetailsView: View {
         .navigationBarBackButtonHidden(true)
         .navigationBarTitle("")
         .navigationBarHidden(true)
+    }
+}
+
+struct MovieDetailsView_Previews: PreviewProvider {
+    static var previews: some View {
+        MovieDetailsView(for: 100)
+    }
+}
+
+struct CirclePeopleSectionView<T: Person>: View {
+    var people: [T]
+    var body: some View {
+        ScrollView(.horizontal, showsIndicators: false){
+            HStack{
+                Spacer()
+                    .frame(width: 10)
+                ForEach(people) { person in
+                    if person.profilePath != nil {
+                        NavigationLink(
+                            destination: NavigationLazyView(PersonDetailsView(for: person.id)),
+                            label: {
+                                VStack {
+                                    RemoteImage(url: ImageEndpoint(path: person.profilePath ?? "").url)
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: 100, height: 100)
+                                        .clipShape(Circle())
+                                    
+                                    Text(person.name)
+                                        .frame(width: 100)
+                                        .clipped()
+                                    
+                                }
+                                .foregroundColor(.black)
+                            })
+                    }
+                }
+                Spacer()
+                    .frame(width: 10)
+            }
+        }
     }
 }

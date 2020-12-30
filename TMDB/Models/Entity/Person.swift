@@ -8,7 +8,7 @@
 import Foundation
 
 // MARK: - maybe should be a struct?
-protocol Person {
+protocol Person: Identifiable {
     var id: Int { set get }
     var name: String { set get }
     var profilePath: String? { set get  }

@@ -8,28 +8,31 @@
 import SwiftUI
 
 struct TheaterView: View {
-    @Binding var selectedSeats: [Seat]
+    @ObservedObject var theater = Theater()
     var body: some View {
         ZStack {
-            Rectangle()
-                .fill(LinearGradient(gradient: Gradient(colors: [.purple, .clear]), startPoint: .init(x: 0.5, y: 0), endPoint: .init(x: 0.5, y: 0.5)))
-                .frame(height: 420)
-                .clipShape(ScreenShape(isClip: true))
-                .cornerRadius(20)
-            
             ScreenShape()
                 .stroke(style: StrokeStyle(lineWidth: 5, lineCap: .square))
                 .frame(height: 420)
                 .foregroundColor(Color.blue)
+            
+            Rectangle()
+                .fill(LinearGradient(gradient: Gradient(colors: [.purple, Color.purple.opacity(0.2), .clear]), startPoint: .init(x: 0.5, y: 0), endPoint: .init(x: 0.5, y: 0.5)))
+                .frame(height: 420)
+                .clipShape(ScreenShape(isClip: true))
+                .cornerRadius(20)
+            
             
             VStack{
                 createFrontRows()
                 createBackRows()
                 HStack{
                     ChairLegend(text: "Selected", color: .blue)
-                    ChairLegend(text: "Reserved", color: .pink)
+                    ChairLegend(text: "Reserved", color: .pink) 
                     ChairLegend(text: "Available", color: .gray)
-                }.padding(.horizontal, 20).padding(.top)
+                }
+                .padding(.horizontal, 20)
+                .padding(.top)
             }
             
         }
@@ -45,9 +48,9 @@ struct TheaterView: View {
                     HStack{
                         ForEach(0..<numbersPerRow, id: \.self){ number in
                             ChairView(width: 30, accentColor: .blue, seat: Seat(id: UUID(), row: row + 1, number: number + 1) , onSelect: { seat in
-                                self.selectedSeats.append(seat)
+                                self.theater.selectedSeats.append(seat)
                             }, onDeselect: { seat in
-                                self.selectedSeats.removeAll(where: {$0.id == seat.id})
+                                self.theater.selectedSeats.removeAll(where: {$0.id == seat.id})
                             })
                         }
                     }
@@ -65,9 +68,9 @@ struct TheaterView: View {
                     HStack{
                         ForEach(0..<numbersPerRow, id: \.self){ number in
                             ChairView(width: 30, accentColor: .blue, seat: Seat(id: UUID(), row: row + 3, number: number + 15) , onSelect: { seat in
-                                self.selectedSeats.append(seat)
+                                self.theater.selectedSeats.append(seat)
                             }, onDeselect: { seat in
-                                self.selectedSeats.removeAll(where: {$0.number == seat.number})
+                                self.theater.selectedSeats.removeAll(where: {$0.number == seat.number})
                             })
                         }
                     }
@@ -78,7 +81,7 @@ struct TheaterView: View {
 
 struct TheaterView_Previews: PreviewProvider {
     static var previews: some View {
-        TheaterView(selectedSeats: .constant([]))
+        TheaterView()
     }
 }
 
