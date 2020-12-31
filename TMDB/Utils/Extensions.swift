@@ -35,25 +35,24 @@ extension UIApplication {
 }
 
 
-// MARK: - Review
-extension Date{
-     static var thisYear: Int {
-        let formatter = DateFormatter()
+extension Date {
+    static var thisYear: Int {
+        let formatter: DateFormatter = DateFormatter()
         formatter.dateFormat = "yyyy"
-        let component = formatter.string(from: Date())
+        let date: String = formatter.string(from: Date())
         
-        if let value = Int(component) {
+        if let value = Int(date) {
             return value
         }
         return 0
     }
     
     private static func getComponent(date: Date, format: String) -> String {
-           let formatter = DateFormatter()
-           formatter.dateFormat = format
+        let formatter = DateFormatter()
+        formatter.dateFormat = format
         formatter.locale = Locale.autoupdatingCurrent
-           let component = formatter.string(from: date)
-           return component
+        let component = formatter.string(from: date)
+        return component
     }
     
     static func getFollowingThirtyDays(for month: Int = 1) -> [TicketDate]{
@@ -61,8 +60,8 @@ extension Date{
         let dateComponents = DateComponents(year: thisYear , month: month)
         let calendar = Calendar.current
         let date = calendar.date(from: dateComponents)!
-
-        let range = calendar.range(of: .day, in: .month, for: date)!
+        
+        let range: Range<Int> = calendar.range(of: .day, in: .month, for: date)!
         
         for i in range {
             guard let fullDate = calendar.date(byAdding: DateComponents(day: i) , to: Date()) else { continue }
@@ -74,6 +73,21 @@ extension Date{
         }
         
         return dates
-        
+    }
+    
+    static func getRemainingHours() -> [String] {
+        var results: [String] = []
+        let calendar = Calendar.current
+        let today = calendar.dateComponents([.day, .hour], from: Date())
+        let todaysHours = DateComponents(day: today.day, hour: today.hour)
+        let hourRange = calendar.range(of: .hour, in: .day, for: Calendar.current.date(from: todaysHours)!)!
+
+        for i in hourRange {
+            let fullHour = calendar.date(byAdding: DateComponents(hour: i), to: Date())!
+            let formatter = DateFormatter()
+            formatter.dateFormat = "hh:mm a"
+            results.append(formatter.string(from: fullHour))
+        }
+        return results
     }
 }

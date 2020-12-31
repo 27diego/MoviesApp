@@ -20,7 +20,7 @@ struct Seat: Identifiable {
 }
 
 
-struct TicketDate: Equatable {
+struct TicketDate: Equatable, Identifiable {
     internal init(day: String, month: String, year: String) {
         self.day = day
         self.month = month
@@ -30,4 +30,5 @@ struct TicketDate: Equatable {
     var day: String
     var month: String
     var year: String
+    var id = UUID()
 }

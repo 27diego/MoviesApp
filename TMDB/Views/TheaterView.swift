@@ -10,33 +10,85 @@ import SwiftUI
 struct TheaterView: View {
     @ObservedObject var theater = Theater()
     var body: some View {
-        ZStack {
-            ScreenShape()
-                .stroke(style: StrokeStyle(lineWidth: 5, lineCap: .square))
-                .frame(height: 420)
-                .foregroundColor(Color.blue)
-            
-            Rectangle()
-                .fill(LinearGradient(gradient: Gradient(colors: [.purple, Color.purple.opacity(0.2), .clear]), startPoint: .init(x: 0.5, y: 0), endPoint: .init(x: 0.5, y: 0.5)))
-                .frame(height: 420)
-                .clipShape(ScreenShape(isClip: true))
-                .cornerRadius(20)
-            
-            
-            VStack{
-                createFrontRows()
-                createBackRows()
-                HStack{
-                    ChairLegend(text: "Selected", color: .blue)
-                    ChairLegend(text: "Reserved", color: .pink) 
-                    ChairLegend(text: "Available", color: .gray)
+        NavigationView {
+            ScrollView {
+                VStack {
+                    VStack {
+                        ZStack {
+                            ScreenShape()
+                                .stroke(style: StrokeStyle(lineWidth: 5, lineCap: .square))
+                                .frame(height: 420)
+                                .foregroundColor(Color.blue)
+                            
+                            Rectangle()
+                                .fill(LinearGradient(gradient: Gradient(colors: [.purple, Color.purple.opacity(0.2), .clear]), startPoint: .init(x: 0.5, y: 0), endPoint: .init(x: 0.5, y: 0.5)))
+                                .frame(height: 420)
+                                .clipShape(ScreenShape(isClip: true))
+                                .cornerRadius(20)
+                            
+                            
+                            VStack{
+                                createFrontRows()
+                                createBackRows()
+                                HStack{
+                                    ChairLegend(text: "Selected", color: .blue)
+                                    ChairLegend(text: "Reserved", color: .pink)
+                                    ChairLegend(text: "Available", color: .gray)
+                                }
+                                .padding(.horizontal, 20)
+                                .padding(.top)
+                            }
+                        }
+                    }
+                    
+                    
+                    VStack(alignment: .leading) {
+                        Text("Dates")
+                            .font(.headline)
+                            .padding(.leading)
+                        ScrollView(.horizontal, showsIndicators: false){
+                            HStack {
+                                Spacer()
+                                    .frame(width: 16)
+                                ForEach(theater.dates) { date in
+                                    DateView(date: date, isSelected: theater.selectedDate == date) { date in
+                                        theater.selectDate(date: date)
+                                    }
+                                }
+                                Spacer()
+                                    .frame(width: 16)
+                            }
+                            
+                        }.navigationBarTitle("Choose Seats")
+                    }
+                    
+                    VStack(alignment: .leading) {
+                        Text("Times")
+                            .font(.headline)
+                            .padding(.leading)
+                        ScrollView(.horizontal, showsIndicators: false){
+                            HStack {
+                                Spacer()
+                                    .frame(width: 16)
+                                ForEach(theater.hours, id: \.self) { hour in
+                                    TimeView(hour: hour, isSelected: theater.selectedHour == hour){ hour in
+                                        theater.selectHour(hour: hour)
+                                    }
+                                }
+                                Spacer()
+                                    .frame(width: 16)
+                            }
+                            
+                        }.navigationBarTitle("Choose Seats")
+                    }
+                    
+                    Button("Continue"){}
+                        .buttonStyle(CustomButtonStyle(color: .blue))
+                        .padding([.horizontal, .top])
+                        .disabled(true)
                 }
-                .padding(.horizontal, 20)
-                .padding(.top)
             }
         }
-        .navigationBarTitle("Choose Seats")
-
     }
     
     fileprivate func createFrontRows() -> some View {
@@ -135,5 +187,49 @@ struct ChairLegend: View {
                 .font(.subheadline)
                 .foregroundColor(color)
         }.frame(maxWidth: .infinity)
+    }
+}
+
+
+struct DateView: View {
+    var date: TicketDate = TicketDate(day: "", month: "", year: "")
+    var isSelected: Bool
+    var onSelect: ((TicketDate) -> ()) = { _ in }
+    
+    var body: some View {
+        VStack {
+            Text("\(date.day)")
+                .font(.title)
+                .bold()
+                .foregroundColor(isSelected ? .white : .black)
+            
+            Text("\(date.month)/\(date.year)")
+                .foregroundColor(isSelected ? .white : .black)
+                .font(.callout)
+                .padding(.top, 10)
+        }
+        .padding()
+        .background(isSelected ? Color.blue : Color.gray.opacity(0.3))
+        .clipShape(DateShape())
+        .cornerRadius(10)
+        .onTapGesture {
+            self.onSelect(self.date)
+        }
+    }
+}
+
+struct TimeView: View {
+    var hour: String
+    var isSelected: Bool
+    var onSelect: ((String)->()) = { _ in }
+    
+    var body: some View {
+        Text(hour)
+            .foregroundColor(isSelected ? .white : .black)
+            .padding()
+            .background( isSelected ? Color.blue : Color.gray.opacity(0.3))
+            .cornerRadius(10).onTapGesture {
+                self.onSelect(hour)
+            }
     }
 }
