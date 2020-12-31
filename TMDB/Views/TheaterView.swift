@@ -34,8 +34,9 @@ struct TheaterView: View {
                 .padding(.horizontal, 20)
                 .padding(.top)
             }
-            
         }
+        .navigationBarTitle("Choose Seats")
+
     }
     
     fileprivate func createFrontRows() -> some View {

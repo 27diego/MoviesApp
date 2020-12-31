@@ -37,7 +37,6 @@ extension UIApplication {
 
 // MARK: - Review
 extension Date{
-    
      static var thisYear: Int {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy"
@@ -65,7 +64,7 @@ extension Date{
 
         let range = calendar.range(of: .day, in: .month, for: date)!
         
-        for i in range{
+        for i in range {
             guard let fullDate = calendar.date(byAdding: DateComponents(day: i) , to: Date()) else { continue }
             let d = getComponent(date: fullDate, format: "dd")
             let m = getComponent(date: fullDate, format: "MM")

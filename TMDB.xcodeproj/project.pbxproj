@@ -129,11 +129,6 @@
 		8B163D0B258AC14E008AA7FB /* Entity */ = {
 			isa = PBXGroup;
 			children = (
-				8B594A66258FFC670001F52C /* Movie.swift */,
-				8B594A6B258FFD870001F52C /* MovieDetails.swift */,
-				8B594A70258FFF0B0001F52C /* Person.swift */,
-				8BCFEB162594070C00B0C5D7 /* Theater.swift */,
-				8B5CC3F02597F21D00295205 /* Search.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -220,6 +215,11 @@
 		8B365EED258ABF18003BB64E /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				8B594A66258FFC670001F52C /* Movie.swift */,
+				8B594A6B258FFD870001F52C /* MovieDetails.swift */,
+				8B594A70258FFF0B0001F52C /* Person.swift */,
+				8BCFEB162594070C00B0C5D7 /* Theater.swift */,
+				8B5CC3F02597F21D00295205 /* Search.swift */,
 				8B163D0B258AC14E008AA7FB /* Entity */,
 			);
 			path = Models;

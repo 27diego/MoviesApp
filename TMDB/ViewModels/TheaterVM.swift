@@ -10,5 +10,8 @@ import Combine
 
 class Theater: ObservableObject {
     @Published var selectedSeats: [Seat] = .init()
-    @Published var selectedDate: [TicketDate] = .init()
+    @Published var selectedDate: TicketDate = .init(day: "", month: "", year: "")
+    @Published var selectedHourIndex: Int = -1
+    
+    var dates = Date.getFollowingThirtyDays()
 }
