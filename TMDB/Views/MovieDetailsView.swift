@@ -98,7 +98,7 @@ struct MovieDetailsView: View {
                     }
                     
                     NavigationLink(
-                        destination: NavigationLazyView(TheaterView()),
+                        destination: NavigationLazyView(TheaterView(for: movieDetails.id)),
                         label: {
                             Text("Reserve Seats")
                         })

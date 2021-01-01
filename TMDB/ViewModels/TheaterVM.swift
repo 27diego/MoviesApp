@@ -14,11 +14,13 @@ class Theater: ObservableObject {
     @Published var selectedHour: String = ""
     @Published var continueButton: Bool = false
     
+    var movie: Int
     var dates: [TicketDate] = Date.getFollowingThirtyDays()
     var hours: [String] = Date.getRemainingHours()
     var cancellables: Set<AnyCancellable> = .init()
     
-    init(){
+    init(for movie: Int){
+        self.movie = movie
         setUpPublishers()
     }
     

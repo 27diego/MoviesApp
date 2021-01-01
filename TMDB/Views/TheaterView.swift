@@ -8,7 +8,10 @@
 import SwiftUI
 
 struct TheaterView: View {
-    @ObservedObject var theater = Theater()
+    @ObservedObject var theater: Theater
+    init(for movie: Int) {
+        theater = Theater(for: movie)
+    }
     var body: some View {
         NavigationView {
             ScrollView {
@@ -139,7 +142,7 @@ struct TheaterView: View {
 
 struct TheaterView_Previews: PreviewProvider {
     static var previews: some View {
-        TheaterView()
+        TheaterView(for: 100)
     }
 }
 
