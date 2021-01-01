@@ -22,8 +22,19 @@ class Theater: ObservableObject {
         setUpPublishers()
     }
     
-    func setUpPublishers() {
-        //use combine latest to validate fields and enable continue buttont
+    func setUpPublishers() {        
+        Publishers.CombineLatest3($selectedSeats, $selectedDate, $selectedHour)
+            .map { seats, date, hour -> Bool in
+                if seats.count > 0 && seats.count < 5 && date.day != "" && hour != ""  {
+                    return false
+                }
+                
+                return true
+            }
+            .sink { res in
+                self.continueButton = res
+            }
+            .store(in: &cancellables)
     }
     
     func selectDate(date: TicketDate) {

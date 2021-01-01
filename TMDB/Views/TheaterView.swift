@@ -82,10 +82,15 @@ struct TheaterView: View {
                         }.navigationBarTitle("Choose Seats")
                     }
                     
-                    Button("Continue"){}
-                        .buttonStyle(CustomButtonStyle(color: .blue))
+                    NavigationLink(
+                        destination: NavigationLazyView(MainView()),
+                        label: {
+                            Text("Continue")
+                        })
+                        .buttonStyle(CustomButtonStyle(color: theater.continueButton ? .gray : .blue))
                         .padding([.horizontal, .top])
-                        .disabled(true)
+                        .disabled(theater.continueButton)
+                    
                 }
             }
         }
