@@ -33,10 +33,7 @@ class Theater: ObservableObject {
                 
                 return true
             }
-            .sink { res in
-                self.continueButton = res
-            }
-            .store(in: &cancellables)
+            .assign(to: &$continueButton)
     }
     
     func selectDate(date: TicketDate) {
