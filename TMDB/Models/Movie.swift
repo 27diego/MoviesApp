@@ -18,6 +18,16 @@ protocol Movie {
 }
 
 struct MovieModel: Codable, Identifiable, Movie {
+    internal init(id: Int, title: String, popularity: Double, releaseDate: String?, backdropPath: String? = nil, posterPath: String? = nil, overview: String) {
+        self.id = id
+        self.title = title
+        self.popularity = popularity
+        self.releaseDate = releaseDate
+        self.backdropPath = backdropPath
+        self.posterPath = posterPath
+        self.overview = overview
+    }
+    
     let id: Int
     let title: String
     let popularity: Double

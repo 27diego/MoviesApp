@@ -31,4 +31,24 @@ struct TicketDate: Equatable, Identifiable {
     var month: String
     var year: String
     var id = UUID()
+    
+    var wholeDate: String {
+        let components = DateComponents(year: Int(year), month: Int(month), day: Int(day))
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        let date = formatter.string(from: Calendar.current.date(from: components) ?? Date())
+        return date
+    }
+}
+
+
+struct TicketModel {
+    var id = UUID()
+    var movie: MovieModel
+    var date: String
+    var time: String
+    var screen: Int
+    var row: Int
+    var seat: Int
+    var price: Double
 }

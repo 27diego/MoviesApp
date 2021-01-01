@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct TheaterView: View {
-    @ObservedObject var theater: Theater
-    init(for movie: Int) {
-        theater = Theater(for: movie)
+    @ObservedObject var theater: TheaterVM
+    init(for movie: MovieModel) {
+        theater = TheaterVM(for: movie)
     }
     var body: some View {
         NavigationView {
@@ -86,7 +86,7 @@ struct TheaterView: View {
                     }
                     
                     NavigationLink(
-                        destination: NavigationLazyView(MainView()),
+                        destination: OrderView().environmentObject(theater),
                         label: {
                             Text("Continue")
                         })
@@ -142,7 +142,7 @@ struct TheaterView: View {
 
 struct TheaterView_Previews: PreviewProvider {
     static var previews: some View {
-        TheaterView(for: 100)
+        TheaterView(for: MovieModel(id: 100, title: "", popularity: 0.0, releaseDate: "", overview: "") )
     }
 }
 

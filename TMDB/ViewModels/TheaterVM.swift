@@ -8,18 +8,18 @@
 import Foundation
 import Combine
 
-class Theater: ObservableObject {
+class TheaterVM: ObservableObject {
     @Published var selectedSeats: [Seat] = .init()
     @Published var selectedDate: TicketDate = .init(day: "", month: "", year: "")
     @Published var selectedHour: String = ""
     @Published var continueButton: Bool = false
     
-    var movie: Int
+    var movie: MovieModel
     var dates: [TicketDate] = Date.getFollowingThirtyDays()
     var hours: [String] = Date.getRemainingHours()
     var cancellables: Set<AnyCancellable> = .init()
     
-    init(for movie: Int){
+    init(for movie: MovieModel){
         self.movie = movie
         setUpPublishers()
     }
@@ -51,5 +51,15 @@ class Theater: ObservableObject {
         else {
             selectedHour = hour
         }
+    }
+    
+    func getTickets() -> [TicketModel] {
+        var tickets: [TicketModel] = .init()
+        
+        for seat in self.selectedSeats {
+            tickets.append(TicketModel(movie: self.movie, date: selectedDate.wholeDate, time: selectedHour, screen: 10, row: seat.row, seat: seat.number, price: 12.99))
+        }
+        
+        return tickets
     }
 }
