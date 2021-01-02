@@ -42,7 +42,7 @@ struct TicketDate: Equatable, Identifiable {
 }
 
 
-struct TicketModel {
+struct TicketModel: Identifiable {
     var id = UUID()
     var movie: MovieModel
     var date: String

@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-struct TheaterOrderConfirmationView: View {
-    @EnvironmentObject var theater: TheaterVM
+struct OrderPaymentView: View {
+    
     var body: some View {
         Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
     }
@@ -16,6 +16,6 @@ struct TheaterOrderConfirmationView: View {
 
 struct TheaterOrderConfirmationView_Previews: PreviewProvider {
     static var previews: some View {
-        TheaterOrderConfirmationView()
+        OrderPaymentView()
     }
 }

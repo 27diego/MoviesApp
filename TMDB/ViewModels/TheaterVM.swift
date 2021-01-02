@@ -62,4 +62,8 @@ class TheaterVM: ObservableObject {
         
         return tickets
     }
+    
+    func getTotal() -> Double {
+        return 12.95
+    }
 }

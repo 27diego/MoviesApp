@@ -23,6 +23,7 @@
 		8B3C53E32594301000FADC15 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3C53E22594301000FADC15 /* SearchView.swift */; };
 		8B3C53E82594548800FADC15 /* SearchVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3C53E72594548800FADC15 /* SearchVM.swift */; };
 		8B4578C8259FA54600B77FD8 /* TicketShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4578C7259FA54600B77FD8 /* TicketShape.swift */; };
+		8B4578CD25A0211F00B77FD8 /* OrderPaymentVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4578CC25A0211F00B77FD8 /* OrderPaymentVM.swift */; };
 		8B593DAA2592AB3800B9DB1F /* Styles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B593DA92592AB3800B9DB1F /* Styles.swift */; };
 		8B594A5D258FF2790001F52C /* EndPoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B594A5C258FF2790001F52C /* EndPoints.swift */; };
 		8B594A62258FF45D0001F52C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B594A61258FF45D0001F52C /* Extensions.swift */; };
@@ -34,7 +35,7 @@
 		8B5CC3F12597F21D00295205 /* Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5CC3F02597F21D00295205 /* Search.swift */; };
 		8B7AF0CF258C4EED00DE2BC1 /* UtilViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7AF0CE258C4EED00DE2BC1 /* UtilViews.swift */; };
 		8B8C111D259E53990050823B /* DateShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8C111C259E53990050823B /* DateShape.swift */; };
-		8B8C1122259EAA790050823B /* TheaterOrderConfirmationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8C1121259EAA790050823B /* TheaterOrderConfirmationView.swift */; };
+		8B8C1122259EAA790050823B /* OrderPaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8C1121259EAA790050823B /* OrderPaymentView.swift */; };
 		8B8C1127259EAB470050823B /* OrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8C1126259EAB470050823B /* OrderView.swift */; };
 		8B979C852591806B00A7131A /* MovieDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B979C842591806B00A7131A /* MovieDetailsView.swift */; };
 		8B979C8D259183A800A7131A /* SeeMoviesSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B979C8C259183A800A7131A /* SeeMoviesSheetView.swift */; };
@@ -86,6 +87,7 @@
 		8B3C53E22594301000FADC15 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		8B3C53E72594548800FADC15 /* SearchVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchVM.swift; sourceTree = "<group>"; };
 		8B4578C7259FA54600B77FD8 /* TicketShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketShape.swift; sourceTree = "<group>"; };
+		8B4578CC25A0211F00B77FD8 /* OrderPaymentVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderPaymentVM.swift; sourceTree = "<group>"; };
 		8B593DA92592AB3800B9DB1F /* Styles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styles.swift; sourceTree = "<group>"; };
 		8B594A5C258FF2790001F52C /* EndPoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPoints.swift; sourceTree = "<group>"; };
 		8B594A61258FF45D0001F52C /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -97,7 +99,7 @@
 		8B5CC3F02597F21D00295205 /* Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Search.swift; sourceTree = "<group>"; };
 		8B7AF0CE258C4EED00DE2BC1 /* UtilViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilViews.swift; sourceTree = "<group>"; };
 		8B8C111C259E53990050823B /* DateShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateShape.swift; sourceTree = "<group>"; };
-		8B8C1121259EAA790050823B /* TheaterOrderConfirmationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheaterOrderConfirmationView.swift; sourceTree = "<group>"; };
+		8B8C1121259EAA790050823B /* OrderPaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderPaymentView.swift; sourceTree = "<group>"; };
 		8B8C1126259EAB470050823B /* OrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderView.swift; sourceTree = "<group>"; };
 		8B979C842591806B00A7131A /* MovieDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsView.swift; sourceTree = "<group>"; };
 		8B979C8C259183A800A7131A /* SeeMoviesSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeeMoviesSheetView.swift; sourceTree = "<group>"; };
@@ -216,7 +218,7 @@
 				8BCFEB11259406E300B0C5D7 /* TheaterView.swift */,
 				8B365EBB258ABEDD003BB64E /* HomeView.swift */,
 				8B3C53E22594301000FADC15 /* SearchView.swift */,
-				8B8C1121259EAA790050823B /* TheaterOrderConfirmationView.swift */,
+				8B8C1121259EAA790050823B /* OrderPaymentView.swift */,
 				8B8C1126259EAB470050823B /* OrderView.swift */,
 			);
 			path = Views;
@@ -244,6 +246,7 @@
 				8B03905C2592B01C003CB2E8 /* PersonVM.swift */,
 				8B3C53E72594548800FADC15 /* SearchVM.swift */,
 				8B21602C259C248D00402DA0 /* TheaterVM.swift */,
+				8B4578CC25A0211F00B77FD8 /* OrderPaymentVM.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -423,7 +426,7 @@
 				8B3C53E32594301000FADC15 /* SearchView.swift in Sources */,
 				8B594A5D258FF2790001F52C /* EndPoints.swift in Sources */,
 				8B594A67258FFC670001F52C /* Movie.swift in Sources */,
-				8B8C1122259EAA790050823B /* TheaterOrderConfirmationView.swift in Sources */,
+				8B8C1122259EAA790050823B /* OrderPaymentView.swift in Sources */,
 				8B594A83259013E90001F52C /* MoviesVM.swift in Sources */,
 				8B5CC3F12597F21D00295205 /* Search.swift in Sources */,
 				8B979C8D259183A800A7131A /* SeeMoviesSheetView.swift in Sources */,
@@ -438,6 +441,7 @@
 				8BCFEB12259406E300B0C5D7 /* TheaterView.swift in Sources */,
 				8B4578C8259FA54600B77FD8 /* TicketShape.swift in Sources */,
 				8B365EBA258ABEDD003BB64E /* TMDBApp.swift in Sources */,
+				8B4578CD25A0211F00B77FD8 /* OrderPaymentVM.swift in Sources */,
 				8BCFEB1D259408AB00B0C5D7 /* ScreenShape.swift in Sources */,
 				8B594A7E259011860001F52C /* NetworkResponse.swift in Sources */,
 				8B03905D2592B01C003CB2E8 /* PersonVM.swift in Sources */,
