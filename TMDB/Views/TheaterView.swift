@@ -13,7 +13,6 @@ struct TheaterView: View {
         theater = TheaterVM(for: movie)
     }
     var body: some View {
-        NavigationView {
             ScrollView {
                 VStack {
                     VStack {
@@ -96,7 +95,6 @@ struct TheaterView: View {
                     
                 }
             }
-        }
     }
     
     fileprivate func createFrontRows() -> some View {

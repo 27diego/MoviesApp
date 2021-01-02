@@ -13,9 +13,7 @@ struct OrderPaymentView: View {
         VStack {
             Form {
                 VStack(alignment: .leading) {
-                    Section {
-                        Text("Select Payment Method")
-                            .foregroundColor(.gray)
+                    Section(header: Text("Select Payment Method").foregroundColor(.gray)) {
                         Picker("", selection: $orderPayment.paymentMethod) {
                             ForEach(PaymentTypeEnum.allCases, id: \.self){ method in
                                 Text(method.description).tag(method)
@@ -26,7 +24,7 @@ struct OrderPaymentView: View {
                 }
                 .padding(10)
                 
-                Section(header: Text(orderPayment.paymentMethod == .paypal ? "PayPal account" : "Card Payment"), footer: Button("Pay"){}
+                Section(header: Text(orderPayment.paymentMethod == .paypal ? "PayPal account" : "Card Payment"), footer: Button("Pay"){}.padding(.vertical)
                             .buttonStyle(CustomButtonStyle(color: .blue))) {
                     if orderPayment.paymentMethod == .masterCard {
                         CardFormView(cardHolderName: $orderPayment.cardHolderName, cardNumber: $orderPayment.cardNumber, expireDate: $orderPayment.expireDate, cvv: $orderPayment.cvv, image: "MasterCard")

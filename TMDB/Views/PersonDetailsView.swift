@@ -13,7 +13,7 @@ struct PersonDetailsView: View {
         person = PersonDetailsVM(for: id)
     }
     var body: some View {
-        NavigationView {
+//        NavigationView {
             ScrollView(showsIndicators: false) {
                 VStack {
                     Color.clear.overlay(
@@ -60,7 +60,7 @@ struct PersonDetailsView: View {
             }
             .navigationBarTitle("")
             .navigationBarHidden(true)
-        }
+//        }
     }
 }
 
