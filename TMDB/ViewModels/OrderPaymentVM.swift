@@ -21,8 +21,19 @@ class OrderPaymentVM: ObservableObject {
     @Published var paypalUsername: String = ""
     @Published var paypalPassword: String = ""
     
+    
     init(for price: Double){
         self.price = price
+    }
+    
+    func checkOut() -> Void {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.isSendingPending = true
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            self.paymentSent = true
+        }
     }
 }
 

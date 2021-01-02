@@ -11,38 +11,64 @@ struct OrderPaymentView: View {
     @ObservedObject var orderPayment: OrderPaymentVM
     @Environment(\.rootPresentationMode) var rootPresenationMode: Binding<RootPresentationMode>
     var body: some View {
-        VStack {
-            Form {
-                VStack(alignment: .leading) {
-                    Section(header: Text("Select Payment Method").foregroundColor(.gray)) {
-                        Picker("", selection: $orderPayment.paymentMethod) {
-                            ForEach(PaymentTypeEnum.allCases, id: \.self){ method in
-                                Text(method.description).tag(method)
+        ZStack {
+            VStack {
+                Form {
+                    VStack(alignment: .leading) {
+                        Section(header: Text("Select Payment Method").foregroundColor(.gray)) {
+                            Picker("", selection: $orderPayment.paymentMethod) {
+                                ForEach(PaymentTypeEnum.allCases, id: \.self){ method in
+                                    Text(method.description).tag(method)
+                                }
                             }
+                            .pickerStyle(SegmentedPickerStyle())
                         }
-                        .pickerStyle(SegmentedPickerStyle())
                     }
+                    .padding(10)
+                    
+                    Section(header: Text(orderPayment.paymentMethod == .paypal ? "PayPal account" : "Card Payment"), footer: Button("Pay"){ orderPayment.checkOut()  }.padding(.vertical)
+                                .buttonStyle(CustomButtonStyle(color: .blue))) {
+                        if orderPayment.paymentMethod == .masterCard {
+                            CardFormView(cardHolderName: $orderPayment.cardHolderName, cardNumber: $orderPayment.cardNumber, expireDate: $orderPayment.expireDate, cvv: $orderPayment.cvv, image: "MasterCard")
+                        }
+                        else if orderPayment.paymentMethod == .visa {
+                            CardFormView(cardHolderName: $orderPayment.cardHolderName, cardNumber: $orderPayment.cardNumber, expireDate: $orderPayment.expireDate, cvv: $orderPayment.cvv, image: "Visa")
+                        }
+                        else {
+                            
+                            PayPalFormView(paypalUsername: $orderPayment.paypalUsername, paypalPassword: $orderPayment.paypalPassword)
+                        }
+                    }
+                    
                 }
-                .padding(10)
-                
-                Section(header: Text(orderPayment.paymentMethod == .paypal ? "PayPal account" : "Card Payment"), footer: Button("Pay"){ self.rootPresenationMode.wrappedValue.dismiss() }.padding(.vertical)
-                            .buttonStyle(CustomButtonStyle(color: .blue))) {
-                    if orderPayment.paymentMethod == .masterCard {
-                        CardFormView(cardHolderName: $orderPayment.cardHolderName, cardNumber: $orderPayment.cardNumber, expireDate: $orderPayment.expireDate, cvv: $orderPayment.cvv, image: "MasterCard")
-                    }
-                    else if orderPayment.paymentMethod == .visa {
-                        CardFormView(cardHolderName: $orderPayment.cardHolderName, cardNumber: $orderPayment.cardNumber, expireDate: $orderPayment.expireDate, cvv: $orderPayment.cvv, image: "Visa")
-                    }
-                    else {
-                        
-                        PayPalFormView(paypalUsername: $orderPayment.paypalUsername, paypalPassword: $orderPayment.paypalPassword)
-                    }
-                }
+                .animation(.easeInOut)
+            }
+            .navigationBarTitle("Payment")
+            
+            if orderPayment.isSendingPending && !orderPayment.paymentSent {
+                VisualEffectView(uiVisualEffect: UIBlurEffect(style: .systemUltraThinMaterial))
+                    ProgressView("Sending Payment...")
                 
             }
-            .animation(.easeInOut)
+            else if orderPayment.paymentSent == true {
+                    VisualEffectView(uiVisualEffect: UIBlurEffect(style: .light))
+                
+                VStack {
+                    Image(systemName: "checkmark.circle")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 40)
+                    
+                    Text("Payment Sent!")
+                        .onAppear {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                                self.rootPresenationMode.wrappedValue.dismiss()
+                            }
+                        }
+                }
+            }
+            
         }
-        .navigationBarTitle("Payment")
     }
 }
 
