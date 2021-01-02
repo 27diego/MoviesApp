@@ -9,6 +9,7 @@ import SwiftUI
 
 struct OrderPaymentView: View {
     @ObservedObject var orderPayment: OrderPaymentVM
+    @Environment(\.rootPresentationMode) var rootPresenationMode: Binding<RootPresentationMode>
     var body: some View {
         VStack {
             Form {
@@ -24,7 +25,7 @@ struct OrderPaymentView: View {
                 }
                 .padding(10)
                 
-                Section(header: Text(orderPayment.paymentMethod == .paypal ? "PayPal account" : "Card Payment"), footer: Button("Pay"){}.padding(.vertical)
+                Section(header: Text(orderPayment.paymentMethod == .paypal ? "PayPal account" : "Card Payment"), footer: Button("Pay"){ self.rootPresenationMode.wrappedValue.dismiss() }.padding(.vertical)
                             .buttonStyle(CustomButtonStyle(color: .blue))) {
                     if orderPayment.paymentMethod == .masterCard {
                         CardFormView(cardHolderName: $orderPayment.cardHolderName, cardNumber: $orderPayment.cardNumber, expireDate: $orderPayment.expireDate, cvv: $orderPayment.cvv, image: "MasterCard")
