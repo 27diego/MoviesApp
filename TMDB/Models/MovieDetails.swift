@@ -37,7 +37,7 @@ struct MovieDetails: Codable {
         dateFormatterPrint.dateFormat = "MMMM d, yyyy"
 
         let date: Date? = dateFormatterGet.date(from: releaseDate)
-        return dateFormatterPrint.string(from: date!)
+        return dateFormatterPrint.string(from: date ?? Date())
     }
     var formattedRunTime: String? {
         if runtime != nil {

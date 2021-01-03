@@ -11,7 +11,6 @@ struct MovieDetailsView: View {
     @ObservedObject var movieDetails: MovieDetailsVM
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
-    
     init(for id: Int){
         movieDetails = MovieDetailsVM(for: id)
     }

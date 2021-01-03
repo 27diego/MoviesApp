@@ -60,7 +60,7 @@ struct UpcomingSectionView: View {
                     ForEach(movies){ movie in
                         NavigationLink(
                             destination: NavigationLazyView(MovieDetailsView(for: movie.id)),
-                            isActive: $isActive,
+//                            isActive: $isActive,
                             label: {
                                 SpotlightCardView(imageUrl: movie.backdropPath ?? "", title: movie.title)
                             })
@@ -103,7 +103,7 @@ struct PopularSectionView: View {
                             
                             NavigationLink(
                                 destination: NavigationLazyView(MovieDetailsView(for: movie.id)),
-                                isActive: $isActive,
+//                                isActive: $isActive,
                                 label: {
                                     PosterCardView(imageUrl: movie.posterPath ?? "")
                                 })
@@ -152,7 +152,7 @@ struct MovieGridSectionView: View {
                     ForEach(movies) { movie in
                         NavigationLink(
                             destination: NavigationLazyView(MovieDetailsView(for: movie.id)),
-                            isActive: $isActive,
+//                            isActive: $isActive,
                             label: {
                                 SmallMoviePillView(movie: movie)
                             })
