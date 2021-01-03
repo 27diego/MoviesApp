@@ -9,9 +9,6 @@ import SwiftUI
 
 struct PersonDetailsView: View {
     @ObservedObject var person: PersonDetailsVM
-    init(for id: Int){
-        person = PersonDetailsVM(for: id)
-    }
     var body: some View {
             ScrollView(showsIndicators: false) {
                 VStack {
@@ -34,7 +31,7 @@ struct PersonDetailsView: View {
                         HStack(spacing: 20) {
                             ForEach(person.topMovies) { movie in
                               NavigationLink(
-                                destination: NavigationLazyView(MovieDetailsView(for: movie.id)),
+                                destination: NavigationLazyView(MovieDetailsView(movieDetails: MovieDetailsVM(for: movie.id))),
                                 label: {
                                     PosterCardView(imageUrl: movie.posterPath)
                                         .frame(width: 110, height: 200)
@@ -62,6 +59,6 @@ struct PersonDetailsView: View {
 
 struct PersonDetailsView_Previews: PreviewProvider {
     static var previews: some View {
-        PersonDetailsView(for: 90633)
+        PersonDetailsView(person: PersonDetailsVM(for: 100))
     }
 }

@@ -9,9 +9,6 @@ import SwiftUI
 
 struct TheaterView: View {
     @ObservedObject var theater: TheaterVM
-    init(for movie: MovieModel) {
-        theater = TheaterVM(for: movie)
-    }
     var body: some View {
             ScrollView {
                 VStack {
@@ -90,7 +87,7 @@ struct TheaterView: View {
                             Text("Continue")
                         })
                         .buttonStyle(CustomButtonStyle(color: theater.continueButton ? .gray : .blue))
-                        .padding([.horizontal, .top])
+                        .padding()
                         .disabled(theater.continueButton)
                     
                 }
@@ -140,7 +137,7 @@ struct TheaterView: View {
 
 struct TheaterView_Previews: PreviewProvider {
     static var previews: some View {
-        TheaterView(for: MovieModel(id: 100, title: "", popularity: 0.0, releaseDate: "", overview: "") )
+        TheaterView(theater: TheaterVM(for: MovieModel(id: 100, title: "", popularity: 0.0, releaseDate: "", overview: "")) )
     }
 }
 

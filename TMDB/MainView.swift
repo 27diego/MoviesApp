@@ -11,7 +11,7 @@ struct MainView: View {
     var body: some View {
         // MARK: - customize tabview
         TabView {
-            HomeView()
+            HomeView(movies: Movies())
                 .tabItem {
                     VStack{
                         Image(systemName: "house.circle.fill")
@@ -20,7 +20,7 @@ struct MainView: View {
                         Text("House")
                     }
                 }
-            SearchView()
+            SearchView(search: SearchVM())
                 .tabItem {
                     VStack {
                         Image(systemName: "magnifyingglass.circle.fill")

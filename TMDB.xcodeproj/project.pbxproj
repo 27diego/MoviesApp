@@ -33,6 +33,8 @@
 		8B594A71258FFF0B0001F52C /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B594A70258FFF0B0001F52C /* Person.swift */; };
 		8B594A7E259011860001F52C /* NetworkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B594A7D259011860001F52C /* NetworkResponse.swift */; };
 		8B594A83259013E90001F52C /* MoviesVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B594A82259013E90001F52C /* MoviesVM.swift */; };
+		8B5CA37025A16E6A0051194F /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5CA36F25A16E6A0051194F /* SignInView.swift */; };
+		8B5CA37825A16E8E0051194F /* SignInVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5CA37725A16E8E0051194F /* SignInVM.swift */; };
 		8B5CC3F12597F21D00295205 /* Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5CC3F02597F21D00295205 /* Search.swift */; };
 		8B7AF0CF258C4EED00DE2BC1 /* UtilViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7AF0CE258C4EED00DE2BC1 /* UtilViews.swift */; };
 		8B8C111D259E53990050823B /* DateShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8C111C259E53990050823B /* DateShape.swift */; };
@@ -45,6 +47,7 @@
 		8BCFEB172594070C00B0C5D7 /* Theater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BCFEB162594070C00B0C5D7 /* Theater.swift */; };
 		8BCFEB1D259408AB00B0C5D7 /* ScreenShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BCFEB1C259408AB00B0C5D7 /* ScreenShape.swift */; };
 		8BD363552590213800C77CF9 /* MovieCardViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD363542590213800C77CF9 /* MovieCardViews.swift */; };
+		8BE90D5625A26D0800222FE4 /* PeopleViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE90D5525A26D0800222FE4 /* PeopleViews.swift */; };
 		8BEB5128258D4FC500B8C6FC /* LazyLoadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BEB5127258D4FC500B8C6FC /* LazyLoadView.swift */; };
 /* End PBXBuildFile section */
 
@@ -98,6 +101,8 @@
 		8B594A70258FFF0B0001F52C /* Person.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
 		8B594A7D259011860001F52C /* NetworkResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkResponse.swift; sourceTree = "<group>"; };
 		8B594A82259013E90001F52C /* MoviesVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesVM.swift; sourceTree = "<group>"; };
+		8B5CA36F25A16E6A0051194F /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
+		8B5CA37725A16E8E0051194F /* SignInVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInVM.swift; sourceTree = "<group>"; };
 		8B5CC3F02597F21D00295205 /* Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Search.swift; sourceTree = "<group>"; };
 		8B7AF0CE258C4EED00DE2BC1 /* UtilViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilViews.swift; sourceTree = "<group>"; };
 		8B8C111C259E53990050823B /* DateShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateShape.swift; sourceTree = "<group>"; };
@@ -110,6 +115,7 @@
 		8BCFEB162594070C00B0C5D7 /* Theater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theater.swift; sourceTree = "<group>"; };
 		8BCFEB1C259408AB00B0C5D7 /* ScreenShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenShape.swift; sourceTree = "<group>"; };
 		8BD363542590213800C77CF9 /* MovieCardViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCardViews.swift; sourceTree = "<group>"; };
+		8BE90D5525A26D0800222FE4 /* PeopleViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleViews.swift; sourceTree = "<group>"; };
 		8BEB5127258D4FC500B8C6FC /* LazyLoadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyLoadView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -231,6 +237,7 @@
 				8B3C53E22594301000FADC15 /* SearchView.swift */,
 				8B8C1121259EAA790050823B /* OrderPaymentView.swift */,
 				8B8C1126259EAB470050823B /* OrderView.swift */,
+				8B5CA36F25A16E6A0051194F /* SignInView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -258,6 +265,7 @@
 				8B3C53E72594548800FADC15 /* SearchVM.swift */,
 				8B21602C259C248D00402DA0 /* TheaterVM.swift */,
 				8B4578CC25A0211F00B77FD8 /* OrderPaymentVM.swift */,
+				8B5CA37725A16E8E0051194F /* SignInVM.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -279,6 +287,7 @@
 				8B7AF0CE258C4EED00DE2BC1 /* UtilViews.swift */,
 				8BEB5127258D4FC500B8C6FC /* LazyLoadView.swift */,
 				8BD363542590213800C77CF9 /* MovieCardViews.swift */,
+				8BE90D5525A26D0800222FE4 /* PeopleViews.swift */,
 			);
 			path = SubViews;
 			sourceTree = "<group>";
@@ -423,6 +432,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8B21602D259C248D00402DA0 /* TheaterVM.swift in Sources */,
+				8B5CA37825A16E8E0051194F /* SignInVM.swift in Sources */,
 				8B8C1127259EAB470050823B /* OrderView.swift in Sources */,
 				8B0E391D2591A2BF006CD3CF /* MovieDetailsVM.swift in Sources */,
 				8B593DAA2592AB3800B9DB1F /* Styles.swift in Sources */,
@@ -430,6 +440,7 @@
 				8B3C53E82594548800FADC15 /* SearchVM.swift in Sources */,
 				8B0390622592B1C2003CB2E8 /* PersonDetailsView.swift in Sources */,
 				8BA9F251258BC54C00F208B7 /* RemoteImage.swift in Sources */,
+				8BE90D5625A26D0800222FE4 /* PeopleViews.swift in Sources */,
 				8B8C111D259E53990050823B /* DateShape.swift in Sources */,
 				8B979C852591806B00A7131A /* MovieDetailsView.swift in Sources */,
 				8B594A62258FF45D0001F52C /* Extensions.swift in Sources */,
@@ -441,6 +452,7 @@
 				8B594A83259013E90001F52C /* MoviesVM.swift in Sources */,
 				8B5CC3F12597F21D00295205 /* Search.swift in Sources */,
 				8B979C8D259183A800A7131A /* SeeMoviesSheetView.swift in Sources */,
+				8B5CA37025A16E6A0051194F /* SignInView.swift in Sources */,
 				8B594A6C258FFD870001F52C /* MovieDetails.swift in Sources */,
 				8B3C53D825942FF600FADC15 /* MainView.swift in Sources */,
 				8B594A71258FFF0B0001F52C /* Person.swift in Sources */,

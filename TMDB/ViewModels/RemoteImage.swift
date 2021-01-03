@@ -47,6 +47,7 @@ struct RemoteImage: View {
 
     var body: some View{
         selectImage()
+            .renderingMode(.original)
             .resizable()
     }
 

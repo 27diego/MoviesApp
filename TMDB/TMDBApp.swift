@@ -10,11 +10,19 @@ import SwiftUI
 @main
 struct TMDBApp: App {
     let persistenceController = PersistenceController.shared
-
+    @State var isLoggedIn: Bool = false
+    
     var body: some Scene {
         WindowGroup {
-            MainView()
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            Group {
+                if !isLoggedIn {
+                    SignInView(auth: SignInVM(), isLoggedIn: $isLoggedIn)
+                }
+                else {
+                    MainView()
+                }
+            }
+            .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }
 }

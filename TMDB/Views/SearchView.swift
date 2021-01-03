@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SearchView: View {
-    @ObservedObject var search = SearchVM()
+    @ObservedObject var search: SearchVM
     @State var isEditing: Bool = false
     
     var body: some View {
@@ -37,7 +37,7 @@ struct SearchView: View {
                         if search.queryType == .movie {
                             ForEach(search.movieResults) { movie in
                                 NavigationLink(
-                                    destination: NavigationLazyView(MovieDetailsView(for: movie.id)),
+                                    destination: NavigationLazyView(MovieDetailsView(movieDetails: MovieDetailsVM(for: movie.id))),
                                     label: {
                                         HStack {
                                             Text(movie.title)
@@ -51,15 +51,14 @@ struct SearchView: View {
                         else {
                             ForEach(search.personResults) { person in
                                 NavigationLink(
-                                    destination: PersonDetailsView(for: person.id),
-                                    label: {
+                                    destination: PersonDetailsView(person: PersonDetailsVM(for: person.id))){
                                         HStack {
                                             Text(person.name)
                                                 .foregroundColor(.black)
                                             
                                             Spacer()
                                         }
-                                    })
+                                    }
                             }
                         }
                     }
@@ -77,7 +76,7 @@ struct SearchView: View {
 
 struct SearchView_Previews: PreviewProvider {
     static var previews: some View {
-        SearchView()
+        SearchView(search: SearchVM())
     }
 }
 

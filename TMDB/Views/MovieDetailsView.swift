@@ -11,9 +11,6 @@ struct MovieDetailsView: View {
     @ObservedObject var movieDetails: MovieDetailsVM
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
-    init(for id: Int){
-        movieDetails = MovieDetailsVM(for: id)
-    }
     var body: some View {
         ScrollView {
             ZStack {
@@ -99,7 +96,7 @@ struct MovieDetailsView: View {
                     }
                     
                     NavigationLink(
-                        destination: NavigationLazyView(TheaterView(for: MovieModel(id: movieDetails.id, title: movieDetails.title, popularity: movieDetails.popularity, releaseDate: movieDetails.releaseDate, backdropPath: movieDetails.backdropPath, posterPath: movieDetails.posterPath, overview: movieDetails.overview))),
+                        destination: NavigationLazyView(TheaterView(theater: TheaterVM(for: MovieModel(id: movieDetails.id, title: movieDetails.title, popularity: movieDetails.popularity, releaseDate: movieDetails.releaseDate, backdropPath: movieDetails.backdropPath, posterPath: movieDetails.posterPath, overview: movieDetails.overview)))),
                         label: {
                             Text("Reserve Seats")
                         })
@@ -117,40 +114,8 @@ struct MovieDetailsView: View {
 
 struct MovieDetailsView_Previews: PreviewProvider {
     static var previews: some View {
-        MovieDetailsView(for: 100)
+        MovieDetailsView(movieDetails: MovieDetailsVM(for: 100))
     }
 }
 
-struct CirclePeopleSectionView<T: Person>: View {
-    var people: [T]
-    var body: some View {
-        ScrollView(.horizontal, showsIndicators: false){
-            HStack{
-                Spacer()
-                    .frame(width: 10)
-                ForEach(people) { person in
-                    if person.profilePath != nil {
-                        NavigationLink(
-                            destination: NavigationLazyView(PersonDetailsView(for: person.id)),
-                            label: {
-                                VStack {
-                                    RemoteImage(url: ImageEndpoint(path: person.profilePath ?? "").url)
-                                        .aspectRatio(contentMode: .fill)
-                                        .frame(width: 100, height: 100)
-                                        .clipShape(Circle())
-                                    
-                                    Text(person.name)
-                                        .frame(width: 100)
-                                        .clipped()
-                                    
-                                }
-                                .foregroundColor(.black)
-                            })
-                    }
-                }
-                Spacer()
-                    .frame(width: 10)
-            }
-        }
-    }
-}
+

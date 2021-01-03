@@ -9,7 +9,7 @@ import SwiftUI
 
 struct OrderPaymentView: View {
     @ObservedObject var orderPayment: OrderPaymentVM
-    @Environment(\.rootPresentationMode) var rootPresenationMode: Binding<RootPresentationMode>
+    
     var body: some View {
         ZStack {
             VStack {
@@ -47,11 +47,11 @@ struct OrderPaymentView: View {
             
             if orderPayment.isSendingPending && !orderPayment.paymentSent {
                 VisualEffectView(uiVisualEffect: UIBlurEffect(style: .systemUltraThinMaterial))
-                    ProgressView("Sending Payment...")
+                ProgressView("Sending Payment...")
                 
             }
             else if orderPayment.paymentSent == true {
-                    VisualEffectView(uiVisualEffect: UIBlurEffect(style: .light))
+                VisualEffectView(uiVisualEffect: UIBlurEffect(style: .light))
                 
                 VStack {
                     Image(systemName: "checkmark.circle")
@@ -60,15 +60,10 @@ struct OrderPaymentView: View {
                         .frame(width: 40)
                     
                     Text("Payment Sent!")
-                        .onAppear {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                                self.rootPresenationMode.wrappedValue.dismiss()
-                            }
-                        }
                 }
             }
-            
         }
+        .animation(.easeInOut)
     }
 }
 

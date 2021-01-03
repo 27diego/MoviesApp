@@ -8,21 +8,18 @@
 import SwiftUI
 
 struct HomeView: View {
-    @ObservedObject var movies: Movies = Movies()
-    @State var isActive: Bool = false
+    @ObservedObject var movies: Movies
     
     var body: some View {
         NavigationView {
             ScrollView {
-                UpcomingSectionView(movies: movies.movies[.upcoming] ?? [], isActive: $isActive)
-                PopularSectionView(movies: movies.movies[.popular] ?? [], isActive: $isActive)
-                MovieGridSectionView(movies: movies.movies[.nowPlaying] ?? [], isActive: $isActive)
+                UpcomingSectionView(movies: movies.movies[.upcoming] ?? [])
+                PopularSectionView(movies: movies.movies[.popular] ?? [])
+                MovieGridSectionView(movies: movies.movies[.nowPlaying] ?? [])
                 PopularPeopleSection(people: movies.people)
             }
             .navigationTitle("Movie Hub")
         }
-        .navigationViewStyle(StackNavigationViewStyle())
-        .environment(\.rootPresentationMode, self.$isActive)
         .edgesIgnoringSafeArea(.top)
     }
 }
@@ -30,14 +27,14 @@ struct HomeView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeView()
+        HomeView(movies: Movies())
     }
 }
 
 struct UpcomingSectionView: View {
     var movies: [MovieModel]
-    @Binding var isActive: Bool
     @State var showSheet: Bool = false
+    
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
@@ -58,13 +55,11 @@ struct UpcomingSectionView: View {
                     Spacer()
                         .frame(width: 1)
                     ForEach(movies){ movie in
-                        NavigationLink(
-                            destination: NavigationLazyView(MovieDetailsView(for: movie.id)),
-//                            isActive: $isActive,
-                            label: {
-                                SpotlightCardView(imageUrl: movie.backdropPath ?? "", title: movie.title)
-                            })
-                            .frame(width: UIScreen.screenWidth * 0.9, height: 200)
+                        NavigationLink(destination: MovieDetailsView(movieDetails: MovieDetailsVM(for: movie.id))){
+                            SpotlightCardView(imageUrl: movie.backdropPath ?? "", title: movie.title)
+                        }
+                        .isDetailLink(false)
+                        .frame(width: UIScreen.screenWidth * 0.9, height: 200)
                     }
                     Spacer()
                         .frame(width: 1)
@@ -76,7 +71,6 @@ struct UpcomingSectionView: View {
 
 struct PopularSectionView: View {
     var movies: [MovieModel]
-    @Binding var isActive: Bool
     
     @State var showSheet: Bool = false
     var body: some View {
@@ -102,12 +96,10 @@ struct PopularSectionView: View {
                         VStack(alignment: .leading) {
                             
                             NavigationLink(
-                                destination: NavigationLazyView(MovieDetailsView(for: movie.id)),
-//                                isActive: $isActive,
-                                label: {
-                                    PosterCardView(imageUrl: movie.posterPath ?? "")
-                                })
-                                .frame(width: UIScreen.screenWidth * 0.45, height: 280)
+                                destination: NavigationLazyView(MovieDetailsView(movieDetails: MovieDetailsVM(for: movie.id)))){
+                                PosterCardView(imageUrl: movie.posterPath ?? "")
+                            }
+                            .frame(width: UIScreen.screenWidth * 0.45, height: 280)
                             
                             Text(movie.title)
                                 .foregroundColor(Color.gray)
@@ -125,7 +117,6 @@ struct PopularSectionView: View {
 
 struct MovieGridSectionView: View {
     var movies: [MovieModel]
-    @Binding var isActive: Bool
     
     @State var showSheet: Bool = false
     var layout: [GridItem] = [
@@ -151,11 +142,9 @@ struct MovieGridSectionView: View {
                 LazyHGrid(rows: layout){
                     ForEach(movies) { movie in
                         NavigationLink(
-                            destination: NavigationLazyView(MovieDetailsView(for: movie.id)),
-//                            isActive: $isActive,
-                            label: {
-                                SmallMoviePillView(movie: movie)
-                            })
+                            destination: NavigationLazyView(MovieDetailsView(movieDetails: MovieDetailsVM(for: movie.id)))){
+                            SmallMoviePillView(movie: movie)
+                        }
                     }
                 }
             }
@@ -183,7 +172,7 @@ struct PopularPeopleSection: View {
                         if person.profilePath != nil {
                             
                             NavigationLink(
-                                destination: NavigationLazyView(PersonDetailsView(for: person.id)),
+                                destination: NavigationLazyView(PersonDetailsView(person: PersonDetailsVM(for: person.id))),
                                 label: {
                                     VStack(alignment: .leading) {
                                         PosterCardView(imageUrl: person.profilePath ?? "")
