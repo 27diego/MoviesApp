@@ -35,31 +35,10 @@ struct SearchView: View {
                 ScrollView{
                     VStack(alignment: .leading, spacing: 15) {
                         if search.queryType == .movie {
-                            ForEach(search.movieResults) { movie in
-                                NavigationLink(
-                                    destination: NavigationLazyView(MovieDetailsView(movieDetails: MovieDetailsVM(for: movie.id))),
-                                    label: {
-                                        HStack {
-                                            Text(movie.title)
-                                                .foregroundColor(.black)
-                                            
-                                            Spacer()
-                                        }
-                                    })
-                            }
+                            MovieResults(movies: search.movieResults)
                         }
                         else {
-                            ForEach(search.personResults) { person in
-                                NavigationLink(
-                                    destination: PersonDetailsView(person: PersonDetailsVM(for: person.id))){
-                                        HStack {
-                                            Text(person.name)
-                                                .foregroundColor(.black)
-                                            
-                                            Spacer()
-                                        }
-                                    }
-                            }
+                            PersonResults(people: search.personResults)
                         }
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -119,6 +98,40 @@ struct CustomSearch: View {
                     Text("Cancel")
                         .foregroundColor(Color(.systemGray))
                 })
+            }
+        }
+    }
+}
+
+struct MovieResults: View {
+    var movies: [MovieModel]
+    var body: some View {
+        ForEach(movies) { movie in
+            NavigationLink(
+                destination: NavigationLazyView(MovieDetailsView(movieDetails: MovieDetailsVM(for: movie.id)))){
+                HStack {
+                    Text(movie.title)
+                        .foregroundColor(.black)
+                    
+                    Spacer()
+                }
+            }
+        }
+    }
+}
+
+struct PersonResults: View {
+    var people: [PersonModel]
+    var body: some View {
+        ForEach(people) { person in
+            NavigationLink(
+                destination: NavigationLazyView(PersonDetailsView(person: PersonDetailsVM(for: person.id)))){
+                HStack {
+                    Text(person.name)
+                        .foregroundColor(.black)
+                    
+                    Spacer()
+                }
             }
         }
     }

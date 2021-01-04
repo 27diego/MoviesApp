@@ -60,6 +60,7 @@ struct OrderPaymentView: View {
                         .frame(width: 40)
                     
                     Text("Payment Sent!")
+                       
                 }
             }
         }

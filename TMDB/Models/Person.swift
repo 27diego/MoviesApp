@@ -41,7 +41,7 @@ struct CrewMember: Codable, Identifiable, Person {
 struct PersonDetails: Codable {
     let id: Int
     let name: String
-    let birthday: String
+    let birthday: String?
     let biography: String
     let popularity: Double
     let placeOfBirth: String

@@ -58,7 +58,8 @@ struct TheaterView: View {
                                     .frame(width: 16)
                             }
                             
-                        }.navigationBarTitle("Choose Seats")
+                        }
+                        .navigationBarTitle("Choose Seats for \(theater.movie.title)", displayMode: .inline)
                     }
                     
                     VStack(alignment: .leading) {

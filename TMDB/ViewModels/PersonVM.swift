@@ -20,7 +20,7 @@ class PersonDetailsVM: ObservableObject {
     @Published var images: [PersonImages] = []
     
     var topMovies: [MovieModel] {
-        Array(movies.prefix(3))
+        Array(movies.prefix(5))
     }
     
     var cancellables = Set<AnyCancellable>()
@@ -41,7 +41,7 @@ class PersonDetailsVM: ObservableObject {
             }, receiveValue: {
                 self.id = $0.id
                 self.name = $0.name
-                self.birthday = $0.birthday
+                self.birthday = $0.birthday ?? ""
                 self.biography = $0.biography
                 self.popularity = $0.popularity
                 self.placeOfBirth = $0.placeOfBirth
