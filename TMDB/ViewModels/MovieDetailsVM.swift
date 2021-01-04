@@ -20,6 +20,7 @@ class MovieDetailsVM: ObservableObject {
     @Published var releaseDate: String = ""
     @Published var actors: [Actor] = []
     @Published var crew: [CrewMember] = []
+    @Published var movieLinks: [MovieVideos] = []
     
     var cancellable: AnyCancellable?
     
@@ -28,9 +29,10 @@ class MovieDetailsVM: ObservableObject {
     }
     
     private func setupData(for id: Int){
-        cancellable = Publishers.Zip(
+        cancellable = Publishers.Zip3(
             URLSession.shared.publisher(for: ItemEndpoint.getMovieDetails(for: id).url, responseType: MovieDetails.self),
-            URLSession.shared.publisher(for: ItemEndpoint.getMovieCredits(for: id).url, responseType: MovieCreditResults.self)
+            URLSession.shared.publisher(for: ItemEndpoint.getMovieCredits(for: id).url, responseType: MovieCreditResults.self),
+            URLSession.shared.publisher(for: ItemEndpoint.getMovieVideos(for: id).url, responseType: NetworkResponse<MovieVideos>.self)
         )
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { _ in }, receiveValue: {
@@ -45,6 +47,7 @@ class MovieDetailsVM: ObservableObject {
                 self.releaseDate = $0.formattedReleaseDate
                 self.actors = $1.cast
                 self.crew = $1.crew
+                self.movieLinks = $2.results.filter { res in res.site == "YouTube" }
             })
     }
 }

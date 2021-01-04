@@ -6,10 +6,12 @@
 //
 
 import SwiftUI
+import AVKit
 
 struct MovieDetailsView: View {
     @ObservedObject var movieDetails: MovieDetailsVM
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @State var showSheet: Bool = false
     
     var body: some View {
         ScrollView {
@@ -95,12 +97,35 @@ struct MovieDetailsView: View {
                         CirclePeopleSectionView(people: movieDetails.crew)
                     }
                     
+                    VStack(alignment: .leading){
+                        Text("Trailers")
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack {
+                                ForEach(movieDetails.movieLinks){ link in
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .frame(width: 200, height: 50)
+                                        .foregroundColor(Color(.systemGray6))
+                                        .overlay(
+                                            Text(link.name)
+                                                .onTapGesture {
+                                                    showSheet.toggle()
+                                                }
+                                                .sheet(isPresented: $showSheet){
+                                                    SafariView(url: URL(string: link.youtubeUrl ?? "")!)
+                                                }
+                                                .padding()
+                                        )
+                                }
+                            }
+                        }
+                    }.padding()
+                    
                     NavigationLink(
                         destination: NavigationLazyView(TheaterView(theater: TheaterVM(for: MovieModel(id: movieDetails.id, title: movieDetails.title, popularity: movieDetails.popularity, releaseDate: movieDetails.releaseDate, backdropPath: movieDetails.backdropPath, posterPath: movieDetails.posterPath, overview: movieDetails.overview))))){
-                            Text("Reserve Seats")
-                        }
-                        .buttonStyle(CustomButtonStyle(color: Color(#colorLiteral(red: 0.5490196078, green: 0.3098039216, blue: 0.9529411765, alpha: 1))))
-                        .frame(width: UIScreen.screenWidth * 0.9)
+                        Text("Reserve Seats")
+                    }
+                    .buttonStyle(CustomButtonStyle(color: Color(#colorLiteral(red: 0.5490196078, green: 0.3098039216, blue: 0.9529411765, alpha: 1))))
+                    .frame(width: UIScreen.screenWidth * 0.9)
                 }
             }
         }
@@ -114,8 +139,20 @@ struct MovieDetailsView: View {
 
 struct MovieDetailsView_Previews: PreviewProvider {
     static var previews: some View {
-        MovieDetailsView(movieDetails: MovieDetailsVM(for: 100))
+        MovieDetailsView(movieDetails: MovieDetailsVM(for: 464052))
     }
 }
 
 
+
+
+/*
+ 
+ Video Player:
+ 
+ VideoPlayer(player: AVPlayer(url: URL(string: link.youtubeUrl ?? "")!)) {
+ Text(link.name)
+ }
+ .aspectRatio(contentMode: .fit)
+ .frame(width: 100, height: 100)
+ */

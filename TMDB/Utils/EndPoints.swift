@@ -44,6 +44,9 @@ extension ItemEndpoint {
     static func getMovieCredits(for id: Int) -> Self {
         ItemEndpoint(path: "movie/\(id)/credits")
     }
+    static func getMovieVideos(for id: Int) -> Self {
+        ItemEndpoint(path: "movie/\(id)/videos")
+    }
     static func getPerson(for id: Int) -> Self {
         ItemEndpoint(path: "person/\(id)")
     }

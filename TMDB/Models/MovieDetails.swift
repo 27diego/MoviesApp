@@ -55,3 +55,14 @@ struct Genre: Codable, Identifiable {
     let id: Int
     let name: String
 }
+
+struct MovieVideos: Codable, Identifiable {
+    var id: String
+    var key: String
+    var name: String
+    var site: String
+    
+    var youtubeUrl: String? {
+        return "https://youtube.com/watch?v=\(key)"
+    }
+}
