@@ -9,9 +9,17 @@ import Foundation
 
 final class CacheService<Key: Hashable, Value> {
     private let wrapped = NSCache<WrappedKey, Entry>()
+    private let dateProvider: () -> Date
+    private let entryLifetime: TimeInterval
+    
+    init(dateProvider: @escaping () -> Date = Date.init, entryLifetime: TimeInterval = 12*60*60){
+        self.dateProvider = dateProvider
+        self.entryLifetime = entryLifetime
+    }
     
     func insert(_ value: Value, for key: Key){
-        let entry = Entry(value)
+        let date = dateProvider().addingTimeInterval(entryLifetime)
+        let entry = Entry(value, expirationDate: date)
         wrapped.setObject(entry, forKey: WrappedKey(key))
     }
     func value(for key: Key) -> Value? {
@@ -48,8 +56,10 @@ private extension CacheService {
 private extension CacheService {
     final class Entry {
         let value: Value
-        init(_ value: Value){
+        let expirationDate: Date
+        init(_ value: Value, expirationDate: Date){
             self.value = value
+            self.expirationDate = expirationDate
         }
     }
 }
