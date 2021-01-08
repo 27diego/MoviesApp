@@ -6,29 +6,33 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct MainView: View {
     var body: some View {
         // MARK: - customize tabview
-        TabView {
-            HomeView(movies: Movies())
-                .tabItem {
-                    VStack{
-                        Image(systemName: "house.circle.fill")
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                        Text("House")
+        VStack {
+            TabView {
+                HomeView(movies: Movies())
+                    .tabItem {
+                        VStack{
+                            Image(systemName: "house.circle.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                            Text("House")
+                        }
                     }
-                }
-            SearchView(search: SearchVM())
-                .tabItem {
-                    VStack {
-                        Image(systemName: "magnifyingglass.circle.fill")
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                        Text("Search")
+                SearchView(search: SearchVM())
+                    .tabItem {
+                        VStack {
+                            Image(systemName: "magnifyingglass.circle.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                            Text("Search")
+                        }
                     }
-                }
+            }
+            
         }
     }
 }
