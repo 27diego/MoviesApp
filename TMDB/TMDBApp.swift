@@ -9,7 +9,7 @@ import SwiftUI
 
 @main
 struct TMDBApp: App {
-    let persistenceController = PersistenceController.shared
+    let persistenceController = StorageProvider.shared
     @State var isLoggedIn: Bool = false
     
     var body: some Scene {
@@ -22,7 +22,7 @@ struct TMDBApp: App {
                     MainView()
                 }
             }
-            .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            .environment(\.managedObjectContext, persistenceController.persistanceContainer.viewContext)
         }
     }
 }

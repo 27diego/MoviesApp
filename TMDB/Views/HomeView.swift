@@ -9,10 +9,14 @@ import SwiftUI
 
 struct HomeView: View {
     @ObservedObject var movies: Movies
+    @FetchRequest(entity: MovieCD.entity(), sortDescriptors: [NSSortDescriptor(key: "popularity", ascending: false)])
+    
+    var moviesCD: FetchedResults<MovieCD>
     
     var body: some View {
         NavigationView {
             ScrollView {
+                Text("CD Data: \(moviesCD.count)")
                 UpcomingSectionView(movies: movies.movies[.upcoming] ?? [])
                 PopularSectionView(movies: movies.movies[.popular] ?? [])
                 MovieGridSectionView(movies: movies.movies[.nowPlaying] ?? [])
