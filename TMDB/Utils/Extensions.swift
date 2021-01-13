@@ -8,10 +8,23 @@
 import SwiftUI
 import Foundation
 import Combine
+import CoreData
 
 extension URLSession {
     func publisher<T: Codable> (for url: URL, responseType: T.Type = T.self, decoder: JSONDecoder = .init()) -> AnyPublisher<T, Error>{
         decoder.keyDecodingStrategy = .convertFromSnakeCase
+        
+        let publisher = dataTaskPublisher(for: url)
+            .map(\.data)
+            .decode(type: responseType, decoder: decoder)
+            .eraseToAnyPublisher()
+        
+        return publisher
+    }
+    
+    func publisher<T:Codable>(for url: URL, responseType: T.Type = T.self, decoder: JSONDecoder = .init(), context: NSManagedObjectContext) -> AnyPublisher<T, Error> {
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        decoder.userInfo[.managedObjectContext] = context
         
         let publisher = dataTaskPublisher(for: url)
             .map(\.data)

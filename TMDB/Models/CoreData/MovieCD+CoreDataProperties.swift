@@ -15,6 +15,8 @@ extension MovieCD {
     @nonobjc public class func fetchRequest() -> NSFetchRequest<MovieCD> {
         return NSFetchRequest<MovieCD>(entityName: "MovieCD")
     }
+    
+    
 
     @NSManaged public var backdropPath: String?
     @NSManaged public var id: Int32

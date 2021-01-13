@@ -6,11 +6,18 @@
 //
 
 import SwiftUI
+import CoreData
 
 @main
 struct TMDBApp: App {
     let persistenceController = StorageProvider.shared
+    let context: NSManagedObjectContext
     @State var isLoggedIn: Bool = false
+    
+    init() {
+        context = persistenceController.persistanceContainer.viewContext
+        context.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
+    }
     
     var body: some Scene {
         WindowGroup {
@@ -22,7 +29,7 @@ struct TMDBApp: App {
                     MainView()
                 }
             }
-            .environment(\.managedObjectContext, persistenceController.persistanceContainer.viewContext)
+            .environment(\.managedObjectContext, context)
         }
     }
 }
