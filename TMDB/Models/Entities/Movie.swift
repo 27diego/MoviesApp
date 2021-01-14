@@ -58,8 +58,11 @@ struct MovieCreditResults: Codable {
 }
 
 
-enum MovieType {
-    case popular, upcoming, topRated, nowPlaying
+enum MovieType: String {
+    case popular = "movie/popular"
+    case upcoming = "movie/upcoming"
+    case topRated = "movie/top_rated"
+    case nowPlaying = "movie/now_playing"
     
     var description: String {
         switch self{

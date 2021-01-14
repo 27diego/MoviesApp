@@ -6,22 +6,29 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct HomeView: View {
     @ObservedObject var movies: Movies
-    @FetchRequest(entity: MovieCD.entity(), sortDescriptors: [NSSortDescriptor(key: "popularity", ascending: false)])
-    
-    var moviesCD: FetchedResults<MovieCD>
+    @FetchRequest(entity: MovieCD.entity(), sortDescriptors: [ NSSortDescriptor(key: "title", ascending: true) ])
+    var results: FetchedResults<MovieCD>
     
     var body: some View {
         NavigationView {
             ScrollView {
-                Text("CD Data: \(moviesCD.count)")
-                UpcomingSectionView(movies: movies.movies[.upcoming] ?? [])
-                PopularSectionView(movies: movies.movies[.popular] ?? [])
-                MovieGridSectionView(movies: movies.movies[.nowPlaying] ?? [])
-                PopularPeopleSection(people: movies.people)
+                UpcomingSectionView(movies: results)
+//                PopularSectionView(movies: movies.movies[.popular] ?? [])
+//                MovieGridSectionView(movies: movies.movies[.nowPlaying] ?? [])
+//                PopularPeopleSection(people: movies.people)
             }
+            .navigationBarItems(leading: HStack {
+                Button("Import"){
+                    movies.addMovies()
+                }
+                Button("delete"){
+                    movies.deleteMovies()
+                }
+            })
             .navigationTitle("Movie Hub")
         }
         .edgesIgnoringSafeArea(.top)
@@ -36,7 +43,7 @@ struct ContentView_Previews: PreviewProvider {
 }
 
 struct UpcomingSectionView: View {
-    var movies: [MovieModel]
+    var movies: FetchedResults<MovieCD>
     @State var showSheet: Bool = false
     
     var body: some View {
@@ -52,8 +59,8 @@ struct UpcomingSectionView: View {
                 Spacer()
                     .frame(width: 10)
             }
-            .sheet(isPresented: $showSheet, content:{ SeeMoviesSheetView(movies: movies)
-            })
+//            .sheet(isPresented: $showSheet, content:{ SeeMoviesSheetView(movies: movies)
+//            })
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(alignment: .center, spacing: 10) {
                     Spacer()
