@@ -45,7 +45,7 @@ struct ContentView_Previews: PreviewProvider {
 struct UpcomingSectionView: View {
     var movies: FetchedResults<MovieCD>
     @State var showSheet: Bool = false
-    
+
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
@@ -82,7 +82,7 @@ struct UpcomingSectionView: View {
 
 struct PopularSectionView: View {
     var movies: [MovieModel]
-    
+
     @State var showSheet: Bool = false
     var body: some View {
         VStack {
@@ -105,13 +105,13 @@ struct PopularSectionView: View {
                         .frame(width: 1)
                     ForEach(movies){ movie in
                         VStack(alignment: .leading) {
-                            
+
                             NavigationLink(
                                 destination: NavigationLazyView(MovieDetailsView(movieDetails: MovieDetailsVM(for: movie.id)))){
                                 PosterCardView(imageUrl: movie.posterPath ?? "")
                             }
                             .frame(width: UIScreen.screenWidth * 0.45, height: 280)
-                            
+
                             Text(movie.title)
                                 .foregroundColor(Color.gray)
                         }
@@ -128,7 +128,7 @@ struct PopularSectionView: View {
 
 struct MovieGridSectionView: View {
     var movies: [MovieModel]
-    
+
     @State var showSheet: Bool = false
     var layout: [GridItem] = [
         GridItem(.fixed(80)),
@@ -181,7 +181,7 @@ struct PopularPeopleSection: View {
                         .frame(width: 10)
                     ForEach(people) { person in
                         if person.profilePath != nil {
-                            
+
                             NavigationLink(
                                 destination: NavigationLazyView(PersonDetailsView(person: PersonDetailsVM(for: person.id))),
                                 label: {
@@ -194,7 +194,7 @@ struct PopularPeopleSection: View {
                                     .frame(width: UIScreen.screenWidth * 0.35)
                                     .clipped()
                                 })
-                            
+
                         }
                     }
                     Spacer()

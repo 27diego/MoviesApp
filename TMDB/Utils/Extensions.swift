@@ -13,24 +13,24 @@ import CoreData
 extension URLSession {
     func publisher<T: Codable> (for url: URL, responseType: T.Type = T.self, decoder: JSONDecoder = .init()) -> AnyPublisher<T, Error>{
         decoder.keyDecodingStrategy = .convertFromSnakeCase
-        
+
         let publisher = dataTaskPublisher(for: url)
             .map(\.data)
             .decode(type: responseType, decoder: decoder)
             .eraseToAnyPublisher()
-        
+
         return publisher
     }
-    
+
     func publisher<T: Codable>(for url: URL, responseType: T.Type = T.self, decoder: JSONDecoder = .init(), context: NSManagedObjectContext) -> AnyPublisher<T, Error>{
         decoder.keyDecodingStrategy = .convertFromSnakeCase
         decoder.userInfo[.managedObjectContext] = context
-        
+
         let publisher = dataTaskPublisher(for: url)
             .map(\.data)
             .decode(type: responseType, decoder: decoder)
             .eraseToAnyPublisher()
-        
+
         return publisher
     }
 }
@@ -53,13 +53,13 @@ extension Date {
         let formatter: DateFormatter = DateFormatter()
         formatter.dateFormat = "yyyy"
         let date: String = formatter.string(from: Date())
-        
+
         if let value = Int(date) {
             return value
         }
         return 0
     }
-    
+
     private static func getComponent(date: Date, format: String) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = format
@@ -67,15 +67,15 @@ extension Date {
         let component = formatter.string(from: date)
         return component
     }
-    
+
     static func getFollowingThirtyDays(for month: Int = 1) -> [TicketDate]{
         var dates = [TicketDate]()
         let dateComponents = DateComponents(year: thisYear , month: month)
         let calendar = Calendar.current
         let date = calendar.date(from: dateComponents)!
-        
+
         let range: Range<Int> = calendar.range(of: .day, in: .month, for: date)!
-        
+
         for i in range {
             guard let fullDate = calendar.date(byAdding: DateComponents(day: i) , to: Date()) else { continue }
             let d = getComponent(date: fullDate, format: "dd")
@@ -84,10 +84,10 @@ extension Date {
             let ticketDate = TicketDate(day: d, month: m, year: y)
             dates.append(ticketDate)
         }
-        
+
         return dates
     }
-    
+
     static func getRemainingHours() -> [String] {
         var results: [String] = []
         let calendar = Calendar.current
@@ -103,7 +103,7 @@ extension Date {
         }
         return results
     }
-    
+
     static func getToday() -> String {
         let date = Date()
         let today = getComponent(date: date, format: "MM/dd/yy")
@@ -134,4 +134,3 @@ extension RootPresentationMode {
 extension CodingUserInfoKey {
     static let managedObjectContext = CodingUserInfoKey(rawValue: "managedObjectContext")!
 }
-

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17192" systemVersion="19G2021" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="20B29" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="ActorCD" representedClassName="ActorCD" syncable="YES">
         <attribute name="character" attributeType="String"/>
         <attribute name="id" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
@@ -9,6 +9,11 @@
         <attribute name="popularity" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="profilePath" optional="YES" attributeType="String"/>
         <relationship name="movies" optional="YES" toMany="YES" deletionRule="Deny" destinationEntity="MovieDescriptionCD" inverseName="actors" inverseEntity="MovieDescriptionCD"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="id"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
     </entity>
     <entity name="CrewMemberCD" representedClassName="CrewMemberCD" syncable="YES">
         <attribute name="department" attributeType="String"/>
@@ -18,6 +23,11 @@
         <attribute name="name" attributeType="String"/>
         <attribute name="profilePath" optional="YES" attributeType="String"/>
         <relationship name="movies" optional="YES" toMany="YES" deletionRule="Deny" destinationEntity="MovieDescriptionCD" inverseName="crewMembers" inverseEntity="MovieDescriptionCD"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="id"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
     </entity>
     <entity name="MovieCD" representedClassName="MovieCD" syncable="YES">
         <attribute name="backdropPath" optional="YES" attributeType="String"/>
@@ -49,6 +59,11 @@
         <relationship name="actors" toMany="YES" deletionRule="Nullify" destinationEntity="ActorCD" inverseName="movies" inverseEntity="ActorCD"/>
         <relationship name="crewMembers" toMany="YES" deletionRule="Nullify" destinationEntity="CrewMemberCD" inverseName="movies" inverseEntity="CrewMemberCD"/>
         <relationship name="movie" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MovieCD" inverseName="movieDescription" inverseEntity="MovieCD"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="id"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
     </entity>
     <entity name="UserCD" representedClassName="UserCD" syncable="YES">
         <attribute name="username" optional="YES" attributeType="String"/>

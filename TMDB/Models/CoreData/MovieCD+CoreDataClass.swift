@@ -17,15 +17,15 @@ public class MovieCD: NSManagedObject, Codable {
     enum MovieCodingKeys: CodingKey {
         case backdropPath, id, overview, popularity, posterPath, releaseDate, title, lastUpdated, category, movieDescription
     }
-    
-    
+
+
     public required convenience init(from decoder: Decoder) throws {
         guard let context = decoder.userInfo[.managedObjectContext] as? NSManagedObjectContext else {
             fatalError("Failed to provide decoder with correct context")
         }
-        
+
         self.init(context: context)
-        
+
         let container = try decoder.container(keyedBy: MovieCodingKeys.self)
         self.backdropPath = try container.decode(String.self, forKey: .backdropPath)
         self.id = try container.decode(Int.self, forKey: .id)
@@ -35,7 +35,7 @@ public class MovieCD: NSManagedObject, Codable {
         self.releaseDate = try container.decode(String.self, forKey: .releaseDate)
         self.title = try container.decode(String.self, forKey: .title)
     }
-    
+
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: MovieCodingKeys.self)
         try container.encode(backdropPath, forKey: .backdropPath)
@@ -64,7 +64,7 @@ extension MovieCD {
     @NSManaged public var lastUpdated: String?
     @NSManaged public var category: String?
     @NSManaged public var movieDescription: MovieDescriptionCD?
-    
+
     var cmpcategory: MovieType {
         get { MovieType(rawValue: category ?? "") ?? .popular }
         set { category = newValue.rawValue }

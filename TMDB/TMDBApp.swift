@@ -13,13 +13,13 @@ struct TMDBApp: App {
     let persistenceController: StorageProvider
     let context: NSManagedObjectContext
     @State var isLoggedIn: Bool = false
-    
+
     init(){
         persistenceController = StorageProvider.shared
         context = persistenceController.persistanceContainer.viewContext
         context.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
     }
-    
+
     var body: some Scene {
         WindowGroup {
 //            Group {
