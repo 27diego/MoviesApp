@@ -42,6 +42,7 @@
 		8B5CA37825A16E8E0051194F /* SignInVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5CA37725A16E8E0051194F /* SignInVM.swift */; };
 		8B5CC3F12597F21D00295205 /* Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5CC3F02597F21D00295205 /* Search.swift */; };
 		8B7AF0CF258C4EED00DE2BC1 /* UtilViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7AF0CE258C4EED00DE2BC1 /* UtilViews.swift */; };
+		8B7E2A4C25B23AB7001C7298 /* PersonCD+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7E2A4A25B23AB7001C7298 /* PersonCD+CoreDataClass.swift */; };
 		8B84735825A2CB9500DD7786 /* SafariView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B84735725A2CB9400DD7786 /* SafariView.swift */; };
 		8B8C111D259E53990050823B /* DateShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8C111C259E53990050823B /* DateShape.swift */; };
 		8B8C1122259EAA790050823B /* OrderPaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8C1121259EAA790050823B /* OrderPaymentView.swift */; };
@@ -117,6 +118,7 @@
 		8B5CA37725A16E8E0051194F /* SignInVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInVM.swift; sourceTree = "<group>"; };
 		8B5CC3F02597F21D00295205 /* Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Search.swift; sourceTree = "<group>"; };
 		8B7AF0CE258C4EED00DE2BC1 /* UtilViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilViews.swift; sourceTree = "<group>"; };
+		8B7E2A4A25B23AB7001C7298 /* PersonCD+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PersonCD+CoreDataClass.swift"; sourceTree = "<group>"; };
 		8B810D2925AE565A0006D830 /* DataImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataImporter.swift; sourceTree = "<group>"; };
 		8B810D3825AE8D090006D830 /* MovieCD+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MovieCD+CoreDataClass.swift"; sourceTree = "<group>"; };
 		8B810D3925AE8D090006D830 /* MovieCD+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MovieCD+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -332,6 +334,7 @@
 		8BB7CAD325A7D7950094A684 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				8B7E2A4A25B23AB7001C7298 /* PersonCD+CoreDataClass.swift */,
 				8B4F343E25B099DA00FA4E35 /* CrewMemberCD+CoreDataClass.swift */,
 				8B4F344025B099DA00FA4E35 /* ActorCD+CoreDataClass.swift */,
 				8B4F344225B099DA00FA4E35 /* MovieCD+CoreDataClass.swift */,
@@ -513,6 +516,7 @@
 				8B594A62258FF45D0001F52C /* Extensions.swift in Sources */,
 				8BEB5128258D4FC500B8C6FC /* LazyLoadView.swift in Sources */,
 				8B3C53E32594301000FADC15 /* SearchView.swift in Sources */,
+				8B7E2A4C25B23AB7001C7298 /* PersonCD+CoreDataClass.swift in Sources */,
 				8B594A5D258FF2790001F52C /* EndPoints.swift in Sources */,
 				8B594A67258FFC670001F52C /* Movie.swift in Sources */,
 				8B8C1122259EAA790050823B /* OrderPaymentView.swift in Sources */,

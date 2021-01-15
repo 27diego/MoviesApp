@@ -35,7 +35,7 @@
         <attribute name="identifier" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="lastUpdated" optional="YES" attributeType="String"/>
         <attribute name="overview" attributeType="String"/>
-        <attribute name="popularity" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="popularity" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="posterPath" optional="YES" attributeType="String"/>
         <attribute name="releaseDate" optional="YES" attributeType="String"/>
         <attribute name="title" attributeType="String"/>
@@ -65,6 +65,13 @@
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
+    <entity name="PersonCD" representedClassName="PersonCD" syncable="YES">
+        <attribute name="identifier" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="lastUpdated" optional="YES" attributeType="String"/>
+        <attribute name="name" attributeType="String"/>
+        <attribute name="popularity" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="profilePath" optional="YES" attributeType="String"/>
+    </entity>
     <entity name="UserCD" representedClassName="UserCD" syncable="YES">
         <attribute name="username" optional="YES" attributeType="String"/>
     </entity>
@@ -73,6 +80,7 @@
         <element name="CrewMemberCD" positionX="264.9559326171875" positionY="101.968017578125" width="128" height="148"/>
         <element name="MovieCD" positionX="-274.1907958984375" positionY="-18.3519287109375" width="128" height="179"/>
         <element name="MovieDescriptionCD" positionX="0.4586181640625" positionY="-55.82534790039062" width="128" height="223"/>
+        <element name="PersonCD" positionX="-72" positionY="18" width="128" height="104"/>
         <element name="UserCD" positionX="-268.109375" positionY="-145.9609375" width="128" height="58"/>
     </elements>
 </model>

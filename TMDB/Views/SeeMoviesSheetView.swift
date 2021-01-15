@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SeeMoviesSheetView: View {
-    var movies: [MovieModel]
+    var movies: FetchedResults<MovieCD>
     @Namespace var nspace
     @State var present: Bool = false
     @State var id: Int = 0
@@ -19,9 +19,9 @@ struct SeeMoviesSheetView: View {
                     ForEach(movies){ movie in
                         // TODO: - Hero Animation
                         NavigationLink(
-                            destination: NavigationLazyView(MovieDetailsView(movieDetails: MovieDetailsVM(for: movie.id))),
+                            destination: NavigationLazyView(MovieDetailsView(movieDetails: MovieDetailsVM(for: movie.identifier))),
                             label: {
-                                PresentationMovieCardView(posterPath: movie.posterPath ?? "", title: movie.title, overview: movie.overview)
+                                PresentationMovieCardView(posterPath: movie.posterPath ?? "", title: movie.title ?? "", overview: movie.overview ?? "")
                                     .foregroundColor(.black)
                             })
                     }

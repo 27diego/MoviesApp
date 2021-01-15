@@ -97,37 +97,32 @@ extension MovieCD {
         let request = MovieCD.fetchMovie(id: id)
         
         if let result = try? context.fetch(request).first {
+            print("found result")
             return result
         }
         
         let newMovie = MovieCD(context: context)
         newMovie.identifier = id
-        
-        do {
-            try context.save()
-        } catch {
-            print("couldn't save to core data: \(error.localizedDescription)")
-        }
 
         return newMovie
     }
     
-    static func updateMovie(for movie: MovieCD, values: MovieCD, context: NSManagedObjectContext){
-        movie.identifier = values.identifier
+    static func updateMovie(for movie: MovieCD, values: MovieModel, context: NSManagedObjectContext){
         movie.backdropPath = values.backdropPath
-        movie.identifier = values.identifier
         movie.overview = values.overview
         movie.popularity = values.popularity
         movie.posterPath = values.posterPath
         movie.releaseDate = values.releaseDate
         movie.title = values.title
-        movie.lastUpdated = values.lastUpdated
-        movie.category = values.category
-        
+        movie.lastUpdated = Date.getToday()
+            
         do {
             try context.save()
         } catch  {
-            print("could not save to core data \(error.localizedDescription)")
+            print("could not save to core data with updating: \(error.localizedDescription)")
+            if context.hasChanges {
+                context.rollback()
+            }
         }
     }
 }
