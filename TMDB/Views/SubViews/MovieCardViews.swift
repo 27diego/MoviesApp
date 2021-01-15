@@ -78,13 +78,13 @@ struct PosterCardView: View {
 
 
 struct SmallMoviePillView: View {
-    var movie: MovieModel
+    var movie: MovieCD
     var body: some View {
         HStack(alignment: .top) {
             SpotlightCardView(imageUrl: movie.backdropPath)
                 .frame(width: UIScreen.screenWidth * 0.45, height: 80)
             VStack(alignment: .leading) {
-                Text(movie.title)
+                Text(movie.title ?? "")
                     .foregroundColor(.black)
                     .font(.title3)
                     .bold()

@@ -17,7 +17,7 @@ struct TMDBApp: App {
     init(){
         persistenceController = StorageProvider.shared
         context = persistenceController.persistanceContainer.viewContext
-        context.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
+//        context.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
     }
 
     var body: some Scene {

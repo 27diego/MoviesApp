@@ -21,7 +21,7 @@ extension ActorCD {
     }
 
     @NSManaged public var character: String?
-    @NSManaged public var id: Int32
+    @NSManaged public var identifier: Int32
     @NSManaged public var name: String?
     @NSManaged public var order: Int32
     @NSManaged public var popularity: Double

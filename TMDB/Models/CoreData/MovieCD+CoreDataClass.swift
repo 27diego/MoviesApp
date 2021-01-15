@@ -14,8 +14,8 @@ import CoreData
 
 @objc(MovieCD)
 public class MovieCD: NSManagedObject, Codable {
-    enum MovieCodingKeys: CodingKey {
-        case backdropPath, id, overview, popularity, posterPath, releaseDate, title, lastUpdated, category, movieDescription
+    enum MovieCodingKeys: String, CodingKey {
+        case backdropPath, identifier = "id", overview, popularity, posterPath, releaseDate, title, lastUpdated, category, movieDescription
     }
 
 
@@ -28,7 +28,7 @@ public class MovieCD: NSManagedObject, Codable {
 
         let container = try decoder.container(keyedBy: MovieCodingKeys.self)
         self.backdropPath = try container.decode(String.self, forKey: .backdropPath)
-        self.id = try container.decode(Int.self, forKey: .id)
+        self.identifier = try container.decode(Int.self, forKey: .identifier)
         self.overview = try container.decode(String.self, forKey: .overview)
         self.popularity = try container.decode(Double.self, forKey: .popularity)
         self.posterPath = try container.decode(String.self, forKey: .posterPath)
@@ -39,7 +39,7 @@ public class MovieCD: NSManagedObject, Codable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: MovieCodingKeys.self)
         try container.encode(backdropPath, forKey: .backdropPath)
-        try container.encode(id, forKey: .id)
+        try container.encode(identifier, forKey: .identifier)
         try container.encode(overview, forKey: .overview)
         try container.encode(popularity, forKey: .popularity)
         try container.encode(posterPath, forKey: .posterPath)
@@ -55,7 +55,7 @@ extension MovieCD {
     }
 
     @NSManaged public var backdropPath: String?
-    @NSManaged public var id: Int
+    @NSManaged public var identifier: Int
     @NSManaged public var overview: String?
     @NSManaged public var popularity: Double
     @NSManaged public var posterPath: String?
@@ -64,14 +64,70 @@ extension MovieCD {
     @NSManaged public var lastUpdated: String?
     @NSManaged public var category: String?
     @NSManaged public var movieDescription: MovieDescriptionCD?
+    
+    var formattedReleaseDate: String {
+        if let release = releaseDate{
+            let dateFormatterGet = DateFormatter()
+            dateFormatterGet.dateFormat = "yyyy-MM-dd"
 
-    var cmpcategory: MovieType {
-        get { MovieType(rawValue: category ?? "") ?? .popular }
-        set { category = newValue.rawValue }
+            let dateFormatterPrint = DateFormatter()
+            dateFormatterPrint.dateFormat = "MMMM d, yyyy"
+
+            let date: Date? = dateFormatterGet.date(from: release)
+            return dateFormatterPrint.string(from: date!)
+        }
+        return ""
     }
 
 }
 
 extension MovieCD : Identifiable {
 
+}
+
+extension MovieCD {
+    static func fetchMovie(id: Int) -> NSFetchRequest<MovieCD> {
+        let request = NSFetchRequest<MovieCD>(entityName: "MovieCD")
+        request.predicate = NSPredicate(format: "%K == %@", #keyPath(MovieCD.identifier), id as NSNumber)
+        
+        return request
+    }
+    
+    static func findOrInsert(id: Int, context: NSManagedObjectContext) -> MovieCD {
+        let request = MovieCD.fetchMovie(id: id)
+        
+        if let result = try? context.fetch(request).first {
+            return result
+        }
+        
+        let newMovie = MovieCD(context: context)
+        newMovie.identifier = id
+        
+        do {
+            try context.save()
+        } catch {
+            print("couldn't save to core data: \(error.localizedDescription)")
+        }
+
+        return newMovie
+    }
+    
+    static func updateMovie(for movie: MovieCD, values: MovieCD, context: NSManagedObjectContext){
+        movie.identifier = values.identifier
+        movie.backdropPath = values.backdropPath
+        movie.identifier = values.identifier
+        movie.overview = values.overview
+        movie.popularity = values.popularity
+        movie.posterPath = values.posterPath
+        movie.releaseDate = values.releaseDate
+        movie.title = values.title
+        movie.lastUpdated = values.lastUpdated
+        movie.category = values.category
+        
+        do {
+            try context.save()
+        } catch  {
+            print("could not save to core data \(error.localizedDescription)")
+        }
+    }
 }

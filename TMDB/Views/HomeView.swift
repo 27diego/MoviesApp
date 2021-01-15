@@ -10,21 +10,16 @@ import CoreData
 
 struct HomeView: View {
     @ObservedObject var movies: Movies
-    @FetchRequest(entity: MovieCD.entity(), sortDescriptors: [ NSSortDescriptor(key: "title", ascending: true) ])
-    var results: FetchedResults<MovieCD>
     
     var body: some View {
         NavigationView {
             ScrollView {
-                UpcomingSectionView(movies: results)
-//                PopularSectionView(movies: movies.movies[.popular] ?? [])
-//                MovieGridSectionView(movies: movies.movies[.nowPlaying] ?? [])
-//                PopularPeopleSection(people: movies.people)
+                UpcomingSectionView()
+                PopularSectionView()
+                MovieGridSectionView()
+                PopularPeopleSection(people: movies.people)
             }
             .navigationBarItems(leading: HStack {
-                Button("Import"){
-                    movies.addMovies()
-                }
                 Button("delete"){
                     movies.deleteMovies()
                 }
@@ -43,9 +38,12 @@ struct ContentView_Previews: PreviewProvider {
 }
 
 struct UpcomingSectionView: View {
+    
+    @FetchRequest(entity: MovieCD.entity(), sortDescriptors: [ NSSortDescriptor(key: "popularity", ascending: false)], predicate: NSPredicate(format: "%K == %@", #keyPath(MovieCD.category), "upcoming"))
     var movies: FetchedResults<MovieCD>
+    
     @State var showSheet: Bool = false
-
+    
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
@@ -59,14 +57,14 @@ struct UpcomingSectionView: View {
                 Spacer()
                     .frame(width: 10)
             }
-//            .sheet(isPresented: $showSheet, content:{ SeeMoviesSheetView(movies: movies)
-//            })
+            //            .sheet(isPresented: $showSheet, content:{ SeeMoviesSheetView(movies: movies)
+            //            })
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(alignment: .center, spacing: 10) {
                     Spacer()
                         .frame(width: 1)
                     ForEach(movies){ movie in
-                        NavigationLink(destination: MovieDetailsView(movieDetails: MovieDetailsVM(for: movie.id))){
+                        NavigationLink(destination: MovieDetailsView(movieDetails: MovieDetailsVM(for: movie.identifier))){
                             SpotlightCardView(imageUrl: movie.backdropPath ?? "", title: movie.title)
                         }
                         .isDetailLink(false)
@@ -81,8 +79,10 @@ struct UpcomingSectionView: View {
 }
 
 struct PopularSectionView: View {
-    var movies: [MovieModel]
-
+    @FetchRequest(entity: MovieCD.entity(), sortDescriptors: [ NSSortDescriptor(key: "popularity", ascending: false)], predicate: NSPredicate(format: "%K == %@", #keyPath(MovieCD.category), "popular"))
+    var movies: FetchedResults<MovieCD>
+    
+    
     @State var showSheet: Bool = false
     var body: some View {
         VStack {
@@ -97,22 +97,22 @@ struct PopularSectionView: View {
                 Spacer()
                     .frame(width: 10)
             }
-            .sheet(isPresented: $showSheet, content:{ SeeMoviesSheetView(movies: movies)
-            })
+            //            .sheet(isPresented: $showSheet, content:{ SeeMoviesSheetView(movies: movies)
+            //            })
             ScrollView(.horizontal, showsIndicators: false){
                 HStack(alignment: .center, spacing: 10) {
                     Spacer()
                         .frame(width: 1)
                     ForEach(movies){ movie in
                         VStack(alignment: .leading) {
-
+                            
                             NavigationLink(
-                                destination: NavigationLazyView(MovieDetailsView(movieDetails: MovieDetailsVM(for: movie.id)))){
+                                destination: NavigationLazyView(MovieDetailsView(movieDetails: MovieDetailsVM(for: movie.identifier)))){
                                 PosterCardView(imageUrl: movie.posterPath ?? "")
                             }
                             .frame(width: UIScreen.screenWidth * 0.45, height: 280)
-
-                            Text(movie.title)
+                            
+                            Text(movie.title ?? "")
                                 .foregroundColor(Color.gray)
                         }
                         .frame(width: UIScreen.screenWidth * 0.45)
@@ -127,8 +127,10 @@ struct PopularSectionView: View {
 }
 
 struct MovieGridSectionView: View {
-    var movies: [MovieModel]
-
+    @FetchRequest(entity: MovieCD.entity(), sortDescriptors: [ NSSortDescriptor(key: "popularity", ascending: false)], predicate: NSPredicate(format: "%K == %@", #keyPath(MovieCD.category), "nowPlaying"))
+    
+    var movies: FetchedResults<MovieCD>
+    
     @State var showSheet: Bool = false
     var layout: [GridItem] = [
         GridItem(.fixed(80)),
@@ -147,13 +149,13 @@ struct MovieGridSectionView: View {
                 Spacer()
                     .frame(width: 10)
             }
-            .sheet(isPresented: $showSheet, content:{ SeeMoviesSheetView(movies: movies)
-            })
+            //            .sheet(isPresented: $showSheet, content:{ SeeMoviesSheetView(movies: movies)
+            //            })
             ScrollView(.horizontal, showsIndicators: false) {
                 LazyHGrid(rows: layout){
                     ForEach(movies) { movie in
                         NavigationLink(
-                            destination: NavigationLazyView(MovieDetailsView(movieDetails: MovieDetailsVM(for: movie.id)))){
+                            destination: NavigationLazyView(MovieDetailsView(movieDetails: MovieDetailsVM(for: movie.identifier)))){
                             SmallMoviePillView(movie: movie)
                         }
                     }
@@ -181,7 +183,7 @@ struct PopularPeopleSection: View {
                         .frame(width: 10)
                     ForEach(people) { person in
                         if person.profilePath != nil {
-
+                            
                             NavigationLink(
                                 destination: NavigationLazyView(PersonDetailsView(person: PersonDetailsVM(for: person.id))),
                                 label: {
@@ -194,7 +196,7 @@ struct PopularPeopleSection: View {
                                     .frame(width: UIScreen.screenWidth * 0.35)
                                     .clipped()
                                 })
-
+                            
                         }
                     }
                     Spacer()
