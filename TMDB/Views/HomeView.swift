@@ -14,6 +14,7 @@ struct HomeView: View {
     var body: some View {
         NavigationView {
             ScrollView {
+//                BurnerView()
                 UpcomingSectionView()
                 PopularSectionView()
                 MovieGridSectionView()
@@ -23,6 +24,7 @@ struct HomeView: View {
             .navigationBarItems(leading: HStack {
                 Button("delete"){
                     movies.deleteMovies()
+                    movies.deletePeople()
                 }
             })
         }
@@ -37,9 +39,20 @@ struct ContentView_Previews: PreviewProvider {
     }
 }
 
+//struct BurnerView: View {
+//    @FetchRequest(entity: CategoryCD.entity(), sortDescriptors: [])
+//    var results: FetchedResults<CategoryCD>
+//
+//    var body: some View {
+//        List(results.first?.movies ?? NSSet()){ movie in
+//
+//        }
+//    }
+//}
+
 struct UpcomingSectionView: View {
     @Environment(\.managedObjectContext) var context
-    @FetchRequest(entity: MovieCD.entity(), sortDescriptors: [ NSSortDescriptor(key: "popularity", ascending: false)], predicate: NSPredicate(format: "%K == %@", #keyPath(MovieCD.category), "upcoming"))
+    @FetchRequest(entity: MovieCD.entity(), sortDescriptors: [ NSSortDescriptor(key: "popularity", ascending: false)])
     var movies: FetchedResults<MovieCD>
     
     @State var showSheet: Bool = false
@@ -79,7 +92,7 @@ struct UpcomingSectionView: View {
 }
 
 struct PopularSectionView: View {
-    @FetchRequest(entity: MovieCD.entity(), sortDescriptors: [ NSSortDescriptor(key: "popularity", ascending: false)], predicate: NSPredicate(format: "%K == %@", #keyPath(MovieCD.category), "popular"))
+    @FetchRequest(entity: MovieCD.entity(), sortDescriptors: [ NSSortDescriptor(key: "popularity", ascending: false)])
     var movies: FetchedResults<MovieCD>
     
     
@@ -127,7 +140,7 @@ struct PopularSectionView: View {
 }
 
 struct MovieGridSectionView: View {
-    @FetchRequest(entity: MovieCD.entity(), sortDescriptors: [ NSSortDescriptor(key: "popularity", ascending: false)], predicate: NSPredicate(format: "%K == %@", #keyPath(MovieCD.category), "nowPlaying"))
+    @FetchRequest(entity: MovieCD.entity(), sortDescriptors: [ NSSortDescriptor(key: "popularity", ascending: false)])
     
     var movies: FetchedResults<MovieCD>
     

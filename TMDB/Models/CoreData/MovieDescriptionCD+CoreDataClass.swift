@@ -2,7 +2,7 @@
 //  MovieDescriptionCD+CoreDataClass.swift
 //  TMDB
 //
-//  Created by Developer on 1/14/21.
+//  Created by Developer on 1/15/21.
 //
 //
 
@@ -45,8 +45,6 @@ public class MovieDescriptionCD: NSManagedObject, Codable {
     }
     
 }
-
-
 extension MovieDescriptionCD {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<MovieDescriptionCD> {
@@ -55,16 +53,18 @@ extension MovieDescriptionCD {
 
     @NSManaged public var backdropPath: String?
     @NSManaged public var identifier: Int
+    @NSManaged public var lastUpdated: String?
     @NSManaged public var overview: String?
     @NSManaged public var popularity: Double
     @NSManaged public var posterPath: String?
     @NSManaged public var releaseDate: String?
     @NSManaged public var runtime: Int
     @NSManaged public var title: String?
-    @NSManaged public var lastUpdated: String?
     @NSManaged public var actors: NSSet?
     @NSManaged public var crewMembers: NSSet?
     @NSManaged public var movie: MovieCD?
+    @NSManaged public var movieLinks: NSSet?
+    @NSManaged public var genres: NSSet?
 
 }
 
@@ -99,6 +99,40 @@ extension MovieDescriptionCD {
 
     @objc(removeCrewMembers:)
     @NSManaged public func removeFromCrewMembers(_ values: NSSet)
+
+}
+
+// MARK: Generated accessors for movieLinks
+extension MovieDescriptionCD {
+
+    @objc(addMovieLinksObject:)
+    @NSManaged public func addToMovieLinks(_ value: MovieVideosCD)
+
+    @objc(removeMovieLinksObject:)
+    @NSManaged public func removeFromMovieLinks(_ value: MovieVideosCD)
+
+    @objc(addMovieLinks:)
+    @NSManaged public func addToMovieLinks(_ values: NSSet)
+
+    @objc(removeMovieLinks:)
+    @NSManaged public func removeFromMovieLinks(_ values: NSSet)
+
+}
+
+// MARK: Generated accessors for genres
+extension MovieDescriptionCD {
+
+    @objc(addGenresObject:)
+    @NSManaged public func addToGenres(_ value: GenresCD)
+
+    @objc(removeGenresObject:)
+    @NSManaged public func removeFromGenres(_ value: GenresCD)
+
+    @objc(addGenres:)
+    @NSManaged public func addToGenres(_ values: NSSet)
+
+    @objc(removeGenres:)
+    @NSManaged public func removeFromGenres(_ values: NSSet)
 
 }
 

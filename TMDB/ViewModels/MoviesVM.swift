@@ -56,7 +56,8 @@ class Movies: ObservableObject {
     func assignMovies(movies: [MovieModel], category: String){
         movies.forEach { (item) in
             let movie = MovieCD.findOrInsert(id: item.id, context: context)
-            movie.category = category
+            let category = CategoryCD.findOrInsert(name: category, context: context)
+            movie.addToCategories(category)
             MovieCD.updateMovie(for: movie, values: item, context: context)
         }
     }
@@ -96,16 +97,27 @@ class Movies: ObservableObject {
             })
             .store(in: &cancellables)
     }
-    
-//    private func assignPeople(actors: [ActorCD]){
-//        actors.forEach { (actor) in
-//            let result = ActorCD.findOrInsert(id: actor.identifier, context: context)
-//            ActorCD.updateActor(actor: result, values: actor, context: context)
-//        }
-//    }
 
-    
     func deleteMovies(){
+        let request: NSFetchRequest<MovieCD> = MovieCD.fetchRequest()
+        let movies = try! self.context.fetch(request)
+        
+        movies.forEach { movie in
+            do {
+                context.delete(movie)
+                try context.save()
+            }
+            catch {
+                if self.context.hasChanges {
+                    self.context.rollback()
+                }
+                print("couldn't delete from core data: \(error.localizedDescription)")
+            }
+        }
+        
+    }
+    
+    func deletePeople(){
         let request: NSFetchRequest<PersonCD> = PersonCD.fetchRequest()
         let movies = try! self.context.fetch(request)
         

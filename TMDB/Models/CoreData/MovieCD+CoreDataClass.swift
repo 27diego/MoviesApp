@@ -2,20 +2,17 @@
 //  MovieCD+CoreDataClass.swift
 //  TMDB
 //
-//  Created by Developer on 1/14/21.
+//  Created by Developer on 1/15/21.
 //
 //
 
 import Foundation
 import CoreData
 
-
-
-
 @objc(MovieCD)
 public class MovieCD: NSManagedObject, Codable {
     enum MovieCodingKeys: String, CodingKey {
-        case backdropPath, identifier = "id", overview, popularity, posterPath, releaseDate, title, lastUpdated, category, movieDescription
+        case backdropPath, identifier = "id", overview, popularity, posterPath, releaseDate, title, lastUpdated, movieDescription
     }
 
 
@@ -56,28 +53,45 @@ extension MovieCD {
 
     @NSManaged public var backdropPath: String?
     @NSManaged public var identifier: Int
+    @NSManaged public var lastUpdated: String?
     @NSManaged public var overview: String?
     @NSManaged public var popularity: Double
     @NSManaged public var posterPath: String?
     @NSManaged public var releaseDate: String?
     @NSManaged public var title: String?
-    @NSManaged public var lastUpdated: String?
-    @NSManaged public var category: String?
     @NSManaged public var movieDescription: MovieDescriptionCD?
+    @NSManaged public var categories: NSSet?
     
     var formattedReleaseDate: String {
-        if let release = releaseDate{
-            let dateFormatterGet = DateFormatter()
-            dateFormatterGet.dateFormat = "yyyy-MM-dd"
+            if let release = releaseDate{
+                let dateFormatterGet = DateFormatter()
+                dateFormatterGet.dateFormat = "yyyy-MM-dd"
 
-            let dateFormatterPrint = DateFormatter()
-            dateFormatterPrint.dateFormat = "MMMM d, yyyy"
+                let dateFormatterPrint = DateFormatter()
+                dateFormatterPrint.dateFormat = "MMMM d, yyyy"
 
-            let date: Date? = dateFormatterGet.date(from: release)
-            return dateFormatterPrint.string(from: date!)
+                let date: Date? = dateFormatterGet.date(from: release)
+                return dateFormatterPrint.string(from: date!)
+            }
+            return ""
         }
-        return ""
-    }
+
+}
+
+// MARK: Generated accessors for categories
+extension MovieCD {
+
+    @objc(addCategoriesObject:)
+    @NSManaged public func addToCategories(_ value: CategoryCD)
+
+    @objc(removeCategoriesObject:)
+    @NSManaged public func removeFromCategories(_ value: CategoryCD)
+
+    @objc(addCategories:)
+    @NSManaged public func addToCategories(_ values: NSSet)
+
+    @objc(removeCategories:)
+    @NSManaged public func removeFromCategories(_ values: NSSet)
 
 }
 
