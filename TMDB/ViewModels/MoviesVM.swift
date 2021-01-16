@@ -79,11 +79,16 @@ class Movies: ObservableObject {
     }
     
     private func fetchPeople(){
-        URLSession.shared.publisher(for: ItemEndpoint.getPeople(from: .popular).url, responseType: NetworkResponse<PersonCD>.self, context: context)
+        URLSession.shared.publisher(for: ItemEndpoint.getPeople(from: .popular).url, responseType: NetworkResponse<PersonModel>.self)
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { _ in }, receiveValue: { results in
                 results.results.forEach { (person) in
-                    person.lastUpdated = Date.getToday()
+                    let newPerson = PersonCD.findOrInsert(id: person.id, context: self.context)
+                    newPerson.lastUpdated = Date.getToday()
+                    newPerson.name = person.name
+                    newPerson.popularity = person.popularity
+                    newPerson.profilePath = person.profilePath
+                    
                     do {
                         try self.context.save()
                     }

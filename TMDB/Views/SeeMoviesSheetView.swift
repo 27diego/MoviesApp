@@ -19,7 +19,7 @@ struct SeeMoviesSheetView: View {
                     ForEach(movies){ movie in
                         // TODO: - Hero Animation
                         NavigationLink(
-                            destination: NavigationLazyView(MovieDetailsView(movieDetails: MovieDetailsVM(for: movie.identifier))),
+                            destination: NavigationLazyView(MovieDetailsView(movieDetails: MovieDetailsVM(for: movie.identifier), id: movie.identifier)),
                             label: {
                                 PresentationMovieCardView(posterPath: movie.posterPath ?? "", title: movie.title ?? "", overview: movie.overview ?? "")
                                     .foregroundColor(.black)

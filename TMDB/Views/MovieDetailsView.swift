@@ -12,6 +12,12 @@ struct MovieDetailsView: View {
     @ObservedObject var movieDetails: MovieDetailsVM
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @State var showSheet: Bool = false
+    @FetchRequest var details: FetchedResults<MovieDescriptionCD>
+    
+    init(movieDetails: MovieDetailsVM, id: Int){
+        self._movieDetails = ObservedObject(wrappedValue: movieDetails)
+        self._details = FetchRequest(fetchRequest: MovieDescriptionCD.fetchDescriptionForMovie(id: id))
+    }
     
     var body: some View {
         ScrollView {
@@ -139,7 +145,7 @@ struct MovieDetailsView: View {
 
 struct MovieDetailsView_Previews: PreviewProvider {
     static var previews: some View {
-        MovieDetailsView(movieDetails: MovieDetailsVM(for: 464052))
+        MovieDetailsView(movieDetails: MovieDetailsVM(for: 464052), id: 464052)
     }
 }
 

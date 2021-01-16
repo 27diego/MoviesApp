@@ -56,3 +56,20 @@ extension PersonCD {
 extension PersonCD : Identifiable {
     
 }
+
+extension PersonCD {
+    static func findOrInsert(id: Int, context: NSManagedObjectContext) -> PersonCD {
+        let request: NSFetchRequest<PersonCD> = PersonCD.fetchRequest()
+        request.predicate = NSPredicate(format: "%K == %@", #keyPath(PersonCD.identifier), id as NSNumber)
+        let results = try? context.fetch(request)
+        
+        if let first = results?.first{
+            return first
+        }
+        
+        let newPerson = PersonCD(context: context)
+        newPerson.identifier = id
+        
+        return newPerson 
+    }
+}

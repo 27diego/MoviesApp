@@ -99,6 +99,7 @@ extension MovieCD : Identifiable {
 
 }
 
+// MARK: - Fetch Requests extension
 extension MovieCD {
     static func fetchMovie(id: Int) -> NSFetchRequest<MovieCD> {
         let request = NSFetchRequest<MovieCD>(entityName: "MovieCD")
@@ -107,6 +108,19 @@ extension MovieCD {
         return request
     }
     
+    static func fetchMovies(containing category: String) -> NSFetchRequest<MovieCD> {
+        let request = NSFetchRequest<MovieCD>(entityName: "MovieCD")
+        request.predicate = NSPredicate(format: "ANY categories.name ==[c] %@", category)
+        request.sortDescriptors = [NSSortDescriptor(key: "popularity", ascending: false), NSSortDescriptor(key: "releaseDate", ascending: false)]
+        request.fetchLimit = 10
+        
+        return request
+    }
+}
+
+
+// MARK: - Static functions extension
+extension MovieCD {
     static func findOrInsert(id: Int, context: NSManagedObjectContext) -> MovieCD {
         let request = MovieCD.fetchMovie(id: id)
         

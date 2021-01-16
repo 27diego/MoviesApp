@@ -28,7 +28,7 @@ public class MovieDescriptionCD: NSManagedObject, Codable {
         self.popularity = try container.decode(Double.self, forKey: .popularity)
         self.posterPath = try container.decode(String.self, forKey: .posterPath)
         self.releaseDate = try container.decode(String.self, forKey: .releaseDate)
-        self.runtime = try container.decode(Int.self, forKey: .runtime)
+        self.runtime = try container.decode(String.self, forKey: .runtime)
         self.title = try container.decode(String.self, forKey: .title)
     }
 
@@ -58,7 +58,7 @@ extension MovieDescriptionCD {
     @NSManaged public var popularity: Double
     @NSManaged public var posterPath: String?
     @NSManaged public var releaseDate: String?
-    @NSManaged public var runtime: Int
+    @NSManaged public var runtime: String?
     @NSManaged public var title: String?
     @NSManaged public var actors: NSSet?
     @NSManaged public var crewMembers: NSSet?
@@ -138,4 +138,32 @@ extension MovieDescriptionCD {
 
 extension MovieDescriptionCD : Identifiable {
 
+}
+
+// MARK: - Fetch Requests extension
+extension MovieDescriptionCD {
+    static func fetchDescriptionForMovie(id: Int) -> NSFetchRequest<MovieDescriptionCD> {
+        let request = NSFetchRequest<MovieDescriptionCD>(entityName: "MovieDescriptionCD")
+        request.predicate = NSPredicate(format: "%K == %@", #keyPath(MovieDescriptionCD.movie.identifier), id as NSNumber)
+        request.sortDescriptors = []
+        return request
+    }
+}
+
+// MARK: - Static functions extension
+extension MovieDescriptionCD {
+    static func findOrInsert(with id: Int, context: NSManagedObjectContext) -> MovieDescriptionCD {
+        let request = NSFetchRequest<MovieDescriptionCD>(entityName: "MovieDescriptionCD")
+        request.predicate = NSPredicate(format: "%K == %@", #keyPath(MovieDescriptionCD.identifier), id as NSNumber)
+        request.sortDescriptors = []
+        
+        let results = try? context.fetch(request)
+        if let first = results?.first {
+            return first
+        }
+        
+        let newDescription = MovieDescriptionCD(context: context)
+        newDescription.identifier = id
+        return newDescription
+    }
 }

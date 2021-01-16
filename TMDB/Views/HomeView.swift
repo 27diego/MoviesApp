@@ -52,8 +52,7 @@ struct ContentView_Previews: PreviewProvider {
 
 struct UpcomingSectionView: View {
     @Environment(\.managedObjectContext) var context
-    @FetchRequest(entity: MovieCD.entity(), sortDescriptors: [ NSSortDescriptor(key: "popularity", ascending: false)])
-    var movies: FetchedResults<MovieCD>
+    @FetchRequest(fetchRequest: MovieCD.fetchMovies(containing: "upcoming")) var movies: FetchedResults<MovieCD>
     
     @State var showSheet: Bool = false
     
@@ -77,7 +76,7 @@ struct UpcomingSectionView: View {
                     Spacer()
                         .frame(width: 1)
                     ForEach(movies){ movie in
-                        NavigationLink(destination: MovieDetailsView(movieDetails: MovieDetailsVM(for: movie.identifier))){
+                        NavigationLink(destination: MovieDetailsView(movieDetails: MovieDetailsVM(for: movie.identifier), id: movie.identifier)){
                             SpotlightCardView(imageUrl: movie.backdropPath ?? "", title: movie.title)
                         }
                         .isDetailLink(false)
@@ -92,8 +91,7 @@ struct UpcomingSectionView: View {
 }
 
 struct PopularSectionView: View {
-    @FetchRequest(entity: MovieCD.entity(), sortDescriptors: [ NSSortDescriptor(key: "popularity", ascending: false)])
-    var movies: FetchedResults<MovieCD>
+    @FetchRequest(fetchRequest: MovieCD.fetchMovies(containing: "popular")) var movies: FetchedResults<MovieCD>
     
     
     @State var showSheet: Bool = false
@@ -120,7 +118,7 @@ struct PopularSectionView: View {
                         VStack(alignment: .leading) {
                             
                             NavigationLink(
-                                destination: NavigationLazyView(MovieDetailsView(movieDetails: MovieDetailsVM(for: movie.identifier)))){
+                                destination: NavigationLazyView(MovieDetailsView(movieDetails: MovieDetailsVM(for: movie.identifier), id: movie.identifier))){
                                 PosterCardView(imageUrl: movie.posterPath ?? "")
                             }
                             .frame(width: UIScreen.screenWidth * 0.45, height: 280)
@@ -140,9 +138,7 @@ struct PopularSectionView: View {
 }
 
 struct MovieGridSectionView: View {
-    @FetchRequest(entity: MovieCD.entity(), sortDescriptors: [ NSSortDescriptor(key: "popularity", ascending: false)])
-    
-    var movies: FetchedResults<MovieCD>
+    @FetchRequest(fetchRequest: MovieCD.fetchMovies(containing: "nowPlaying")) var movies: FetchedResults<MovieCD>
     
     @State var showSheet: Bool = false
     var layout: [GridItem] = [
@@ -168,7 +164,7 @@ struct MovieGridSectionView: View {
                 LazyHGrid(rows: layout){
                     ForEach(movies) { movie in
                         NavigationLink(
-                            destination: NavigationLazyView(MovieDetailsView(movieDetails: MovieDetailsVM(for: movie.identifier)))){
+                            destination: NavigationLazyView(MovieDetailsView(movieDetails: MovieDetailsVM(for: movie.identifier), id: movie.identifier))){
                             SmallMoviePillView(movie: movie)
                         }
                     }

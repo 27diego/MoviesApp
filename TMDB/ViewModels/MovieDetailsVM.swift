@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import CoreData
 
 class MovieDetailsVM: ObservableObject {
     @Published var id: Int = 0
@@ -23,8 +24,18 @@ class MovieDetailsVM: ObservableObject {
     @Published var movieLinks: [MovieVideos] = []
     
     var cancellable: AnyCancellable?
+    let context: NSManagedObjectContext = StorageProvider.shared.persistanceContainer.viewContext
     
     init(for id: Int){
+        setupData(for: id)
+    }
+    
+    private func check(for id: Int) {
+        let request = MovieDescriptionCD.fetchDescriptionForMovie(id: id)
+        if let _ = try? context.fetch(request).first {
+            return
+        }
+        
         setupData(for: id)
     }
     
@@ -36,18 +47,30 @@ class MovieDetailsVM: ObservableObject {
         )
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { _ in }, receiveValue: {
-                self.id = $0.id
-                self.title = $0.title
+                let details = MovieDescriptionCD(context: self.context)
+                details.identifier = $0.id
+                details.title = $0.title
+                details.runtime = $0.formattedRunTime
+                details.overview = $0.overview
+                details.popularity = $0.popularity
+                details.backdropPath = $0.backdropPath
+                details.posterPath = $0.posterPath
+                details.releaseDate = $0.releaseDate
+                $0.genres.forEach { item in
+                    
+                }
+                
                 self.genres = $0.genres
-                self.runtime = $0.formattedRunTime
-                self.overview = $0.overview
-                self.popularity = $0.popularity
-                self.posterPath = $0.posterPath
-                self.backdropPath = $0.backdropPath
-                self.releaseDate = $0.formattedReleaseDate
                 self.actors = $1.cast
                 self.crew = $1.crew
                 self.movieLinks = $2.results.filter { res in res.site == "YouTube" }
+                
+                do{
+                    try self.context.save()
+                }
+                catch{
+                    print("couldn't save details to core data, \(error.localizedDescription)")
+                }
             })
     }
 }

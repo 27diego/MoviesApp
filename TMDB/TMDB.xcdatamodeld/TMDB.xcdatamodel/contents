@@ -63,7 +63,7 @@
         <attribute name="popularity" attributeType="Double" usesScalarValueType="YES"/>
         <attribute name="posterPath" optional="YES" attributeType="String"/>
         <attribute name="releaseDate" attributeType="String"/>
-        <attribute name="runtime" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
+        <attribute name="runtime" optional="YES" attributeType="String"/>
         <attribute name="title" attributeType="String"/>
         <relationship name="actors" toMany="YES" deletionRule="Nullify" destinationEntity="ActorCD" inverseName="movies" inverseEntity="ActorCD"/>
         <relationship name="crewMembers" toMany="YES" deletionRule="Nullify" destinationEntity="CrewMemberCD" inverseName="movies" inverseEntity="CrewMemberCD"/>
@@ -89,19 +89,27 @@
         <attribute name="name" attributeType="String"/>
         <attribute name="popularity" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="profilePath" optional="YES" attributeType="String"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="identifier"/>
+            </uniquenessConstraint>
+            <uniquenessConstraint>
+                <constraint value="name"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
     </entity>
     <entity name="UserCD" representedClassName="UserCD" syncable="YES">
         <attribute name="username" optional="YES" attributeType="String"/>
     </entity>
     <elements>
         <element name="ActorCD" positionX="233.3060302734375" positionY="-125.453125" width="128" height="149"/>
+        <element name="CategoryCD" positionX="-464.5675048828125" positionY="-7.227386474609375" width="128" height="73"/>
         <element name="CrewMemberCD" positionX="264.9559326171875" positionY="101.968017578125" width="128" height="148"/>
         <element name="GenresCD" positionX="-101.7890625" positionY="239.2886962890625" width="128" height="88"/>
         <element name="MovieCD" positionX="-279.2058715820312" positionY="-71.084716796875" width="128" height="193"/>
         <element name="MovieDescriptionCD" positionX="-12.4354248046875" positionY="-59.92752075195312" width="128" height="253"/>
         <element name="MovieVideosCD" positionX="151.025146484375" positionY="312.6764526367188" width="128" height="118"/>
-        <element name="PersonCD" positionX="-299.2180786132812" positionY="254.585205078125" width="128" height="104"/>
+        <element name="PersonCD" positionX="-299.2180786132812" positionY="254.585205078125" width="128" height="118"/>
         <element name="UserCD" positionX="-268.109375" positionY="-145.9609375" width="128" height="58"/>
-        <element name="CategoryCD" positionX="-464.5675048828125" positionY="-7.227386474609375" width="128" height="73"/>
     </elements>
 </model>

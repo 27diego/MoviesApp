@@ -82,7 +82,7 @@ struct PersonMovieListView: View {
                 ForEach(movies) { movie in
                     if movie.posterPath != nil {
                         NavigationLink(
-                            destination: NavigationLazyView(MovieDetailsView(movieDetails: MovieDetailsVM(for: movie.id)))){
+                            destination: NavigationLazyView(MovieDetailsView(movieDetails: MovieDetailsVM(for: movie.id), id: movie.id))){
                             PosterCardView(imageUrl: movie.posterPath)
                                 .frame(width: 110, height: 200)
                         }

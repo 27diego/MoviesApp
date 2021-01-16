@@ -108,7 +108,7 @@ struct MovieResults: View {
     var body: some View {
         ForEach(movies) { movie in
             NavigationLink(
-                destination: NavigationLazyView(MovieDetailsView(movieDetails: MovieDetailsVM(for: movie.id)))){
+                destination: NavigationLazyView(MovieDetailsView(movieDetails: MovieDetailsVM(for: movie.id), id: movie.id))){
                 HStack {
                     Text(movie.title)
                         .foregroundColor(.black)
