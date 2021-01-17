@@ -23,11 +23,14 @@ class MovieDetailsVM: ObservableObject {
     @Published var crew: [CrewMember] = []
     @Published var movieLinks: [MovieVideos] = []
     
+    
+    
     var cancellable: AnyCancellable?
     let context: NSManagedObjectContext = StorageProvider.shared.persistanceContainer.viewContext
+    let storageProvider = StorageProvider.shared
     
     init(for id: Int){
-        setupData(for: id)
+       check(for: id)
     }
     
     private func check(for id: Int) {
@@ -47,8 +50,7 @@ class MovieDetailsVM: ObservableObject {
         )
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { _ in }, receiveValue: {
-                let details = MovieDescriptionCD(context: self.context)
-                details.identifier = $0.id
+                let details = MovieDescriptionCD.findOrInsert(with: id, context: self.context)
                 details.title = $0.title
                 details.runtime = $0.formattedRunTime
                 details.overview = $0.overview
@@ -56,21 +58,43 @@ class MovieDetailsVM: ObservableObject {
                 details.backdropPath = $0.backdropPath
                 details.posterPath = $0.posterPath
                 details.releaseDate = $0.releaseDate
+                details.lastUpdated = Date.getToday()
                 $0.genres.forEach { item in
-                    
+                    let genre = GenresCD.findOrInsert(by: item.name, context: self.context)
+                    genre.identifier = item.id
+                    _ = self.storageProvider.saveContext(context: self.context)
+                    details.addToGenres(genre)
                 }
                 
-                self.genres = $0.genres
-                self.actors = $1.cast
-                self.crew = $1.crew
-                self.movieLinks = $2.results.filter { res in res.site == "YouTube" }
+                $1.cast.forEach { item in
+//                    let actor = ActorCD.findOrInsert(id: item.id, context: self.context)
+//                    actor.character = item.character
+//                    actor.name = item.name
+//                    actor.profilePath = item.profilePath
+//                    actor.order = item.order
+//                    actor.popularity = item.popularity
+//                    actor.lastUpdated = Date.getToday()
+//                    _ = self.storageProvider.saveContext(context: self.context)
+//                    details.addToActors(actor)
+                }
+                $1.crew.forEach { item in
+//                    let crewMember = CrewMemberCD.findOrInsert(by: item.id, context: self.context)
+//                    crewMember.department = item.department
+//                    crewMember.job = item.job
+//                    crewMember.name = item.name
+//                    crewMember.profilePath = item.profilePath
+//                    crewMember.lastUpdated = Date.getToday()
+//                    details.addToCrewMembers(crewMember)
+                }
+                $2.results.filter { res in res.site == "YouTube" }.forEach { item in
+//                    let link = MovieVideosCD.findOrInsert(by: item.id, context: self.context)
+//                    link.key = item.key
+//                    link.name = item.name
+//                    _ = self.storageProvider.saveContext(context: self.context)
+//                    details.addToMovieLinks(link)
+                }
                 
-                do{
-                    try self.context.save()
-                }
-                catch{
-                    print("couldn't save details to core data, \(error.localizedDescription)")
-                }
+                _ = self.storageProvider.saveContext(context: self.context)
             })
     }
 }

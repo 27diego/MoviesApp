@@ -50,7 +50,7 @@ extension ActorCD {
 
     @NSManaged public var character: String?
     @NSManaged public var identifier: Int
-    @NSManaged public var name: String?
+    @NSManaged public var name: String
     @NSManaged public var order: Int
     @NSManaged public var popularity: Double
     @NSManaged public var profilePath: String?
@@ -80,15 +80,9 @@ extension ActorCD : Identifiable {
 
 }
 
-/*
- @NSManaged public var character: String?
- @NSManaged public var identifier: Int32
- @NSManaged public var name: String?
- @NSManaged public var order: Int32
- @NSManaged public var popularity: Double
- @NSManaged public var profilePath: String?
- @NSManaged public var lastUpdated: String?
- */
+extension ActorCD: PersonCDProtocol {
+    
+}
 
 extension ActorCD {
     static func findOrInsert(id: Int, context: NSManagedObjectContext) -> ActorCD {
@@ -103,23 +97,5 @@ extension ActorCD {
         actor.identifier = id
         
         return actor
-    }
-    
-    static func updateActor(actor: ActorCD, values: ActorCD, context: NSManagedObjectContext){
-        actor.character = values.character
-        actor.name = values.name
-        actor.order = values.order
-        actor.popularity = values.popularity
-        actor.profilePath = values.profilePath
-        actor.lastUpdated = values.lastUpdated
-        
-        do {
-            try context.save()
-        } catch {
-            print("Could not save actor to core data: \(error.localizedDescription)")
-            if context.hasChanges{
-                context.rollback()
-            }
-        }
     }
 }

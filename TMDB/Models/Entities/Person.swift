@@ -8,6 +8,13 @@
 import Foundation
 
 // MARK: - maybe should be a struct?
+@objc
+protocol PersonCDProtocol {
+    var identifier: Int { set get }
+    var name: String { set get }
+    var profilePath: String? { set get }
+}
+
 protocol Person: Identifiable {
     var id: Int { set get }
     var name: String { set get }

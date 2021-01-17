@@ -5,7 +5,7 @@
         <attribute name="identifier" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="lastUpdated" optional="YES" attributeType="String"/>
         <attribute name="name" attributeType="String"/>
-        <attribute name="order" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="order" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="popularity" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="profilePath" optional="YES" attributeType="String"/>
         <relationship name="movies" optional="YES" toMany="YES" deletionRule="Deny" destinationEntity="MovieDescriptionCD" inverseName="actors" inverseEntity="MovieDescriptionCD"/>
@@ -21,7 +21,7 @@
     </entity>
     <entity name="CrewMemberCD" representedClassName="CrewMemberCD" syncable="YES">
         <attribute name="department" attributeType="String"/>
-        <attribute name="id" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="identifier" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="job" attributeType="String"/>
         <attribute name="lastUpdated" optional="YES" attributeType="String"/>
         <attribute name="name" attributeType="String"/>
@@ -29,7 +29,7 @@
         <relationship name="movies" optional="YES" toMany="YES" deletionRule="Deny" destinationEntity="MovieDescriptionCD" inverseName="crewMembers" inverseEntity="MovieDescriptionCD"/>
         <uniquenessConstraints>
             <uniquenessConstraint>
-                <constraint value="id"/>
+                <constraint value="identifier"/>
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
@@ -37,6 +37,12 @@
         <attribute name="identifier" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="name" attributeType="String"/>
         <relationship name="movie" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MovieDescriptionCD" inverseName="genres" inverseEntity="MovieDescriptionCD"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="identifier"/>
+                <constraint value="name"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
     </entity>
     <entity name="MovieCD" representedClassName="MovieCD" syncable="YES">
         <attribute name="backdropPath" optional="YES" attributeType="String"/>
@@ -69,7 +75,7 @@
         <relationship name="crewMembers" toMany="YES" deletionRule="Nullify" destinationEntity="CrewMemberCD" inverseName="movies" inverseEntity="CrewMemberCD"/>
         <relationship name="genres" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="GenresCD" inverseName="movie" inverseEntity="GenresCD"/>
         <relationship name="movie" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MovieCD" inverseName="movieDescription" inverseEntity="MovieCD"/>
-        <relationship name="movieLinks" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MovieVideosCD" inverseName="movie" inverseEntity="MovieVideosCD"/>
+        <relationship name="movieLinks" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="MovieVideosCD" inverseName="movie" inverseEntity="MovieVideosCD"/>
         <uniquenessConstraints>
             <uniquenessConstraint>
                 <constraint value="identifier"/>
@@ -104,11 +110,11 @@
     <elements>
         <element name="ActorCD" positionX="233.3060302734375" positionY="-125.453125" width="128" height="149"/>
         <element name="CategoryCD" positionX="-464.5675048828125" positionY="-7.227386474609375" width="128" height="73"/>
-        <element name="CrewMemberCD" positionX="264.9559326171875" positionY="101.968017578125" width="128" height="148"/>
+        <element name="CrewMemberCD" positionX="264.9559326171875" positionY="101.968017578125" width="128" height="134"/>
         <element name="GenresCD" positionX="-101.7890625" positionY="239.2886962890625" width="128" height="88"/>
         <element name="MovieCD" positionX="-279.2058715820312" positionY="-71.084716796875" width="128" height="193"/>
-        <element name="MovieDescriptionCD" positionX="-12.4354248046875" positionY="-59.92752075195312" width="128" height="253"/>
-        <element name="MovieVideosCD" positionX="151.025146484375" positionY="312.6764526367188" width="128" height="118"/>
+        <element name="MovieDescriptionCD" positionX="-12.4354248046875" positionY="-59.92752075195312" width="128" height="239"/>
+        <element name="MovieVideosCD" positionX="151.025146484375" positionY="312.6764526367188" width="128" height="104"/>
         <element name="PersonCD" positionX="-299.2180786132812" positionY="254.585205078125" width="128" height="118"/>
         <element name="UserCD" positionX="-268.109375" positionY="-145.9609375" width="128" height="58"/>
     </elements>

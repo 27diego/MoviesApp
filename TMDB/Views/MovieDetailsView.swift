@@ -44,8 +44,8 @@ struct MovieDetailsView: View {
                 VStack(alignment: .center, spacing: 20) {
                     Color.clear.overlay(
                         Group{
-                            if movieDetails.backdropPath != nil {
-                                RemoteImage(url: ImageEndpoint(path: movieDetails.posterPath ?? "").url)
+                            if details.first?.backdropPath != nil {
+                                RemoteImage(url: ImageEndpoint(path: details.first?.posterPath ?? "").url)
                                     .aspectRatio(contentMode: .fill)
                                     .frame(height: 400 ,alignment: .top)
                             }
@@ -58,73 +58,73 @@ struct MovieDetailsView: View {
                     .clipped()
                     
                     VStack(alignment: .leading, spacing: 10) {
-                        Text(movieDetails.title)
+                        Text(details.first?.title ?? "")
                             .font(.title)
                             .bold()
                         
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack {
-                                ForEach(movieDetails.genres) { genre in
-                                    Text(genre.name)
-                                        .foregroundColor(Color(#colorLiteral(red: 0.5137254902, green: 0.5098039216, blue: 0.5254901961, alpha: 1)))
-                                        .padding(.horizontal, 16)
-                                        .padding(.vertical, 5)
-                                        .background(Color(#colorLiteral(red: 0.9490196078, green: 0.9490196078, blue: 0.9647058824, alpha: 1)))
-                                        .clipShape(Capsule())
-                                }
-                            }
-                        }
+//                        ScrollView(.horizontal, showsIndicators: false) {
+//                            HStack {
+//                                ForEach(details.first?.getGenres) { genre in
+//                                    Text(genre.name)
+//                                        .foregroundColor(Color(#colorLiteral(red: 0.5137254902, green: 0.5098039216, blue: 0.5254901961, alpha: 1)))
+//                                        .padding(.horizontal, 16)
+//                                        .padding(.vertical, 5)
+//                                        .background(Color(#colorLiteral(red: 0.9490196078, green: 0.9490196078, blue: 0.9647058824, alpha: 1)))
+//                                        .clipShape(Capsule())
+//                                }
+//                            }
+//                        }
                         
                         HStack{
-                            Text(movieDetails.releaseDate)
+                            Text(details.first?.releaseDate ?? "")
                             Spacer()
-                            Text(movieDetails.runtime ?? "")
+                            Text(details.first?.runtime ?? "")
                         }
                         .foregroundColor(Color(.systemGray))
-                        
+                        Text("\(details.count)")
                         Text("Storyline")
                             .font(.title3)
                             .bold()
                         
-                        Text(movieDetails.overview)
+                        Text(details.first?.overview ?? "")
                             .fixedSize(horizontal: false, vertical: true)
                     }
                     .padding(.horizontal, 10)
                     
-                    VStack(alignment: .leading) {
-                        Text("Actors")
-                            .padding(.horizontal)
-                        CirclePeopleSectionView(people: movieDetails.actors)
-                    }
+//                    VStack(alignment: .leading) {
+//                        Text("Actors")
+//                            .padding(.horizontal)
+//                        CirclePeopleSectionView(people: details.first?.getActors)
+//                    }
                     
-                    VStack(alignment: .leading) {
-                        Text("Crew")
-                            .padding(.horizontal)
-                        CirclePeopleSectionView(people: movieDetails.crew)
-                    }
+//                    VStack(alignment: .leading) {
+//                        Text("Crew")
+//                            .padding(.horizontal)
+//                        CirclePeopleSectionView(people: details.first?.getCrew)
+//                    }
                     
-                    VStack(alignment: .leading){
-                        Text("Trailers")
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack {
-                                ForEach(movieDetails.movieLinks){ link in
-                                    RoundedRectangle(cornerRadius: 12)
-                                        .frame(width: 200, height: 50)
-                                        .foregroundColor(Color(.systemGray6))
-                                        .overlay(
-                                            Text(link.name)
-                                                .onTapGesture {
-                                                    showSheet.toggle()
-                                                }
-                                                .sheet(isPresented: $showSheet){
-                                                    SafariView(url: URL(string: link.youtubeUrl ?? "")!)
-                                                }
-                                                .padding()
-                                        )
-                                }
-                            }
-                        }
-                    }.padding()
+//                    VStack(alignment: .leading){
+//                        Text("Trailers")
+//                        ScrollView(.horizontal, showsIndicators: false) {
+//                            HStack {
+//                                ForEach(details.first?.getLinks){ link in
+//                                    RoundedRectangle(cornerRadius: 12)
+//                                        .frame(width: 200, height: 50)
+//                                        .foregroundColor(Color(.systemGray6))
+//                                        .overlay(
+//                                            Text(link.name)
+//                                                .onTapGesture {
+//                                                    showSheet.toggle()
+//                                                }
+//                                                .sheet(isPresented: $showSheet){
+//                                                    SafariView(url: URL(string: link.youtubeUrl ?? "")!)
+//                                                }
+//                                                .padding()
+//                                        )
+//                                }
+//                            }
+//                        }
+//                    }.padding()
                     
                     NavigationLink(
                         destination: NavigationLazyView(TheaterView(theater: TheaterVM(for: MovieModel(id: movieDetails.id, title: movieDetails.title, popularity: movieDetails.popularity, releaseDate: movieDetails.releaseDate, backdropPath: movieDetails.backdropPath, posterPath: movieDetails.posterPath, overview: movieDetails.overview))))){

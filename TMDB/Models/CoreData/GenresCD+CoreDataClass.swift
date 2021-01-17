@@ -20,7 +20,7 @@ extension GenresCD {
         return NSFetchRequest<GenresCD>(entityName: "GenresCD")
     }
 
-    @NSManaged public var identifier: Int64
+    @NSManaged public var identifier: Int
     @NSManaged public var name: String?
     @NSManaged public var movie: NSSet?
 
@@ -44,5 +44,38 @@ extension GenresCD {
 }
 
 extension GenresCD : Identifiable {
+    
+}
 
+extension GenresCD {
+    static func fetch(by id: Int) -> NSFetchRequest<GenresCD>{
+        let request = NSFetchRequest<GenresCD>(entityName: "GenresCD")
+        request.predicate = NSPredicate(format: "%K == %@", #keyPath(GenresCD.identifier), id as NSNumber)
+        request.sortDescriptors = []
+        
+        return request
+    }
+    
+    static func fetch(by genre: String) -> NSFetchRequest<GenresCD>{
+        let request = NSFetchRequest<GenresCD>(entityName: "GenresCD")
+        request.predicate = NSPredicate(format: "%K == %@", #keyPath(GenresCD.identifier), genre)
+        request.sortDescriptors = []
+        
+        return request
+    }
+}
+
+extension GenresCD {
+    static func findOrInsert(by name: String, context: NSManagedObjectContext) -> GenresCD{
+        let request = GenresCD.fetch(by: name)
+        
+        if let first = try? context.fetch(request).first {
+            return first
+        }
+        
+        let newGenre = GenresCD(context: context)
+        newGenre.name = name
+        
+        return newGenre
+    }
 }

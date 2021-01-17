@@ -22,9 +22,9 @@ extension CrewMemberCD {
     }
 
     @NSManaged public var department: String?
-    @NSManaged public var id: Int32
+    @NSManaged public var identifier: Int
     @NSManaged public var job: String?
-    @NSManaged public var name: String?
+    @NSManaged public var name: String
     @NSManaged public var profilePath: String?
     @NSManaged public var lastUpdated: String?
     @NSManaged public var movies: NSSet?
@@ -50,4 +50,33 @@ extension CrewMemberCD {
 
 extension CrewMemberCD : Identifiable {
 
+}
+
+extension CrewMemberCD: PersonCDProtocol {
+    
+}
+
+extension CrewMemberCD {
+    static func getCrewMember(by id: Int) -> NSFetchRequest<CrewMemberCD>{
+        let request = NSFetchRequest<CrewMemberCD>(entityName: "CrewMemberCD")
+        request.predicate = NSPredicate(format: "%K == %@", #keyPath(CrewMemberCD.identifier), id as NSNumber)
+        request.sortDescriptors = []
+        return request
+    }
+}
+
+extension CrewMemberCD {
+    static func findOrInsert(by id: Int, context: NSManagedObjectContext) -> CrewMemberCD {
+        let request = NSFetchRequest<CrewMemberCD>(entityName: "CrewMemberCD")
+        request.predicate = NSPredicate(format: "%K == %@", #keyPath(ActorCD.identifier), id as NSNumber)
+        let results = try? context.fetch(request)
+        if let first = results?.first {
+            return first
+        }
+        
+        let actor = CrewMemberCD(context: context)
+        actor.identifier = id
+        
+        return actor
+    }
 }
