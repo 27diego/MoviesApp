@@ -60,28 +60,11 @@ extension MovieDescriptionCD {
     @NSManaged public var releaseDate: String?
     @NSManaged public var runtime: String?
     @NSManaged public var title: String?
-    @NSManaged public var actors: NSSet?
-    @NSManaged public var crewMembers: NSSet?
+    @NSManaged public var actors:  Set<ActorCD>?
+    @NSManaged public var crewMembers: Set<CrewMemberCD>?
     @NSManaged public var movie: MovieCD?
-    @NSManaged public var movieLinks: NSSet?
-    @NSManaged public var genres: NSSet?
-    
-    var getGenres: Set<GenresCD> {
-        return genres as! Set<GenresCD>
-    }
-    
-    var getActors: Set<ActorCD> {
-        return actors as! Set<ActorCD>
-    }
-    
-    var getCrew: Set<CrewMemberCD> {
-        return crewMembers as! Set<CrewMemberCD>
-    }
-    
-    var getLinks: Set<MovieVideosCD> {
-        return movieLinks as! Set<MovieVideosCD>
-    }
-
+    @NSManaged public var movieLinks: Set<MovieVideosCD>?
+    @NSManaged public var genres: Set<GenresCD>?
 }
 
 // MARK: Generated accessors for actors

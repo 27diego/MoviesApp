@@ -62,18 +62,7 @@ struct MovieDetailsView: View {
                             .font(.title)
                             .bold()
                         
-//                        ScrollView(.horizontal, showsIndicators: false) {
-//                            HStack {
-//                                ForEach(details.first?.getGenres) { genre in
-//                                    Text(genre.name)
-//                                        .foregroundColor(Color(#colorLiteral(red: 0.5137254902, green: 0.5098039216, blue: 0.5254901961, alpha: 1)))
-//                                        .padding(.horizontal, 16)
-//                                        .padding(.vertical, 5)
-//                                        .background(Color(#colorLiteral(red: 0.9490196078, green: 0.9490196078, blue: 0.9647058824, alpha: 1)))
-//                                        .clipShape(Capsule())
-//                                }
-//                            }
-//                        }
+                        GenresListView(genres: details.first?.genres ?? Set<GenresCD>())
                         
                         HStack{
                             Text(details.first?.releaseDate ?? "")
@@ -91,18 +80,18 @@ struct MovieDetailsView: View {
                     }
                     .padding(.horizontal, 10)
                     
-//                    VStack(alignment: .leading) {
-//                        Text("Actors")
-//                            .padding(.horizontal)
-//                        CirclePeopleSectionView(people: details.first?.getActors)
-//                    }
-                    
-//                    VStack(alignment: .leading) {
-//                        Text("Crew")
-//                            .padding(.horizontal)
-//                        CirclePeopleSectionView(people: details.first?.getCrew)
-//                    }
-                    
+                    VStack(alignment: .leading) {
+                        Text("Actors")
+                            .padding(.horizontal)
+                        CirclePeopleSectionView(people: details.first?.actors ?? Set<ActorCD>())
+                    }
+
+                    VStack(alignment: .leading) {
+                        Text("Crew")
+                            .padding(.horizontal)
+                        CirclePeopleSectionView(people: details.first?.crewMembers ?? Set<CrewMemberCD>())
+                    }
+//                    
 //                    VStack(alignment: .leading){
 //                        Text("Trailers")
 //                        ScrollView(.horizontal, showsIndicators: false) {
@@ -126,12 +115,12 @@ struct MovieDetailsView: View {
 //                        }
 //                    }.padding()
                     
-                    NavigationLink(
-                        destination: NavigationLazyView(TheaterView(theater: TheaterVM(for: MovieModel(id: movieDetails.id, title: movieDetails.title, popularity: movieDetails.popularity, releaseDate: movieDetails.releaseDate, backdropPath: movieDetails.backdropPath, posterPath: movieDetails.posterPath, overview: movieDetails.overview))))){
-                        Text("Reserve Seats")
-                    }
-                    .buttonStyle(CustomButtonStyle(color: Color(#colorLiteral(red: 0.5490196078, green: 0.3098039216, blue: 0.9529411765, alpha: 1))))
-                    .frame(width: UIScreen.screenWidth * 0.9)
+//                    NavigationLink(
+//                        destination: NavigationLazyView(TheaterView(theater: TheaterVM(for: MovieModel(id: movieDetails.id, title: movieDetails.title, popularity: movieDetails.popularity, releaseDate: movieDetails.releaseDate, backdropPath: movieDetails.backdropPath, posterPath: movieDetails.posterPath, overview: movieDetails.overview))))){
+//                        Text("Reserve Seats")
+//                    }
+//                    .buttonStyle(CustomButtonStyle(color: Color(#colorLiteral(red: 0.5490196078, green: 0.3098039216, blue: 0.9529411765, alpha: 1))))
+//                    .frame(width: UIScreen.screenWidth * 0.9)
                 }
             }
         }
@@ -162,3 +151,21 @@ struct MovieDetailsView_Previews: PreviewProvider {
  .aspectRatio(contentMode: .fit)
  .frame(width: 100, height: 100)
  */
+
+struct GenresListView: View {
+    var genres: Set<GenresCD>
+    var body: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack {
+                ForEach(Array(genres), id: \.self) { genre in
+                    Text(genre.name ?? "")
+                        .foregroundColor(Color(#colorLiteral(red: 0.5137254902, green: 0.5098039216, blue: 0.5254901961, alpha: 1)))
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 5)
+                        .background(Color(#colorLiteral(red: 0.9490196078, green: 0.9490196078, blue: 0.9647058824, alpha: 1)))
+                        .clipShape(Capsule())
+                }
+            }
+        }
+    }
+}
