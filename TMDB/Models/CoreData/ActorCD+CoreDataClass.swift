@@ -55,7 +55,7 @@ extension ActorCD {
     @NSManaged public var popularity: Double
     @NSManaged public var profilePath: String?
     @NSManaged public var lastUpdated: String?
-    @NSManaged public var movies: NSSet?
+    @NSManaged public var movies: Set<MovieCD>?
 
 }
 
@@ -82,6 +82,16 @@ extension ActorCD : Identifiable {
 
 extension ActorCD: PersonCDProtocol {
     
+}
+
+extension ActorCD {
+    static func fetchPopularActors(movie id: Int) -> NSFetchRequest<ActorCD>{
+        let request = NSFetchRequest<ActorCD>(entityName: "ActorCD")
+        request.sortDescriptors = [NSSortDescriptor(key: "popularity", ascending: false)]
+        request.predicate = NSPredicate(format: "ANY movies.identifier == %@", id as NSNumber)
+        request.fetchLimit = 10
+        return request
+    }
 }
 
 extension ActorCD {

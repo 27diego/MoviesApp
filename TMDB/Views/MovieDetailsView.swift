@@ -7,14 +7,16 @@
 
 import SwiftUI
 import AVKit
+import CoreData
 
 struct MovieDetailsView: View {
     @ObservedObject var movieDetails: MovieDetailsVM
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @State var showSheet: Bool = false
     @FetchRequest var details: FetchedResults<MovieDescriptionCD>
-    
+    var movieId: Int
     init(movieDetails: MovieDetailsVM, id: Int){
+        self.movieId = id
         self._movieDetails = ObservedObject(wrappedValue: movieDetails)
         self._details = FetchRequest(fetchRequest: MovieDescriptionCD.fetchDescriptionForMovie(id: id))
     }
@@ -83,44 +85,44 @@ struct MovieDetailsView: View {
                     VStack(alignment: .leading) {
                         Text("Actors")
                             .padding(.horizontal)
-                        CirclePeopleSectionView(people: details.first?.actors ?? Set<ActorCD>())
+                        CirclePeopleSectionView(request: ActorCD.fetchPopularActors(movie: movieId))
                     }
 
                     VStack(alignment: .leading) {
                         Text("Crew")
                             .padding(.horizontal)
-                        CirclePeopleSectionView(people: details.first?.crewMembers ?? Set<CrewMemberCD>())
+                        CirclePeopleSectionView(request: CrewMemberCD.fetchCrewMembers(movie: movieId))
                     }
-//                    
-//                    VStack(alignment: .leading){
-//                        Text("Trailers")
-//                        ScrollView(.horizontal, showsIndicators: false) {
-//                            HStack {
-//                                ForEach(details.first?.getLinks){ link in
-//                                    RoundedRectangle(cornerRadius: 12)
-//                                        .frame(width: 200, height: 50)
-//                                        .foregroundColor(Color(.systemGray6))
-//                                        .overlay(
-//                                            Text(link.name)
-//                                                .onTapGesture {
-//                                                    showSheet.toggle()
-//                                                }
-//                                                .sheet(isPresented: $showSheet){
-//                                                    SafariView(url: URL(string: link.youtubeUrl ?? "")!)
-//                                                }
-//                                                .padding()
-//                                        )
-//                                }
-//                            }
-//                        }
-//                    }.padding()
                     
-//                    NavigationLink(
-//                        destination: NavigationLazyView(TheaterView(theater: TheaterVM(for: MovieModel(id: movieDetails.id, title: movieDetails.title, popularity: movieDetails.popularity, releaseDate: movieDetails.releaseDate, backdropPath: movieDetails.backdropPath, posterPath: movieDetails.posterPath, overview: movieDetails.overview))))){
-//                        Text("Reserve Seats")
-//                    }
-//                    .buttonStyle(CustomButtonStyle(color: Color(#colorLiteral(red: 0.5490196078, green: 0.3098039216, blue: 0.9529411765, alpha: 1))))
-//                    .frame(width: UIScreen.screenWidth * 0.9)
+                    VStack(alignment: .leading){
+                        Text("Trailers")
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack {
+                                ForEach(Array(details.first?.movieLinks ?? Set<MovieVideosCD>()), id:\.self){ link in
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .frame(width: 200, height: 50)
+                                        .foregroundColor(Color(.systemGray6))
+                                        .overlay(
+                                            Text(link.name ?? "")
+                                                .onTapGesture {
+                                                    showSheet.toggle()
+                                                }
+                                                .sheet(isPresented: $showSheet){
+                                                    SafariView(url: URL(string: link.youtubeUrl ?? "")!)
+                                                }
+                                                .padding()
+                                        )
+                                }
+                            }
+                        }
+                    }.padding()
+                    
+                    NavigationLink(
+                        destination: NavigationLazyView(TheaterView(theater: TheaterVM(for: MovieModel(id: movieDetails.id, title: movieDetails.title, popularity: movieDetails.popularity, releaseDate: movieDetails.releaseDate, backdropPath: movieDetails.backdropPath, posterPath: movieDetails.posterPath, overview: movieDetails.overview))))){
+                        Text("Reserve Seats")
+                    }
+                    .buttonStyle(CustomButtonStyle(color: Color(#colorLiteral(red: 0.5490196078, green: 0.3098039216, blue: 0.9529411765, alpha: 1))))
+                    .frame(width: UIScreen.screenWidth * 0.9)
                 }
             }
         }

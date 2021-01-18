@@ -21,13 +21,11 @@ class StorageProvider {
         }
     }
     
-    func saveContext(context: NSManagedObjectContext) -> Bool {
+    func saveContext(context: NSManagedObjectContext){
         do {
             try context.save()
-            return true
         } catch  {
             print("Couldn't save to core data: \(error.localizedDescription)")
-            return false
         }
     }
 }

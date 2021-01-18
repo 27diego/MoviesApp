@@ -63,6 +63,14 @@ extension CrewMemberCD {
         request.sortDescriptors = []
         return request
     }
+    
+    static func fetchCrewMembers(movie id: Int) -> NSFetchRequest<CrewMemberCD> {
+        let request = NSFetchRequest<CrewMemberCD>(entityName: "CrewMemberCD")
+        request.predicate = NSPredicate(format: "ANY movies.identifier == %@", id as NSNumber)
+        request.sortDescriptors = []
+        request.fetchLimit = 10
+        return request
+    }
 }
 
 extension CrewMemberCD {

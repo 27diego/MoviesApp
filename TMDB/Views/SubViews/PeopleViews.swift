@@ -9,17 +9,20 @@ import SwiftUI
 import CoreData
 
 struct CirclePeopleSectionView<T: NSManagedObject>: View where T: PersonCDProtocol {
-    var people: Set<T>
+    @FetchRequest var people: FetchedResults<T>
+    init(request: NSFetchRequest<T>){
+        _people = FetchRequest(fetchRequest: request)
+    }
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false){
             HStack{
                 Spacer()
                     .frame(width: 10)
-                ForEach(Array(people).prefix(<#T##maxLength: Int##Int#>), id: \.identifier) { person in
+                ForEach(people, id:\.self) { person in
                     if person.profilePath != nil {
-//                        NavigationLink(
-//                            destination: NavigationLazyView(PersonDetailsView(person: PersonDetailsVM(for: person.id))),
-//                            label: {
+                        NavigationLink(
+                            destination: NavigationLazyView(PersonDetailsView(person: PersonDetailsVM(for: person.identifier))),
+                            label: {
                                 VStack {
                                     RemoteImage(url: ImageEndpoint(path: person.profilePath ?? "").url)
                                         .aspectRatio(contentMode: .fill)
@@ -32,7 +35,7 @@ struct CirclePeopleSectionView<T: NSManagedObject>: View where T: PersonCDProtoc
                                     
                                 }
                                 .foregroundColor(.black)
-//                            })
+                            })
                     }
                 }
                 Spacer()

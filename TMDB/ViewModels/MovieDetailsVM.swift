@@ -62,39 +62,38 @@ class MovieDetailsVM: ObservableObject {
                 $0.genres.forEach { item in
                     let genre = GenresCD.findOrInsert(by: item.name, context: self.context)
                     genre.identifier = item.id
-                    _ = self.storageProvider.saveContext(context: self.context)
                     details.addToGenres(genre)
                 }
                 
                 $1.cast.forEach { item in
-//                    let actor = ActorCD.findOrInsert(id: item.id, context: self.context)
-//                    actor.character = item.character
-//                    actor.name = item.name
-//                    actor.profilePath = item.profilePath
-//                    actor.order = item.order
-//                    actor.popularity = item.popularity
-//                    actor.lastUpdated = Date.getToday()
-//                    _ = self.storageProvider.saveContext(context: self.context)
-//                    details.addToActors(actor)
+                    let actor = ActorCD.findOrInsert(id: item.id, context: self.context)
+                    actor.character = item.character
+                    actor.name = item.name
+                    actor.profilePath = item.profilePath
+                    actor.order = item.order
+                    actor.popularity = item.popularity
+                    actor.lastUpdated = Date.getToday()
+                    details.addToActors(actor)
                 }
                 $1.crew.forEach { item in
-//                    let crewMember = CrewMemberCD.findOrInsert(by: item.id, context: self.context)
-//                    crewMember.department = item.department
-//                    crewMember.job = item.job
-//                    crewMember.name = item.name
-//                    crewMember.profilePath = item.profilePath
-//                    crewMember.lastUpdated = Date.getToday()
-//                    details.addToCrewMembers(crewMember)
+                    let crewMember = CrewMemberCD.findOrInsert(by: item.id, context: self.context)
+                    crewMember.department = item.department
+                    crewMember.job = item.job
+                    crewMember.name = item.name
+                    crewMember.profilePath = item.profilePath
+                    crewMember.lastUpdated = Date.getToday()
+                    details.addToCrewMembers(crewMember)
                 }
                 $2.results.filter { res in res.site == "YouTube" }.forEach { item in
-//                    let link = MovieVideosCD.findOrInsert(by: item.id, context: self.context)
-//                    link.key = item.key
-//                    link.name = item.name
-//                    _ = self.storageProvider.saveContext(context: self.context)
-//                    details.addToMovieLinks(link)
+                    let link = MovieVideosCD.findOrInsert(by: item.id, context: self.context)
+                    link.key = item.key
+                    link.name = item.name
+                    link.site = item.site
+                    self.storageProvider.saveContext(context: self.context)
+                    details.addToMovieLinks(link)
                 }
                 
-                _ = self.storageProvider.saveContext(context: self.context)
+                self.storageProvider.saveContext(context: self.context)
             })
     }
 }
