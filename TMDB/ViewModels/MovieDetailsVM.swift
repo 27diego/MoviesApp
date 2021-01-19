@@ -35,7 +35,10 @@ class MovieDetailsVM: ObservableObject {
     
     private func check(for id: Int) {
         let request = MovieDescriptionCD.fetchDescriptionForMovie(id: id)
-        if let _ = try? context.fetch(request).first {
+        if let first = try? context.fetch(request).first {
+            if first.lastUpdated! < Date.getToday() {
+                setupData(for: id)
+            }
             return
         }
         

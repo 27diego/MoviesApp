@@ -60,6 +60,7 @@
 		8BD363552590213800C77CF9 /* MovieCardViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD363542590213800C77CF9 /* MovieCardViews.swift */; };
 		8BE90D5625A26D0800222FE4 /* PeopleViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE90D5525A26D0800222FE4 /* PeopleViews.swift */; };
 		8BEB5128258D4FC500B8C6FC /* LazyLoadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BEB5127258D4FC500B8C6FC /* LazyLoadView.swift */; };
+		8BFE941225B64FFE0086AD31 /* ImageCacheSingleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFE941125B64FFE0086AD31 /* ImageCacheSingleton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -149,6 +150,7 @@
 		8BD363542590213800C77CF9 /* MovieCardViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCardViews.swift; sourceTree = "<group>"; };
 		8BE90D5525A26D0800222FE4 /* PeopleViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleViews.swift; sourceTree = "<group>"; };
 		8BEB5127258D4FC500B8C6FC /* LazyLoadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyLoadView.swift; sourceTree = "<group>"; };
+		8BFE941125B64FFE0086AD31 /* ImageCacheSingleton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheSingleton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -282,7 +284,6 @@
 		8B365EEE258ABF23003BB64E /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				8BA9F250258BC54C00F208B7 /* RemoteImage.swift */,
 				8B594A82259013E90001F52C /* MoviesVM.swift */,
 				8B0E391C2591A2BF006CD3CF /* MovieDetailsVM.swift */,
 				8B03905C2592B01C003CB2E8 /* PersonVM.swift */,
@@ -297,11 +298,13 @@
 		8B594A58258FF03B0001F52C /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				8BA9F250258BC54C00F208B7 /* RemoteImage.swift */,
 				8B594A5C258FF2790001F52C /* EndPoints.swift */,
 				8B594A61258FF45D0001F52C /* Extensions.swift */,
 				8B594A7D259011860001F52C /* NetworkResponse.swift */,
 				8B593DA92592AB3800B9DB1F /* Styles.swift */,
 				8BAA896E25A6893A00EBB82D /* CacheService.swift */,
+				8BFE941125B64FFE0086AD31 /* ImageCacheSingleton.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -534,6 +537,7 @@
 				8B4F344A25B099DB00FA4E35 /* ActorCD+CoreDataClass.swift in Sources */,
 				8B5CC3F12597F21D00295205 /* Search.swift in Sources */,
 				8B979C8D259183A800A7131A /* SeeMoviesSheetView.swift in Sources */,
+				8BFE941225B64FFE0086AD31 /* ImageCacheSingleton.swift in Sources */,
 				8B5CA37025A16E6A0051194F /* SignInView.swift in Sources */,
 				8B594A6C258FFD870001F52C /* MovieDetails.swift in Sources */,
 				8B3C53D825942FF600FADC15 /* MainView.swift in Sources */,
