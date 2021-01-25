@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17192" systemVersion="19G2021" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="20B29" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="ActorCD" representedClassName="ActorCD" syncable="YES">
         <attribute name="character" attributeType="String"/>
         <attribute name="identifier" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
@@ -47,7 +47,7 @@
     <entity name="MovieCD" representedClassName="MovieCD" syncable="YES">
         <attribute name="backdropPath" optional="YES" attributeType="String"/>
         <attribute name="identifier" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="lastUpdated" optional="YES" attributeType="String"/>
+        <attribute name="lastUpdated" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="overview" attributeType="String"/>
         <attribute name="popularity" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="posterPath" optional="YES" attributeType="String"/>
@@ -112,7 +112,7 @@
         <element name="CategoryCD" positionX="-464.5675048828125" positionY="-7.227386474609375" width="128" height="73"/>
         <element name="CrewMemberCD" positionX="264.9559326171875" positionY="101.968017578125" width="128" height="134"/>
         <element name="GenresCD" positionX="-101.7890625" positionY="239.2886962890625" width="128" height="88"/>
-        <element name="MovieCD" positionX="-279.2058715820312" positionY="-71.084716796875" width="128" height="193"/>
+        <element name="MovieCD" positionX="-279.2058715820312" positionY="-71.084716796875" width="128" height="179"/>
         <element name="MovieDescriptionCD" positionX="-12.4354248046875" positionY="-59.92752075195312" width="128" height="253"/>
         <element name="MovieVideosCD" positionX="151.025146484375" positionY="312.6764526367188" width="128" height="104"/>
         <element name="PersonCD" positionX="-299.2180786132812" positionY="254.585205078125" width="128" height="118"/>

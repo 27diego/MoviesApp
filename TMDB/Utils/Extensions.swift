@@ -109,6 +109,11 @@ extension Date {
         let today = getComponent(date: date, format: "MM/dd/yy")
         return today
     }
+    
+    static func dateDifference(start: Date, end: Date) -> Int {
+        let calendar = Calendar.current
+        return calendar.dateComponents([.day], from: start, to: end).day!
+    }
 }
 
 

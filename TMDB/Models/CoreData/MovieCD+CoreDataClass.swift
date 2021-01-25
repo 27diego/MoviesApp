@@ -53,7 +53,7 @@ extension MovieCD {
 
     @NSManaged public var backdropPath: String?
     @NSManaged public var identifier: Int
-    @NSManaged public var lastUpdated: String?
+    @NSManaged public var lastUpdated: Date
     @NSManaged public var overview: String?
     @NSManaged public var popularity: Double
     @NSManaged public var posterPath: String?
@@ -142,7 +142,7 @@ extension MovieCD {
         movie.posterPath = values.posterPath
         movie.releaseDate = values.releaseDate
         movie.title = values.title
-        movie.lastUpdated = Date.getToday()
+        movie.lastUpdated = Date()
             
         do {
             try context.save()

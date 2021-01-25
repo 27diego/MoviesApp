@@ -24,7 +24,7 @@ class Movies: ObservableObject {
         let results = try? context.fetch(fetchRequest)
                 
         if let first = results?.first {
-            if first.lastUpdated ?? "" < Date.getToday() {
+            if  Date.dateDifference(start: first.lastUpdated, end: Date()) > 1 {
                 print("Im getting called where I check for last updated")
                 fetchMovies()
             }
