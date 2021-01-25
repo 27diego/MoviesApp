@@ -46,9 +46,6 @@ struct RemoteImage: View {
                     
                 }.resume()
             }
-//            DispatchQueue.main.async {
-//                self.objectWillChange.send()
-//            }
         }
     }
     
@@ -86,58 +83,3 @@ struct RemoteImage: View {
         }
     }
 }
-
-
-
-//
-//class ImageLoader: ObservableObject {
-//    @Published var image: UIImage?
-//    private let url: URL
-//    private var cancellable: AnyCancellable?
-//
-//    init(url: URL){
-//        self.url = url
-//    }
-//
-//    deinit {
-//        cancel()
-//    }
-//
-//    func load(){
-//        cancellable = URLSession.shared.dataTaskPublisher(for: url)
-//            .map { UIImage(data: $0.data) }
-//            .replaceError(with: nil)
-//            .receive(on: DispatchQueue.main)
-//            .sink { [weak self] in self?.image = $0 }
-//    }
-//
-//    func cancel(){
-//        cancellable?.cancel()
-//    }
-//}
-//
-//struct RemoteImage: View {
-//    @StateObject private var loader: ImageLoader
-//
-//    init(url: String){
-//        let tempUrl = URL(string: url)!
-//        _loader = StateObject(wrappedValue: ImageLoader(url: tempUrl))
-//    }
-//
-//
-//    var body: some View {
-//        content
-//            .onAppear(perform: loader.load)
-//    }
-//
-//    private var content: some View {
-//        Group {
-//            if loader.image != nil {
-//                Image(uiImage: loader.image!)
-//                    .resizable()
-//            } else {
-//                Text("Loading....")
-//            }
-//        }
-//    }
-//}
